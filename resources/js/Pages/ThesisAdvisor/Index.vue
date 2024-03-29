@@ -5,6 +5,7 @@ import { ThesisAdvisorType } from "@/types/thesisAdvisor";
 import { router, useForm } from "@inertiajs/vue3";
 import { pickBy, throttle } from "lodash";
 import Swal from "sweetalert2";
+import axios from "axios";
 import { watch } from "vue";
 
 const props = defineProps<{
@@ -23,8 +24,10 @@ const form = useForm({
     Department: props.thesisAdvisor?.Department ?? "",
 });
 const onSave = () => {
-    form.post(route("thesisAdvisor.store"), {
+    // console.log(form.data());
+    form.post(route("thesisAdvisor.store", form.id), {
         onSuccess: () => {
+            form.reset();
             Swal.fire({
                 icon: "success",
                 title: "ThesisAdvisor has been saved.",
@@ -57,11 +60,21 @@ const onClearFilter = () => {
     filterForm.keyword = "";
 };
 
+// const onEdit = async (id: number) => {
+//     const { data } = await axios.get(route("thesisAdvisor.edit", id));
+//     form.id = data.id;
+//     form.Academic_Year = data.Academic_Year;
+//     form.Advisor = data.Advisor;
+//     form.College = data.College;
+//     form.Department = data.Department;
+// };
+
 const onDelete = async (id: number) => {
     await Swal.fire({
         title: "Do you want to delete?",
         showDenyButton: false,
         showCancelButton: true,
+        icon: "warning",
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Delete",
@@ -82,14 +95,14 @@ const onDelete = async (id: number) => {
         }
     });
 };
+
 </script>
 
 <template>
      <App>
         <div class="p-3">
             <h2 class="text-2xl font-bold">Create a ThesisAdvisor</h2>
-            <div class="mt-4">              
-            </div>
+            <div class="mt-4"></div>
             <div class='mt-4 p-4 bg-base-100 rounded-xl'>
                 <form @submit.prevent="onSave">
                     <div class="flex flex-col gap-2 lg:flex-row">
@@ -98,6 +111,7 @@ const onDelete = async (id: number) => {
                             <!-- <label class="label">Academic year</label> -->
                             <input 
                             type="text" 
+                            v-model="form.Academic_Year"
                             placeholder="Academic Year" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <!-- <input v-model="form.Academic_Year" class="input input-primary w-full"
@@ -111,6 +125,7 @@ const onDelete = async (id: number) => {
                             <!-- <label class="label">Advisor</label> -->
                             <input 
                             type="text" 
+                            v-model="form.Advisor"
                             placeholder="Advisor" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <!-- <input v-model="form.Advisor" class="input input-primary w-full"
@@ -124,6 +139,7 @@ const onDelete = async (id: number) => {
                             <!-- <label class="label">College</label> -->
                             <input 
                             type="text" 
+                            v-model="form.College"
                             placeholder="College" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <!-- <input v-model="form.College" class="input input-primary w-full"
@@ -136,6 +152,7 @@ const onDelete = async (id: number) => {
                             <!-- <label class="label">Department</label> -->
                             <input 
                             type="text" 
+                            v-model="form.Department"
                             placeholder="Department" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <!-- <input v-model="form.Department" class="input input-primary w-full"
@@ -144,7 +161,6 @@ const onDelete = async (id: number) => {
                                 {{ form.errors.Department }}
                             </div>
                         </div>
-
                     </div>
                     <div class="mt-2 flex justify-end">
                         <button type="submit" class="btn btn-success">Save</button>
@@ -185,7 +201,7 @@ const onDelete = async (id: number) => {
                         <tr
                             v-for="(item, index) in thesisAdvisors.data" 
                             :key="index">
-                            <td>{{ item.id }}</td>
+                            <td>{{ index + 1 }}</td>
                             <td>{{ item.Academic_Year }}</td>
                             <td>{{ item.Advisor }}</td>                          
                             <td>{{ item.College }}</td>
@@ -195,6 +211,12 @@ const onDelete = async (id: number) => {
                                     :href="route('thesisAdvisor.edit', item.id)"
                                     class="btn btn-warning mr-2">Edit
                                 </Link>
+                                <!-- <button 
+                                    type="button"
+                                    @click="onEdit(item.id)"
+                                    class="btn btn-error">
+                                    Edit
+                                </button> -->
                                 <button 
                                     type="button"
                                     @click="onDelete(item.id)"

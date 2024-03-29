@@ -33,6 +33,7 @@ const form = useForm({
 const onSave = () => {
     form.post(route("thesisDetail.store"), {
         onSuccess: () => {
+            form.reset();
             Swal.fire({
                 icon: "success",
                 title: "ThesisDetail has been saved.",
@@ -106,15 +107,18 @@ const onDelete = async (id: number) => {
                     <div class="flex flex-col gap-2 lg:flex-row">                    
                         <div class="flex flex-col w-full">
                             <label class="label">Thesis No</label>
-                            <input type="text" placeholder="" 
-                            className="input input-bordered input-info w-full max-w-xs" />
+                            <input 
+                                type="text" 
+                                v-model="form.Thesis_No"
+                                placeholder="Thesis_No" 
+                                className="input input-bordered input-info w-full max-w-xs" />
                             <div v-if="form.errors.Thesis_No" class="text-error">
                                 {{ form.errors.Thesis_No }}
                             </div>
                         </div>
                         <div class="flex flex-col w-full">
                             <label class="label">Student ID</label>
-                            <input type="text" placeholder="" 
+                            <input type="text" v-model="form.Student_ID" placeholder="Student_ID" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <div v-if="form.errors.Student_ID" class="text-error">
                                 {{ form.errors.Student_ID }}
@@ -122,7 +126,7 @@ const onDelete = async (id: number) => {
                         </div>
                         <div class="flex flex-col w-full">
                             <label class="label">Phone</label>
-                            <input type="text" placeholder="" 
+                            <input type="text" v-model="form.Phone" placeholder="Phone"
                             className="input input-bordered input-info w-full max-w-xs" />
                             <div v-if="form.errors.Phone" class="text-error">
                                 {{ form.errors.Phone }}
@@ -133,7 +137,7 @@ const onDelete = async (id: number) => {
                     <div class="flex flex-col gap-2 lg:flex-row">  
                         <div class="flex flex-col w-full">
                             <label class="label">Defend</label>
-                            <input type="text" placeholder="" 
+                            <input type="text" v-model="form.Defend" placeholder="Defend" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <div v-if="form.errors.Defend" class="text-error">
                                 {{ form.errors.Defend }}
@@ -142,7 +146,7 @@ const onDelete = async (id: number) => {
                             
                         <div class="flex flex-col w-full">
                             <label class="label">Pass State</label>
-                            <input type="text" placeholder="" 
+                            <input type="text" v-model="form.Pass_State" placeholder="Pass_State" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <div v-if="form.errors.Pass_State" class="text-error">
                                 {{ form.errors.Pass_State }}
@@ -151,7 +155,7 @@ const onDelete = async (id: number) => {
 
                         <div class="flex flex-col w-full">
                             <label class="label">Issue Tem Certificate</label>
-                            <input type="text" placeholder="" 
+                            <input type="text" v-model="form.Issue_Tem_Certificate" placeholder="Issue_Tem_Certificate" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <div v-if="form.errors.Issue_Tem_Certificate" class="text-error">
                                 {{ form.errors.Issue_Tem_Certificate }}
@@ -162,7 +166,7 @@ const onDelete = async (id: number) => {
                         <div class="flex flex-col gap-2 lg:flex-row">                   
                         <div class="flex flex-col w-full">
                             <label class="label">Charateristic</label>
-                            <input type="text" placeholder="" 
+                            <input type="text" v-model="form.Charateristic" placeholder="Charateristic" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <div v-if="form.errors.Charateristic" class="text-error">
                                 {{ form.errors.Charateristic }}
@@ -170,7 +174,7 @@ const onDelete = async (id: number) => {
                         </div>
                         <div class="flex flex-col w-full">
                             <label class="label">Remark</label>
-                            <input type="text" placeholder="" 
+                            <input type="text" v-model="form.Remark" placeholder="Remark" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <div v-if="form.errors.Remark" class="text-error">
                                 {{ form.errors.Remark }}
@@ -178,7 +182,7 @@ const onDelete = async (id: number) => {
                         </div>
                         <div class="flex flex-col w-full">
                             <label class="label">Result</label>
-                            <input type="text" placeholder="" 
+                            <input type="text" v-model="form.Result" placeholder="Result" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <div v-if="form.errors.Result" class="text-error">
                                 {{ form.errors.Result }}
@@ -189,7 +193,7 @@ const onDelete = async (id: number) => {
                         <div class="flex flex-col gap-2 lg:flex-row">  
                         <div class="flex flex-col w-full">
                             <label class="label">Other</label>
-                            <textarea className="textarea textarea-info" placeholder=""></textarea>
+                            <textarea className="textarea textarea-info" v-model="form.Other" placeholder="Other"></textarea>
                             <div v-if="form.errors.Other" class="text-error">
                                 {{ form.errors.Other }}
                             </div>
@@ -197,7 +201,7 @@ const onDelete = async (id: number) => {
                         
                         <div class="flex flex-col w-full">
                             <label class="label">Hardwork</label>
-                            <textarea className="textarea textarea-info" placeholder=""></textarea>
+                            <textarea className="textarea textarea-info" v-model="form.Hardwork" placeholder="Hardwork"></textarea>
                             <div v-if="form.errors.Hardwork" class="text-error">
                                 {{ form.errors.Hardwork }}
                             </div>
@@ -250,7 +254,7 @@ const onDelete = async (id: number) => {
                         <tr
                             v-for="(item, index) in thesisDetails.data" 
                             :key="index">
-                            <td>{{ item.id }}</td>
+                            <td>{{ index + 1 }}</td>
                             <td>{{ item.Thesis_No }}</td>
                             <td>{{ item.Student_ID }}</td>
                             <td>{{ item.Phone }}</td>

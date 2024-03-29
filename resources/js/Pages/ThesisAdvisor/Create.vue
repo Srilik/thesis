@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import App from '@/Layouts/App.vue';
 import { useForm } from '@inertiajs/vue3';
 import { ThesisAdvisorType } from "@/types/thesisAdvisor";
@@ -59,7 +59,6 @@ const onSave = () => {
                                 {{ form.errors.Advisor }}
                             </div>
                         </div>
-
                         <div class="flex flex-col w-full">
                             <label class="label">College</label>
                             <input v-model="form.College" class="input input-primary w-full"
@@ -77,6 +76,7 @@ const onSave = () => {
                             </div>
                         </div>
                     </div>
+
                     <div class="mt-2 flex justify-end">
                         <button type="submit" class="btn btn-success">Save</button>
                     </div>
@@ -86,4 +86,4 @@ const onSave = () => {
         </div>
     </App>
 
-</template>
+</template> -->
