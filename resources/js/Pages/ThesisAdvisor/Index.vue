@@ -113,10 +113,122 @@ const onDelete = async (id: number) => {
 
 <template>
      <App>
+        <div class="p-4">
+            <h2 class="text-2xl font-bold">Create a ThesisAdvisor</h2>
+            <div class='mt-4 p-4 bg-base-100 rounded-xl'>
+
+            <form 
+                @submit.prevent="onSubmit" 
+                class="p-2 bg-white dark:bg-gray-900 rounded-lg">
+                <div class="flex items-start gap-4">
+                    <div class="flex-1">
+                        <label class="label">Academic Year</label>
+                        <input v-model="form.Academic_Year" type="text" class="input input-primary w-full" />
+                        <label class="label text-red-500 text-sm" v-if="form.errors.Academic_Year">
+                            {{ form.errors.Academic_Year }}
+                        </label>
+                    </div>
+                    <div class="flex-1">
+                        <label class="label">Major</label>
+                        <input v-model="form.Major" type="text" class="input input-primary w-full" />
+                        <label class="label text-red-500 text-sm" v-if="form.errors.Major">
+                            {{ form.errors.Major }}
+                        </label>
+                    </div>
+                    <div class="flex-1">
+                        <label class="label">AThesisAdvisor</label>
+                        <input v-model="form.AThesisAdvisor" type="text" class="input input-primary w-full" />
+                        <label class="label text-red-500 text-sm" v-if="form.errors.AThesisAdvisor">
+                            {{ form.errors.AThesisAdvisor }}
+                        </label>
+                    </div>
+                    <div class="flex-1">
+                        <label class="label">Department</label>
+                        <input v-model="form.Department" type="text" class="input input-primary w-full" />
+                        <label class="label text-red-500 text-sm" v-if="form.errors.Department">
+                            {{ form.errors.Department }}
+                        </label>
+                    </div>
+                    <div class="flex-1">
+                        <label class="label">Subject</label>
+                        <input v-model="form.Subject" type="text" class="input input-primary w-full" />
+                        <label class="label text-red-500 text-sm" v-if="form.errors.Subject">
+                            {{ form.errors.Subject }}
+                        </label>
+                    </div> 
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" class="btn btn-primary mt-5">Save</button>
+                </div>
+            </form>
+            </div>
+        </div>
+        <div class="p-3">
+            <div class="mb-2">
+                <h2 class="text-2xl font-bold">ThesisAdvisor Management</h2>
+                <div class="mt-4">
+                    <div class="bg-base-100 p-2 rounded-xl flex gap-2 items-center">
+                        <input 
+                            v-model="filterForm.keyword"
+                            type="text" 
+                            placeholder="Search..." 
+                            class="input input-info w-full"/>
+
+                        <button class="btn btn-warning" type="button" @click="onClearFilter">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-base-100 rounded-xl overflow-x-auto">
+                <table class="table table-lg">
+                    <thead>
+                        <tr class="text uppercase text-sm">
+                            <th>ID</th>
+                            <th>Academic Year</th>
+                            <th>Major</th>
+                            <th>AThesisAdvisor</th>
+                            <th>Department</th>
+                            <th>Subject</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in thesisAdvisors" :key="index">
+                            <td>{{ index + 1 }}</td>
+                            <td>{{ item.Academic_Year }}</td>
+                            <td>{{ item.Major }}</td>
+                            <td>{{ item.AThesisAdvisor }}</td>
+                            <td>{{ item.Department }}</td>
+                            <td>{{ item.Subject }}</td>
+                            <td>
+                                <button @click="onEdit(item.id)" class="btn btn-success btn-sm mr-2">Edit</button>
+                                <button @click="onDelete(item.id)" class="btn btn-error btn-sm">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination -->
+            <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
+                <div class="join">
+                    <Link 
+                        v-for="link in thesisAThesisAdvisors.links" 
+                        :href="link.url ?? '#'"
+                        class="join-item btn"
+                        :class="{ 'btn-info': link.active }">
+                        <span v-html="link.label"></span>
+                    </Link>
+                </div>  
+            </div>
+        </div>
+
+
+
+
+
         <div class="p-3">
             <h2 class="text-2xl font-bold">Create a ThesisAdvisor</h2>
-            <div class="mt-4">              
-            </div>
             <div class='mt-4 p-4 bg-base-100 rounded-xl'>
                 <form @submit.prevent="onSave">
                     <div class="flex flex-col gap-2 lg:flex-row">
@@ -125,6 +237,7 @@ const onDelete = async (id: number) => {
                             <!-- <label class="label">Academic year</label> -->
                             <input 
                             type="text" 
+                            v-model="form.Academic_year"  
                             placeholder="Academic Year" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <!-- <input v-model="form.Academic_Year" class="input input-primary w-full"
@@ -138,6 +251,7 @@ const onDelete = async (id: number) => {
                             <!-- <label class="label">Advisor</label> -->
                             <input 
                             type="text" 
+                            v-model="form.Advisor" 
                             placeholder="Advisor" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <!-- <input v-model="form.Advisor" class="input input-primary w-full"
@@ -151,6 +265,7 @@ const onDelete = async (id: number) => {
                             <!-- <label class="label">College</label> -->
                             <input 
                             type="text" 
+                            v-model="form.College" 
                             placeholder="College" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <!-- <input v-model="form.College" class="input input-primary w-full"
@@ -163,6 +278,7 @@ const onDelete = async (id: number) => {
                             <!-- <label class="label">Department</label> -->
                             <input 
                             type="text" 
+                            v-model="form.Department" 
                             placeholder="Department" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <!-- <input v-model="form.Department" class="input input-primary w-full"

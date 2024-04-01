@@ -12,13 +12,13 @@ class ThesisAdvisorController extends Controller
     public function index(Request $request)
     {
         $thesisAdvisors = ThesisAdvisor::query()
-            // ->when($request->input('keyword'), fn ($query)
-            // =>$query->where('Academic_Year', 'like', "%" . $request->input('keyword') . "%"))
-            // ->paginate(5)
-            // ->withQueryString();
+            ->when($request->input('keyword'), fn ($query)
+            =>$query->where('Academic_Year', 'like', "%" . $request->input('keyword') . "%"))
+            ->paginate(5)
+            ->withQueryString();
 
-            ->orderBy('Academic_Year')
-            ->get();
+            // ->orderBy('Academic_Year')
+            // ->get();
 
         return Inertia::render('ThesisAdvisor/Index', [
             'thesisAdvisors' =>$thesisAdvisors,
