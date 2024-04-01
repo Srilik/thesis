@@ -4,6 +4,7 @@ import { PaginateType } from "@/types/paginateType";
 import { ThesisAdvisorType } from "@/types/thesisAdvisor";
 import { router, useForm } from "@inertiajs/vue3";
 import { pickBy, throttle } from "lodash";
+import axios from "axios";
 import Swal from "sweetalert2";
 import { watch } from "vue";
 
@@ -12,6 +13,12 @@ const props = defineProps<{
     thesisAdvisors: PaginateType<ThesisAdvisorType>
     filters?: {
         keyword: string;
+        id: number;
+        Academic_Year: string;
+        Advisor: string;
+        College: string;
+        Department: string;
+
     };
 }>();
 
@@ -25,6 +32,7 @@ const form = useForm({
 const onSave = () => {
     form.post(route("thesisAdvisor.store"), {
         onSuccess: () => {
+            form.reset();
             Swal.fire({
                 icon: "success",
                 title: "ThesisAdvisor has been saved.",
@@ -39,6 +47,11 @@ const onSave = () => {
 
 const filterForm = useForm({
     keyword: props.filters?.keyword ?? "",
+    id: props.filters?.id ?? "",
+    Academic_Year: props.filters?.Academic_Year ?? "",
+    Advisor: props.filters?.Advisor ?? "",
+    College: props.filters?.College ?? "",
+    Department: props.filters?.Department ?? "",
 });
 
 watch(
@@ -55,6 +68,20 @@ watch(
 
 const onClearFilter = () => {
     filterForm.keyword = "";
+    filterForm.id = "";
+    filterForm.Academic_Year = "";
+    filterForm.Advisor = "";
+    filterForm.College = "";
+    filterForm.Department = "";
+};
+
+const onEdit = async (id: number) => {
+    const { data } = await axios.get(route("thesisAdvisor.edit", id));
+    form.id = data.id;
+    form.Academic_Year = data.Academic_Year;
+    form.Advisor = data.Advisor;
+    form.College = data.College;
+    form.Department = data.Department;
 };
 
 const onDelete = async (id: number) => {
@@ -185,7 +212,7 @@ const onDelete = async (id: number) => {
                         <tr
                             v-for="(item, index) in thesisAdvisors.data" 
                             :key="index">
-                            <td>{{ item.id }}</td>
+                            <td>{{ index + 1 }}</td>
                             <td>{{ item.Academic_Year }}</td>
                             <td>{{ item.Advisor }}</td>                          
                             <td>{{ item.College }}</td>

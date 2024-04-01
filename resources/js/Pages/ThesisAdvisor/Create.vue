@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import App from '@/Layouts/App.vue';
 import { useForm } from '@inertiajs/vue3';
 import { ThesisAdvisorType } from "@/types/thesisAdvisor";
@@ -86,4 +86,4 @@ const onSave = () => {
         </div>
     </App>
 
-</template>
+</template> -->
