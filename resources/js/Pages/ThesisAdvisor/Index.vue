@@ -104,7 +104,7 @@ const oncloseModal = () => {
 </script>
 
 <template>
-    <Modal :show="onModal" maxWidth="2xl">
+    <Modal :show="onModal" maxWidth="2xl" >
         <div class="p-3">
             <h2 class="text-2xl font-bold">Create a ThesisAdvisor</h2>
             <div class="mt-4"></div>
