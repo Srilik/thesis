@@ -13,15 +13,27 @@ class ThesisController extends Controller
     public function index(Request $request)
     {
         $thesises = Thesis::query()
+            // ->with(['Teacher_id'])
+
             ->when($request->input('keyword'), fn ($query)
             =>$query->where('Department', 'like', "%" . $request->input('keyword') . "%"))
 
+            // ->when($request->input('Teacher_id'), fn($query)
+            // =>$query->where('Teacher_id', $request->input('Teacher_id')))
+
             ->paginate(5)
-            ->withQueryString();  
+            ->withQueryString();
+            
+            $thesisAdvisors = ThesisAdvisor::query()
+            ->select("id", "Advisor")
+            ->orderBy('Advisor')
+            ->get(); 
 
         return Inertia::render('Thesis/Index', [
+            'thesisAdvisors' => $thesisAdvisors,
             'thesises' => $thesises,
             'filters' => $request->all(
+                'id',
                 'keyword'
             ),
         ]);
@@ -29,7 +41,13 @@ class ThesisController extends Controller
     
     public function create()
     {
-        return Inertia::render('Thesis/Create');
+        $thesisAdvisors = ThesisAdvisor::query()
+            ->select("id", "Advisor")
+            ->orderBy('Advisor')
+            ->get(); 
+        return Inertia::render('Thesis/Create', [
+            'thesisAdvisors' => $thesisAdvisors,
+        ]);
     }
 
     public function store(Request $request)
@@ -53,7 +71,8 @@ class ThesisController extends Controller
             'Objective_Khmer' => 'nullable',
             'Summary' => 'nullable',
             'Submit_Date' => 'nullable',
-            'Teacher_id' => 'nullable',
+            // 'Teacher_id' => 'nullable',
+            "Teacher_id" => "required|exists:thesisAdvisors,id",
             'Defend_Date' => 'nullable',
             'Book_Score' => 'nullable',
             'Defend_time' => 'nullable',
@@ -76,14 +95,19 @@ class ThesisController extends Controller
     }
     public function edit(Thesis $thesis)
     {    
+        $thesisAdvisors = ThesisAdvisor::query()
+            ->select("id", "Advisor")
+            ->orderBy('Advisor')
+            ->get(); 
         return Inertia::render('Thesis/Create', [
+            'thesisAdvisors' => $thesisAdvisors,
             'thesis' => $thesis, 
         ]);
     }
     public function update(Request $request, string $id)
     {  
     }
-    public function destroy($id)
+    public function destroy(Thesis $thesis, $id)
     {
         $thesis = Thesis::findOrFail($id);
         $thesis->delete();

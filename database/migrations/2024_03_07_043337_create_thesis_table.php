@@ -31,13 +31,15 @@ return new class extends Migration
             $table->string('Objective_Khmer')->nullable();
             $table->string('Summary')->nullable();
             $table->string('Submit_Date')->nullable();
-            $table->string('Teacher_id')->nullable();
+            $table->string('Teacher_id');
             $table->string('Defend_Date')->nullable();
             $table->float('Book_Score')->nullable()->default(0);
             $table->string('Defend_time')->nullable();
             $table->string('Submit_book')->nullable();
             $table->string('Building')->nullable();
             $table->string('Room')->nullable();
+
+            // $table->foreign('Teacher_id')->references('id')->on('thesisAdvisors');
 
             $table->timestamps();
         });

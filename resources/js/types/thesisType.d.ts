@@ -1,3 +1,5 @@
+import { ThesisAdvisorType } from "./thesisAdvisor";
+
 export interface ThesisType {
     id: number;
     Thesis_No: number;
@@ -28,4 +30,6 @@ export interface ThesisType {
     
     created_at: string;
     updated_at: string;
+
+    // thesisAdvisor?: ThesisAdvisorType;
 }

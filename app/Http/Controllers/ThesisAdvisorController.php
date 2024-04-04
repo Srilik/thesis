@@ -12,13 +12,12 @@ class ThesisAdvisorController extends Controller
     public function index(Request $request)
     {
         $thesisAdvisors = ThesisAdvisor::query()
+            ->orderBy('Advisor')
             ->when($request->input('keyword'), fn ($query)
-            =>$query->where('Academic_Year', 'like', "%" . $request->input('keyword') . "%"))
-            ->paginate(5)
-            ->withQueryString();
-
-            // ->orderBy('Academic_Year')
-            // ->get();
+            =>$query->where('Advisor', 'like', "%" . $request->input('keyword') . "%"))
+            ->get();
+            // ->paginate(5)
+            // ->withQueryString();
 
         return Inertia::render('ThesisAdvisor/Index', [
             'thesisAdvisors' =>$thesisAdvisors,
@@ -28,7 +27,7 @@ class ThesisAdvisorController extends Controller
 
     public function create()
     { 
-        return Inertia::render('ThesisAdvisor/Index');
+        return Inertia::render('ThesisAdvisor/Create');
     }
 
     public function store(Request $request, $id=null)

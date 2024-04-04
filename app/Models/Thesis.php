@@ -36,4 +36,8 @@ class Thesis extends Model
         'Building',
         'Room',
     ];
+
+    // public function thesisAdvisor(){
+    //     return $this->belongsTo(ThesisAdvisor::class, 'id', 'id');
+    // }
 }

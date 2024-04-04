@@ -1,21 +1,25 @@
 <script setup lang="ts">
 import App from "@/Layouts/App.vue";
 import { PaginateType } from "@/types/paginateType";
+import { ThesisAdvisorType } from "@/types/thesisAdvisor";
 import { ThesisType } from "@/types/thesisType";
 import { router, useForm } from "@inertiajs/vue3";
-import { pickBy, throttle } from "lodash";
+import { filter, pickBy, throttle } from "lodash";
 import Swal from "sweetalert2";
 import { watch } from "vue";
 
 const props = defineProps<{
     thesises: PaginateType<ThesisType>
+    thesisAdvisors: ThesisAdvisorType[];
     filters?: {
         keyword: string;
+        id: number;
     };
 }>();
 
 const filterForm = useForm({
     keyword: props.filters?.keyword ?? "",
+    id: props.filters?.id ?? "",
 });
 
 watch(
@@ -32,6 +36,7 @@ watch(
 
 const onClearFilter = () => {
     filterForm.keyword = "";
+    filterForm.id = "";
 };
 
 const onDelete = async (id: number) => {
@@ -73,7 +78,17 @@ const onDelete = async (id: number) => {
                             type="text" 
                             placeholder="Search..." 
                             class="input input-primary w-full"/>
-
+                        <select
+                            v-model="filterForm.Teacher_id"
+                            class="select select-primary w-full">
+                            <option value="">Select Teacher ID</option>
+                            <option 
+                                v-for="(thesisAdvisor, index) in thesisAdvisors" 
+                                :key="index" 
+                                :value="thesisAdvisor.Teacher_id">
+                                {{ thesisAdvisor.Advisor }}
+                            </option>
+                        </select>              
                         <button class="btn btn-warning" type="button" @click="onClearFilter">Clear</button>
                     </div>
                 </div>
@@ -134,7 +149,7 @@ const onDelete = async (id: number) => {
                             <td>{{ item.Objective_Khmer }}</td>
                             <td>{{ item.Summary }}</td>
                             <td>{{ item.Submit_Date }}</td> -->
-                            <td>{{ item.Teacher_id }}</td>
+                            <td>{{ item.Teacher_id?.name }}</td>
                             <!-- <td>{{ item.Defend_Date }}</td> -->
                             <td>{{ item.Book_Score }}</td>
                             <!-- <td>{{ item.Defend_time }}</td>

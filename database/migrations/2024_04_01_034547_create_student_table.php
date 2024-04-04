@@ -1,3 +1,4 @@
+Uy Srilik, [4/3/2024 12:06 PM]
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -6,9 +7,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('student', function (Blueprint $table) {
@@ -16,13 +14,13 @@ return new class extends Migration
             $table->string('Surename');
             $table->string('GivenName');
             $table->string('NameOfStudent');
-            $table->string('DateOfBirth');
+            $table->dateTime('DateOfBirth');
             $table->string('Nationality');
             $table->string('College');
             $table->string('FieldOfStudy');
             $table->string('Degree');
             $table->string('Major');
-            $table->string('DateOfAdmission');
+            $table->dateTime('DateOfAdmission');
             $table->string('StateExam');
             $table->string('ResearchStudy');
             $table->string('NameInKhmer');
@@ -133,10 +131,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('student');

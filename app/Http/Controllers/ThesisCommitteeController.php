@@ -8,16 +8,16 @@ use Inertia\Inertia;
 
 class ThesisCommitteeController extends Controller
 {
-
     public function index(Request $request)
     {
         $thesisCommittees = ThesisCommittee::query()
             ->orderBy('Academic_Year')  
-            // ->when($request->input('keyword'), fn ($query)
-            // =>$query->where('Academic_Year', 'like', "%" . $request->input('keyword') . "%"))
+            ->when($request->input('keyword'), fn ($query)
+            =>$query->where('Academic_Year', 'like', "%" . $request->input('keyword') . "%"))
+            ->get();
+
             // ->paginate(5)
             // ->withQueryString();
-            ->get();
             return Inertia::render("ThesisCommittee/Index",[
                 "thesisCommittees"=>$thesisCommittees,
                 'filters' => $request->all('keyword'),
