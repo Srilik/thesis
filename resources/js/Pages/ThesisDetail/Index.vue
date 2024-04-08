@@ -6,6 +6,7 @@ import { useForm, router } from "@inertiajs/vue3";
 import { watch } from "vue";
 import { throttle, pickBy } from "lodash";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const props = defineProps<{
    
@@ -17,6 +18,19 @@ const props = defineProps<{
 }>();
 
 const form = useForm({
+    // id: null,
+    // Thesis_No: "",
+    // Student_ID: "",
+    // Phone: "",
+    // Defend: "",
+    // Pass_State: "",
+    // Issue_Tem_Certificate: "",
+    // Other: "",
+    // Hardwork: "",
+    // Charateristic: "",
+    // Remark: "",
+    // Result: "",
+
     Thesis_No: props.thesisDetail?.Thesis_No ?? "",
     Student_ID: props.thesisDetail?.Student_ID ?? "",
     Phone: props.thesisDetail?.Phone ?? "",
@@ -64,6 +78,22 @@ const onClearFilter = () => {
     filterForm.keyword = "";
 };
 
+const onEdit = async (id: number) => {
+    const { data } = await axios.get(route("thesisDetail.edit", id));
+
+    form.Thesis_No = data.Thesis_No;
+    form.Student_ID = data.Student_ID;
+    form.Phone = data.Phone;
+    form.Defend = data.Defend;
+    form.Pass_State = data.Pass_State;
+    form.Issue_Tem_Certificate = data.Issue_Tem_Certificate;
+    form.Other = data.Other;
+    form.Hardwork = data.Hardwork;
+    form.Charateristic = data.Charateristic;
+    form.Remark = data.Remark;
+    form.Result = data.Result;
+};
+
 const onDelete = async (id: number) => {
     await Swal.fire({
         title: "Do you want to delete?",
@@ -106,24 +136,26 @@ const onDelete = async (id: number) => {
                     <div class="flex flex-col gap-2 lg:flex-row">                    
                         <div class="flex flex-col w-full">
                             <label class="label">Thesis No</label>
-                            <input type="text" placeholder="" 
-                            className="input input-bordered input-info w-full max-w-xs" />
-                            <div v-if="form.errors.Thesis_No" class="text-error">
-                                {{ form.errors.Thesis_No }}
-                            </div>
+                            <input 
+                                type="text" 
+                                v-model="form.Thesis_No" placeholder="" 
+                                className="input input-bordered input-primary w-full" />
+                                <div v-if="form.errors.Thesis_No" class="text-error">
+                                    {{ form.errors.Thesis_No }}
+                                </div>
                         </div>
                         <div class="flex flex-col w-full">
                             <label class="label">Student ID</label>
-                            <input type="text" placeholder="" 
-                            className="input input-bordered input-info w-full max-w-xs" />
+                            <input type="text" v-model="form.Student_ID" placeholder="" 
+                            className="input input-bordered input-primary w-full" />
                             <div v-if="form.errors.Student_ID" class="text-error">
                                 {{ form.errors.Student_ID }}
                             </div>
                         </div>
                         <div class="flex flex-col w-full">
                             <label class="label">Phone</label>
-                            <input type="text" placeholder="" 
-                            className="input input-bordered input-info w-full max-w-xs" />
+                            <input type="text" v-model="form.Phone" placeholder="" 
+                            className="input input-bordered input-primary w-full" />
                             <div v-if="form.errors.Phone" class="text-error">
                                 {{ form.errors.Phone }}
                             </div>
@@ -133,8 +165,8 @@ const onDelete = async (id: number) => {
                     <div class="flex flex-col gap-2 lg:flex-row">  
                         <div class="flex flex-col w-full">
                             <label class="label">Defend</label>
-                            <input type="text" placeholder="" 
-                            className="input input-bordered input-info w-full max-w-xs" />
+                            <input type="text" v-model="form.Defend" placeholder="" 
+                            className="input input-bordered input-primary w-full" />
                             <div v-if="form.errors.Defend" class="text-error">
                                 {{ form.errors.Defend }}
                             </div>
@@ -142,8 +174,8 @@ const onDelete = async (id: number) => {
                             
                         <div class="flex flex-col w-full">
                             <label class="label">Pass State</label>
-                            <input type="text" placeholder="" 
-                            className="input input-bordered input-info w-full max-w-xs" />
+                            <input type="text" v-model="form.Pass_State" placeholder="" 
+                            className="input input-bordered input-primary w-full" />
                             <div v-if="form.errors.Pass_State" class="text-error">
                                 {{ form.errors.Pass_State }}
                             </div>
@@ -151,8 +183,8 @@ const onDelete = async (id: number) => {
 
                         <div class="flex flex-col w-full">
                             <label class="label">Issue Tem Certificate</label>
-                            <input type="text" placeholder="" 
-                            className="input input-bordered input-info w-full max-w-xs" />
+                            <input type="text" v-model="form.Issue_Tem_Certificate" placeholder="" 
+                            className="input input-bordered input-primary w-full" />
                             <div v-if="form.errors.Issue_Tem_Certificate" class="text-error">
                                 {{ form.errors.Issue_Tem_Certificate }}
                             </div>
@@ -162,24 +194,24 @@ const onDelete = async (id: number) => {
                         <div class="flex flex-col gap-2 lg:flex-row">                   
                         <div class="flex flex-col w-full">
                             <label class="label">Charateristic</label>
-                            <input type="text" placeholder="" 
-                            className="input input-bordered input-info w-full max-w-xs" />
+                            <input type="text" v-model="form.Charateristic" placeholder="" 
+                            className="input input-bordered input-primary w-full" />
                             <div v-if="form.errors.Charateristic" class="text-error">
                                 {{ form.errors.Charateristic }}
                             </div>
                         </div>
                         <div class="flex flex-col w-full">
                             <label class="label">Remark</label>
-                            <input type="text" placeholder="" 
-                            className="input input-bordered input-info w-full max-w-xs" />
+                            <input type="text" v-model="form.Remark" placeholder="" 
+                            className="input input-bordered input-primary w-full" />
                             <div v-if="form.errors.Remark" class="text-error">
                                 {{ form.errors.Remark }}
                             </div>
                         </div>
                         <div class="flex flex-col w-full">
                             <label class="label">Result</label>
-                            <input type="text" placeholder="" 
-                            className="input input-bordered input-info w-full max-w-xs" />
+                            <input type="text" v-model="form.Result" placeholder="" 
+                            className="input input-bordered input-primary w-full" />
                             <div v-if="form.errors.Result" class="text-error">
                                 {{ form.errors.Result }}
                             </div>
@@ -189,7 +221,7 @@ const onDelete = async (id: number) => {
                         <div class="flex flex-col gap-2 lg:flex-row">  
                         <div class="flex flex-col w-full">
                             <label class="label">Other</label>
-                            <textarea className="textarea textarea-info" placeholder=""></textarea>
+                            <textarea className="textarea textarea-primary" v-model="form.Other" placeholder=""></textarea>
                             <div v-if="form.errors.Other" class="text-error">
                                 {{ form.errors.Other }}
                             </div>
@@ -197,7 +229,7 @@ const onDelete = async (id: number) => {
                         
                         <div class="flex flex-col w-full">
                             <label class="label">Hardwork</label>
-                            <textarea className="textarea textarea-info" placeholder=""></textarea>
+                            <textarea className="textarea textarea-primary" v-model="form.Hardwork" placeholder=""></textarea>
                             <div v-if="form.errors.Hardwork" class="text-error">
                                 {{ form.errors.Hardwork }}
                             </div>
@@ -235,10 +267,10 @@ const onDelete = async (id: number) => {
                             <th>Thesis_No</th>
                             <th>Student_ID</th>
                             <th>Phone</th>
-                            <th>Defend</th>
+                            <!-- <th>Defend</th>
                             <th>Pass_State</th>
                             <th>Issue_Tem_Certificate</th>
-                            <th>Other</th>
+                            <th>Other</th> -->
                             <th>Hardwork</th>
                             <th>Charateristic</th>
                             <th>Remark</th>
@@ -254,10 +286,10 @@ const onDelete = async (id: number) => {
                             <td>{{ item.Thesis_No }}</td>
                             <td>{{ item.Student_ID }}</td>
                             <td>{{ item.Phone }}</td>
-                            <td>{{ item.Defend }}</td>
+                            <!-- <td>{{ item.Defend }}</td>
                             <td>{{ item.Pass_State }}</td> 
                             <td>{{ item.Issue_Tem_Certificate}}</td>
-                            <td>{{ item.Other}}</td>
+                            <td>{{ item.Other}}</td> -->
                             <td>{{ item.Hardwork}}</td>
                             <td>{{ item.Charateristic}}</td>
                             <td>{{ item.Remark}}</td>
@@ -267,6 +299,7 @@ const onDelete = async (id: number) => {
                                     :href="route('thesisDetail.edit', item.id)"
                                     class="btn btn-warning mr-2">Edit
                                 </Link>
+                                <!-- <button @click="onEdit(item.id)" class="btn btn-success btn-sm mr-2">Edit</button> -->
                                 <button 
                                     type="button"
                                     @click="onDelete(item.id)"

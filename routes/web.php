@@ -40,6 +40,22 @@ Route::middleware('checkAuth')->group(function () {
 
     // thesisCommittee
     Route::resource('/thesisCommittee', ThesisCommitteeController::class);
+    // Route::prefix('/thesisCommittee')->controller(ThesisCommitteeController::class)
+    //     ->name('thesisCommittee.')
+    //     ->group(function () {
+    //         // list all thesisCommittee
+    //         Route::get('/', 'index')->name('index');
+    //         // create new thesisCommittee
+    //         Route::get('/create', 'create')->name('create');
+    //         //edit thesisCommittee
+    //         Route::get('/edit/{id}', 'edit')->name('edit');
+    //         //store new thesisCommittee
+    //         Route::post('/store/{id?}', 'store')->name('store');
+    //         //update thesisCommittee
+    //         Route::put('/update/{id}', 'update')->name('update');
+    //         //destroy thesisCommittee
+    //         Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+    //     });
 
     // thesisDetail
     Route::resource('/thesisDetail', ThesisDetailController::class);

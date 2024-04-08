@@ -30,6 +30,19 @@ watch(
     }, 500),
 );
 
+const onSave = () => {
+    form.post(route("thesis.store"), {
+        onSuccess: () => {
+            Swal.fire({
+                icon: "success",
+                title: "Thesis has been saved.",
+                timer: 3000,
+                position: "top-end",
+                toast: true,
+            });
+        },
+    });
+};
 const onClearFilter = () => {
     filterForm.keyword = "";
 };
@@ -115,7 +128,7 @@ const onDelete = async (id: number) => {
                         <tr
                             v-for="(item, index) in thesises.data" 
                             :key="index">  
-                            <td>{{ item.id }}</td>                 
+                            <td>{{ index+1 }}</td>                 
                             <td>{{ item.Thesis_No }}</td>
                             <td>{{ item.Thesis_Group }}</td>
                             <td>{{ item.Academic_Year }}</td>

@@ -60,7 +60,6 @@ class ThesisDetailController extends Controller
             'thesisDetail' =>$thesisDetail
         ]);    
     }
-
     public function update(Request $request, string $id)
     {
         //

@@ -12,17 +12,34 @@ class ThesisCommitteeController extends Controller
     public function index(Request $request)
     {
         $thesisCommittees = ThesisCommittee::query()
+            // ->orderBy('Academic_Year')
             ->when($request->input('keyword'), fn ($query)
             =>$query->where('Academic_Year', 'like', "%" . $request->input('keyword') . "%"))
+            // ->get()
             ->paginate(5)
             ->withQueryString();
 
             return Inertia::render("ThesisCommittee/Index",[
                 "thesisCommittees"=>$thesisCommittees,
                 'filters' => $request->all('keyword'),
-
             ]);
         }
+
+    // public function index(Request $request)
+    // {
+    //     $thesisCommittees = ThesisCommittee::query()
+    //         ->when($request->input('keyword'), function ($query) use ($request) {
+    //             return $query->where('Academic_Year', 'like', "%" . $request->input('keyword') . "%");
+    //         })
+    //         ->orderBy('Academic_Year')
+    //         ->paginate(5)
+    //         ->withQueryString();
+    
+    //     return Inertia::render("ThesisCommittee/Index", [
+    //         "thesisCommittees" => $thesisCommittees,
+    //         'filters' => $request->all('keyword'),
+    //     ]);
+    // }
 
     public function create()
     {
@@ -51,7 +68,6 @@ class ThesisCommitteeController extends Controller
     {
         //
     }
-
     public function edit(ThesisCommittee $thesisCommittee)
     {
         return Inertia::render('ThesisCommittee/Create', [

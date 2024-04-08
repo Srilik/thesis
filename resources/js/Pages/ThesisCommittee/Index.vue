@@ -6,6 +6,7 @@ import { router, useForm } from "@inertiajs/vue3";
 import { pickBy, throttle } from "lodash";
 import Swal from "sweetalert2";
 import { watch } from "vue";
+import axios from "axios";
 
 const props = defineProps<{
     thesisCommittee?: ThesisCommitteeType
@@ -16,7 +17,14 @@ const props = defineProps<{
 }>();   
 
 const form = useForm({
-    Academic_year: props.thesisCommittee?.Academic_Year ?? "",
+    // id: null,
+    // Academic_Year: "",
+    // Major: "",      
+    // Committee: "",
+    // Department: "",
+    // Subject: "",
+
+    Academic_Year: props.thesisCommittee?.Academic_Year ?? "",
     Department: props.thesisCommittee?.Department ?? "",
     Major: props.thesisCommittee?.Major ?? "",
     Committee: props.thesisCommittee?.Committee ?? "",
@@ -27,6 +35,7 @@ const form = useForm({
 const onSave = () => {
     form.post(route("thesisCommittee.store"), {
         onSuccess: () => {
+            form.reset();
             Swal.fire({
                 icon: "success",
                 title: "ThesisCommittee has been saved.",
@@ -58,9 +67,20 @@ const onClearFilter = () => {
     filterForm.keyword = "";
 };
 
+const onEdit = async (id: number) => {
+    const { data } = await axios.get(route("thesisCommittee.edit", id));
+    // form.id = data.id;
+    form.Academic_Year = data.Academic_Year;
+    form.Major = data.Major;
+    form.Committee = data.Committee;
+    form.Department = data.Department;
+    form.Subject = data.Subject;
+};
+
 const onDelete = async (id: number) => {
     await Swal.fire({
         title: "Do you want to delete?",
+        icon: "warning",
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -98,18 +118,20 @@ const onDelete = async (id: number) => {
                             <!-- <label class="label">Academic year</label> -->
                             <input 
                             type="text" 
+                            v-model="form.Academic_Year" 
                             placeholder="Academic Year" 
-                            className="input input-bordered input-info w-full max-w-xs" />
-                            <div v-if="form.errors.Academic_year" class="text-error">
-                                {{ form.errors.Academic_year }}
+                            className="input input-bordered input-primary w-full max-w-xs" />
+                            <div v-if="form.errors.Academic_Year" class="text-error">
+                                {{ form.errors.Academic_Year }}
                             </div>
                         </div>
                         <div class="flex flex-col w-full">
                             <!-- <label class="label">Department</label> -->
                             <input 
-                            type="text" 
+                            type="text"
+                            v-model="form.Department" 
                             placeholder="Department" 
-                            className="input input-bordered input-info w-full max-w-xs" />
+                            className="input input-bordered input-primary w-full max-w-xs" />
                             <div v-if="form.errors.Department" class="text-error">
                                 {{ form.errors.Department }}
                             </div>
@@ -118,8 +140,9 @@ const onDelete = async (id: number) => {
                             <!-- <label class="label">Major</label> -->
                             <input 
                             type="text" 
+                            v-model="form.Major" 
                             placeholder="Major" 
-                            className="input input-bordered input-info w-full max-w-xs" />
+                            className="input input-bordered input-primary w-full max-w-xs" />
                             <div v-if="form.errors.Major" class="text-error">
                                 {{ form.errors.Major }}
                             </div>
@@ -128,8 +151,9 @@ const onDelete = async (id: number) => {
                             <!-- <label class="label">Committee</label> -->
                             <input 
                             type="text" 
+                            v-model="form.Committee" 
                             placeholder="Committee" 
-                            className="input input-bordered input-info w-full max-w-xs" />
+                            className="input input-bordered input-primary w-full max-w-xs" />
                             <div v-if="form.errors.Committee" class="text-error">
                                 {{ form.errors.Committee }}
                             </div>
@@ -137,9 +161,10 @@ const onDelete = async (id: number) => {
                         <div class="flex flex-col w-full">
                             <!-- <label class="label">Subject</label> -->
                             <input 
-                            type="text" 
+                            type="text"
+                            v-model="form.Subject" 
                             placeholder="Subject" 
-                            className="input input-bordered input-info w-full max-w-xs" />
+                            className="input input-bordered input-primary w-full max-w-xs" />
                             <div v-if="form.errors.Subject" class="text-error">
                                 {{ form.errors.Subject }}
                             </div>
@@ -188,7 +213,7 @@ const onDelete = async (id: number) => {
                         <tr
                             v-for="(item, index) in thesisCommittees.data"
                             :key="index">
-                            <td>{{ item.id }}</td>
+                            <td>{{ index + 1 }}</td>
                             <td>{{ item.Academic_Year }}</td>
                             <td>{{ item.Major }}</td>
                             <td>{{ item.Committee }}</td>
@@ -199,6 +224,8 @@ const onDelete = async (id: number) => {
                                     :href="route('thesisCommittee.edit', item.id)"
                                     class="btn btn-warning mr-2">Edit
                                 </Link>
+                                <!-- <button @click="onEdit(item.id)" class="btn btn-success btn-sm mr-2">Edit</button> -->
+
                                 <button 
                                     type="button"
                                     @click="onDelete(item.id)"
