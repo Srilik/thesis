@@ -37,7 +37,7 @@ class Thesis extends Model
         'Room',
     ];
 
-    // public function thesisAdvisor(){
-    //     return $this->belongsTo(ThesisAdvisor::class, 'id', 'id');
-    // }
+    public function thesisAdvisor(){
+        return $this->belongsTo(ThesisAdvisor::class, 'id', 'id');
+    }
 }

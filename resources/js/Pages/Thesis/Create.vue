@@ -7,10 +7,10 @@ import Swal from 'sweetalert2'
 
 const props = defineProps<{
     thesis?: ThesisType;
-    // thesisAdvisors: {
-    //     id:number;
-    //     Advisor:string;
-    // }[];
+    thesisAdvisors: {
+        id:number;
+        Advisor:string;
+    }[];
 }>();
 const form = useForm({
     id: props.thesis?.id ?? "",
@@ -220,9 +220,9 @@ const onSave = () => {
                         </div>
                         <div class="flex flex-col w-full">
                             <label class="label">Teacher Id</label>
-                            <input v-model="form.Teacher_id" class="input input-primary w-full"
-                                :class="{ 'input-error': form.errors.Teacher_id }" />
-                            <!-- <select 
+                            <!-- <input v-model="form.Teacher_id" class="input input-primary w-full"
+                                :class="{ 'input-error': form.errors.Teacher_id }" /> -->
+                            <select 
                                 v-model="form.Teacher_id" class="select select-primary w-full"
                                 :class="{ 'select-error': form.errors.Teacher_id }" >
                                 <option
@@ -230,7 +230,7 @@ const onSave = () => {
                                     v-for="(item, index) in thesisAdvisors">
                                     {{ item.Advisor }}
                                 </option>
-                            </select> -->
+                            </select>
 
                             <div v-if="form.errors.Teacher_id" class="text-error">
                                 {{ form.errors.Teacher_id }}

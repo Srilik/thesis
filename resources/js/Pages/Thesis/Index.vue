@@ -14,12 +14,62 @@ const props = defineProps<{
     filters?: {
         keyword: string;
         id: number;
+        Thesis_No: number;
+        Thesis_Group: number;
+        Academic_Year: string;
+        Department: string;
+        Major: string;
+        Year: string;
+        Batch: string;
+        Session: string;
+        Organizaition: string;
+        Organization_Type: string;
+        Location: string;
+        Organization_Phone: string;
+        Title: string;
+        Title_Khmer: string;
+        Objective: string;
+        Objective_Khmer: string;
+        Summary: string;
+        Submit_Date: string;
+        Teacher_id: string;
+        Defend_Date: string;
+        Book_Score: number;
+        Defend_time: string;
+        Submit_book: string;
+        Building: string;
+        Room: string;
     };
 }>();
 
 const filterForm = useForm({
     keyword: props.filters?.keyword ?? "",
     id: props.filters?.id ?? "",
+    Thesis_No: props.filters?.Thesis_No ?? "",
+    Thesis_Group: props.filters?.Thesis_Group ?? "",
+    Academic_Year: props.filters?.Academic_Year ?? "",
+    Department: props.filters?.Department ?? "",
+    Major: props.filters?.Major ?? "",
+    Year: props.filters?.Year ?? "",
+    Batch: props.filters?.Batch ?? "",
+    Session: props.filters?.Session ?? "",
+    Organizaition: props.filters?.Organizaition ?? "",
+    Organization_Type: props.filters?.Organization_Type ?? "",
+    Location: props.filters?.Location ?? "",
+    Organization_Phone: props.filters?.Organization_Phone ?? "",
+    Title: props.filters?.Title ?? "",
+    Title_Khmer: props.filters?.Title_Khmer ?? "",
+    Objective: props.filters?.Objective ?? "",
+    Objective_Khmer: props.filters?.Objective_Khmer ?? "",
+    Summary: props.filters?.Summary ?? "",
+    Submit_Date: props.filters?.Submit_Date ?? "",
+    Teacher_id: props.filters?.Teacher_id ?? "",
+    Defend_Date: props.filters?.Defend_Date ?? "",
+    Book_Score: props.filters?.Book_Score ?? "",
+    Defend_time: props.filters?.Defend_time ?? "",
+    Submit_book: props.filters?.Submit_book ?? "",
+    Building: props.filters?.Building ?? "",
+    Room: props.filters?.Room ?? "",
 });
 
 watch(
@@ -37,6 +87,31 @@ watch(
 const onClearFilter = () => {
     filterForm.keyword = "";
     filterForm.id = "";
+    filterForm.Thesis_No = "";
+    filterForm.Thesis_Group = "";
+    filterForm.Academic_Year = "";
+    filterForm.Department = "";
+    filterForm.Major = "";
+    filterForm.Year = "";
+    filterForm.Batch = "";
+    filterForm.Session = "";
+    filterForm.Organizaition = "";
+    filterForm.Organization_Type = "";
+    filterForm.Location = "";
+    filterForm.Organization_Phone = "";
+    filterForm.Title = "";
+    filterForm.Title_Khmer = "";
+    filterForm.Objective = "";
+    filterForm.Objective_Khmer = "";
+    filterForm.Summary = "";
+    filterForm.Submit_Date = "";
+    filterForm.Teacher_id = "";
+    filterForm.Defend_Date = "";
+    filterForm.Book_Score = "";
+    filterForm.Defend_time = "";
+    filterForm.Submit_book = "";
+    filterForm.Building = "";
+    filterForm.Room = "";
 };
 
 const onDelete = async (id: number) => {
@@ -85,7 +160,7 @@ const onDelete = async (id: number) => {
                             <option 
                                 v-for="(thesisAdvisor, index) in thesisAdvisors" 
                                 :key="index" 
-                                :value="thesisAdvisor.Teacher_id">
+                                :value="thesisAdvisor.Advisor">
                                 {{ thesisAdvisor.Advisor }}
                             </option>
                         </select>              
@@ -149,7 +224,7 @@ const onDelete = async (id: number) => {
                             <td>{{ item.Objective_Khmer }}</td>
                             <td>{{ item.Summary }}</td>
                             <td>{{ item.Submit_Date }}</td> -->
-                            <td>{{ item.Teacher_id?.name }}</td>
+                            <td>{{ item.Teacher_id }}</td>
                             <!-- <td>{{ item.Defend_Date }}</td> -->
                             <td>{{ item.Book_Score }}</td>
                             <!-- <td>{{ item.Defend_time }}</td>
