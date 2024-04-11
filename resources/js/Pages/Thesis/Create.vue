@@ -1,54 +1,5 @@
-<script setup lang="ts">
-import App from '@/Layouts/App.vue';
-import { useForm } from '@inertiajs/vue3';
-import { ThesisType } from "@/types/thesisType";
-import { MoveLeft } from 'lucide-vue-next';
-import Swal from 'sweetalert2'
-
-const props = defineProps<{
-    thesis?: ThesisType;
-}>();
-const form = useForm({
-    id: props.thesis?.id ?? "",
-    Thesis_No: props.thesis?.Thesis_No ?? "",
-    Thesis_Group: props.thesis?.Thesis_Group ?? "",
-    Academic_Year: props.thesis?.Academic_Year ?? "",
-    Department: props.thesis?.Department ?? "",
-    Major: props.thesis?.Major ?? "",
-    Year: props.thesis?.Year ?? "",
-    Batch: props.thesis?.Batch ?? "",
-    Session: props.thesis?.Session ?? "",
-    Organizaition: props.thesis?.Organizaition ?? "",
-    Organization_Type: props.thesis?.Organization_Type ?? "",
-    Location: props.thesis?.Location ?? "",
-    Organization_Phone: props.thesis?.Organization_Phone ?? "",
-    Title: props.thesis?.Title ?? "",
-    Title_Khmer: props.thesis?.Title_Khmer ?? "",
-    Objective: props.thesis?.Objective ?? "",
-    Objective_Khmer: props.thesis?.Objective_Khmer ?? "",
-    Summary: props.thesis?.Summary ?? "",
-    Submit_Date: props.thesis?.Submit_Date ?? "",
-    Teacher_id: props.thesis?.Teacher_id ?? "",
-    Defend_Date: props.thesis?.Defend_Date ?? "",
-    Book_Score: props.thesis?.Book_Score ?? "",
-    Defend_time: props.thesis?.Defend_time ?? "",
-    Submit_book: props.thesis?.Submit_book ?? "",
-    Building: props.thesis?.Building ?? "",
-    Room: props.thesis?.Room ?? "",
-});
-const onSave = () => {
-    form.post(route("thesis.store"), {
-        onSuccess: () => {
-            Swal.fire({
-                icon: "success",
-                title: "Thesis has been saved.",
-                timer: 3000,
-                position: "top-end",
-                toast: true,
-            });
-        },
-    });
-};
+<script setup>
+import { ref } from 'vue';
 </script>
 <template>
     <App>
@@ -64,16 +15,16 @@ const onSave = () => {
                 <form @submit.prevent="onSave">
                     <div class="flex flex-col gap-2 lg:flex-row">
                         <div class="flex flex-col w-full">
-                            <label class="label">Thesis_No</label>
-                            <input v-model="form.Thesis_No" class="input input-primary w-full"
+                            <label class="number">Thesis_No</label>
+                            <input v-model.number="form.Thesis_No" class="input input-primary w-full"
                                 :class="{ 'input-error': form.errors.Thesis_No }" />
                             <div v-if="form.errors.Thesis_No" class="text-error">
                                 {{ form.errors.Thesis_No }}
                             </div>
                         </div>
                         <div class="flex flex-col w-full">
-                            <label class="label">Thesis_Group</label>
-                            <input v-model="form.Thesis_Group" class="input input-primary w-full"
+                            <label class="number">Thesis_Group</label>
+                            <input v-model.number="form.Thesis_Group" class="input input-primary w-full"
                                 :class="{ 'input-error': form.errors.Thesis_Group }" />
                             <div v-if="form.errors.Thesis_Group" class="text-error">
                                 {{ form.errors.Thesis_Group }}
@@ -107,15 +58,24 @@ const onSave = () => {
                     <div class="flex flex-col gap-2 lg:flex-row">
                         <div class="flex flex-col w-full">
                             <label class="label">Year</label>
-                            <input v-model="form.Year" class="input input-primary w-full"
-                                :class="{ 'input-error': form.errors.Year }" />
+                            <select v-model="form.Year" class="input input-primary w-full">
+                                <option value="">Select a Year</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                            <!-- <input v-model="form.Year" class="input input-primary w-full"
+                                :class="{ 'input-error': form.errors.Year }" /> -->
                             <div v-if="form.errors.Year" class="text-error">
                                 {{ form.errors.Year }}
                             </div>
                         </div>
                         <div class="flex flex-col w-full">
-                            <label class="label">Batch</label>
-                            <input v-model="form.Batch" class="input input-primary w-full"
+                            <label class="number">Batch</label>
+                            <input v-model.number="form.Batch" class="input input-primary w-full"
                                 :class="{ 'input-error': form.errors.Batch }" />
                             <div v-if="form.errors.Batch" class="text-error">
                                 {{ form.errors.Batch }}
@@ -123,8 +83,14 @@ const onSave = () => {
                         </div>
                         <div class="flex flex-col w-full">
                             <label class="label">Session</label>
-                            <input v-model="form.Session" class="input input-primary w-full"
-                                :class="{ 'input-error': form.errors.Session }" />
+                            <select v-model="form.Session" class="input input-primary w-full">
+                                <option value="">Select a Session</option>
+                                <option value="morning">Morning</option>
+                                <option value="afternoon">Afternoon</option>
+                                <option value="evening">Evening</option>
+                            </select>
+                            <!-- <input v-model="form.Session" class="input input-primary w-full"
+                                :class="{ 'input-error': form.errors.Session }" /> -->
                             <div v-if="form.errors.Session" class="text-error">
                                 {{ form.errors.Session }}
                             </div>
@@ -215,9 +181,19 @@ const onSave = () => {
                             </div>
                         </div>
                         <div class="flex flex-col w-full">
-                            <label class="label">Teacher_id</label>
+                            <label class="label">Teacher Id</label>
                             <input v-model="form.Teacher_id" class="input input-primary w-full"
                                 :class="{ 'input-error': form.errors.Teacher_id }" />
+                            <!-- <select 
+                                v-model="form.Teacher_id" class="select select-primary w-full"
+                                :class="{ 'select-error': form.errors.Teacher_id }" >
+                                <option
+                                    :value="item.id"
+                                    v-for="(item, index) in thesisAdvisors">
+                                    {{ item.Advisor }}
+                                </option>
+                            </select> -->
+
                             <div v-if="form.errors.Teacher_id" class="text-error">
                                 {{ form.errors.Teacher_id }}
                             </div>

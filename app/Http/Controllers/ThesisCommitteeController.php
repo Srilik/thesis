@@ -12,41 +12,25 @@ class ThesisCommitteeController extends Controller
     public function index(Request $request)
     {
         $thesisCommittees = ThesisCommittee::query()
-            // ->orderBy('Academic_Year')
+            ->orderBy('Academic_Year')  
             ->when($request->input('keyword'), fn ($query)
             =>$query->where('Academic_Year', 'like', "%" . $request->input('keyword') . "%"))
-            // ->get()
-            ->paginate(5)
-            ->withQueryString();
+            ->get();
 
+            // ->paginate(5)
+            // ->withQueryString();
             return Inertia::render("ThesisCommittee/Index",[
                 "thesisCommittees"=>$thesisCommittees,
                 'filters' => $request->all('keyword'),
             ]);
         }
 
-    // public function index(Request $request)
-    // {
-    //     $thesisCommittees = ThesisCommittee::query()
-    //         ->when($request->input('keyword'), function ($query) use ($request) {
-    //             return $query->where('Academic_Year', 'like', "%" . $request->input('keyword') . "%");
-    //         })
-    //         ->orderBy('Academic_Year')
-    //         ->paginate(5)
-    //         ->withQueryString();
-    
-    //     return Inertia::render("ThesisCommittee/Index", [
-    //         "thesisCommittees" => $thesisCommittees,
-    //         'filters' => $request->all('keyword'),
-    //     ]);
-    // }
-
     public function create()
     {
         return Inertia::render('ThesisCommittee/Create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $id=null)
     {
         $validatedData= $request->validate([
             'Academic_Year' => 'required',
@@ -55,24 +39,35 @@ class ThesisCommitteeController extends Controller
             'Department'=> 'required',
             'Subject'=> 'required',
         ]);
-
-        if($request->input('id')){
-            $thesisCommittees = ThesisCommittee::findOrFail($request->input("id"));
+        if($id){
+            $thesisCommittees = ThesisCommittee::findOrFail($id);
             $thesisCommittees->update($validatedData);
-        }else {      
-            ThesisCommittee::create($validatedData);
+        // if($request->input('id')){
+        //     $thesisCommittees = ThesisCommittee::findOrFail($request->input("id"));
+        //     $thesisCommittees->update($validatedData);
+        }else {
+            $request->validate([
+                'Academic_Year' => 'required',
+                'Major'=> 'required',
+                'Committee'=> 'required',
+                'Department'=> 'required',
+                'Subject'=> 'required',
+            ]);
+            ThesisCommittee::create($validatedData);      
         }
-        return redirect()->route('thesisCommittee.index');
+        return  redirect()->back();
     }
     public function show(string $id)
     {
         //
     }
-    public function edit(ThesisCommittee $thesisCommittee)
+
+    public function edit($id)
     {
-        return Inertia::render('ThesisCommittee/Create', [
-            'thesisCommittee' =>$thesisCommittee
-        ]);
+        return ThesisCommittee::findOrFail($id);
+        // return Inertia::render('ThesisCommittee/Create', [
+        //     'thesisCommittee' =>$thesisCommittee
+        // ]);
     }
 
     public function update(Request $request, string $id)

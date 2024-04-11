@@ -16,7 +16,23 @@ Route::get('/', function () {
 Route::middleware('checkAuth')->group(function () {
 
     // // thesis
-    Route::resource('/thesis', ThesisController::class);
+    // Route::resource('/thesis', ThesisController::class);
+    Route::prefix('/thesis')->controller(ThesisController::class)
+        ->name('thesis.')
+        ->group(function () {
+            // list all thesis
+            Route::get('/', 'index')->name('index');
+            // create new thesis
+            Route::get('/create', 'create')->name('create');
+            //edit thesis
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            //store new thesis
+            Route::post('/store/{id?}', 'store')->name('store');
+            //update thesis
+            Route::put('/update/{id}', 'update')->name('update');
+            //destroy thesis
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+        });
 
     // // thesisAdvisor
     // Route::resource('/thesisAdvisor', ThesisAdvisorController::class);
@@ -39,26 +55,42 @@ Route::middleware('checkAuth')->group(function () {
 
 
     // thesisCommittee
-    Route::resource('/thesisCommittee', ThesisCommitteeController::class);
-    // Route::prefix('/thesisCommittee')->controller(ThesisCommitteeController::class)
-    //     ->name('thesisCommittee.')
-    //     ->group(function () {
-    //         // list all thesisCommittee
-    //         Route::get('/', 'index')->name('index');
-    //         // create new thesisCommittee
-    //         Route::get('/create', 'create')->name('create');
-    //         //edit thesisCommittee
-    //         Route::get('/edit/{id}', 'edit')->name('edit');
-    //         //store new thesisCommittee
-    //         Route::post('/store/{id?}', 'store')->name('store');
-    //         //update thesisCommittee
-    //         Route::put('/update/{id}', 'update')->name('update');
-    //         //destroy thesisCommittee
-    //         Route::delete('/destroy/{id}', 'destroy')->name('destroy');
-    //     });
+    // Route::resource('/thesisCommittee', ThesisCommitteeController::class);
+    Route::prefix('/thesisCommittee')->controller(ThesisCommitteeController::class)
+        ->name('thesisCommittee.')
+        ->group(function () {
+            // list all thesisCommittee
+            Route::get('/', 'index')->name('index');
+            // create new thesisCommittee
+            Route::get('/create', 'create')->name('create');
+            //edit thesisCommittee
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            //store new thesisCommittee
+            Route::post('/store/{id?}', 'store')->name('store');
+            //update thesisCommittee
+            Route::put('/update/{id}', 'update')->name('update');
+            //destroy thesisCommittee
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+        });
 
     // thesisDetail
-    Route::resource('/thesisDetail', ThesisDetailController::class);
+    // Route::resource('/thesisDetail', ThesisDetailController::class);
+    Route::prefix('/thesisDetail')->controller(ThesisDetailController::class)
+    ->name('thesisDetail.')
+    ->group(function () {
+        // list all thesisDetail
+        Route::get('/', 'index')->name('index');
+        // create new thesisDetail
+        Route::get('/create', 'create')->name('create');
+        //edit thesisDetail
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        //store new thesisDetail
+        Route::post('/store/{id?}', 'store')->name('store');
+        //update thesisDetail
+        Route::put('/update/{id}', 'update')->name('update');
+        //destroy thesisDetail
+        Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+    });
 
     // logout
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');

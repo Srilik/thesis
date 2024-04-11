@@ -11,21 +11,25 @@ class ThesisDetailController extends Controller
     public function index(Request $request)
     {
         $thesisDetails = ThesisDetail::query()
+            ->orderBy('Thesis_No')
             ->when($request->input('keyword'), fn ($query)
-            =>$query->where('Student_ID', 'like', "%" . $request->input('keyword') . "%"))
-            ->paginate(5)
-            ->withQueryString();
-
-        return Inertia::render('ThesisDetail/Index', [
-            'thesisDetails' =>$thesisDetails,
+            =>$query->where('Thesis_No', 'like', "%" . $request->input('keyword') . "%"))
+            ->get();
+            
+            // ->paginate(5)
+            // ->withQueryString();            
+        return Inertia::render("ThesisDetail/Index",[
+            "thesisDetails"=>$thesisDetails,
             'filters' => $request->all('keyword'),
-        ]);    }
+        ]);
+  
+    }
 
     public function create()
     {
         return Inertia::render('ThesisDetail/Create');
     }
-    public function store(Request $request)
+    public function store(Request $request, $id=null)
     {
         $validatedData = $request->validate([
             "Thesis_No" => "required",
@@ -40,26 +44,46 @@ class ThesisDetailController extends Controller
             "Remark" => "required",
             "Result" => "required",
         ]);
-
-        if($request->input('id')){
-            $thesisDetails = ThesisDetail::findOrFail($request->input("id"));
+        if($id){
+            $thesisDetails = ThesisDetail::findOrFail($id);
             $thesisDetails->update($validatedData);
-        }else {      
+        // if($request->input('id')){
+        //     $thesisDetails = ThesisDetail::findOrFail($request->input("id"));
+        //     $thesisDetails->update($validatedData);
+        }else{
+            $request->validate([
+                "Thesis_No" => "required",
+                "Student_ID" => "required",
+                "Phone" => "required",
+                "Defend" => "required",
+                "Pass_State" => "required",
+                "Issue_Tem_Certificate" => "required",
+                "Other" => "required",
+                "Hardwork" => "required",
+                "Charateristic" => "required",
+                "Remark" => "required",
+                "Result" => "required",
+            ]);
             ThesisDetail::create($validatedData);
         }
-        return redirect()->route('thesisDetail.index');    }
+        return  redirect()->back();
+    }
 
     public function show(string $id)
     {
         //
     }
 
-    public function edit(ThesisDetail $thesisDetail)
+    public function edit($id)
+    // ThesisDetail $thesisDetail 
     {
-        return Inertia::render('ThesisDetail/Create', [
-            'thesisDetail' =>$thesisDetail
-        ]);    
+        return ThesisDetail::findOrFail($id);
+
+        // return Inertia::render('ThesisDetail/Create', [
+        //     'thesisDetail' =>$thesisDetail
+        // ]);    
     }
+
     public function update(Request $request, string $id)
     {
         //
@@ -70,4 +94,5 @@ class ThesisDetailController extends Controller
         $thesisDetail->delete();
         return redirect()->back();
     }
+
 }

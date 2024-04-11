@@ -10,33 +10,31 @@ use Inertia\Inertia;
 
 class ThesisController extends Controller
 {
-    public function index(Request $request)
-    {
-        $thesises = Thesis::query()
-            ->when($request->input('keyword'), fn ($query)
-            =>$query->where('Department', 'like', "%" . $request->input('keyword') . "%"))
+    public function index(Request $request){
+        $thesis = Thesis::query()
+            ->orderBy('Thesis_No')
+            ->when($request->input('keyword'), fn($query)
+            =>$query->where('Thesis_No', 'like', "%" . $request->input('keyword') . "%"))
+            ->get();
 
-            ->paginate(5)
-            ->withQueryString();  
-
-        return Inertia::render('Thesis/Index', [
-            'thesises' => $thesises,
-            'filters' => $request->all(
-                'keyword'
-            ),
-        ]);
+            return Inertia::render("Thesis/Index",[
+                "thesis"=>$thesis,
+                'filters' => $request->all
+                (
+                    'keyword'
+                )
+            ]);
     }
-    
-    public function create()
-    {
+    public function create(){
         return Inertia::render('Thesis/Create');
     }
-
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
+    public function edit($id){
+        return Thesis::findOrFail($id);
+    }
+    public  function store(Request $request, $id = null){
+        $validatedData= $request->validate([
             'Thesis_No' => 'required',
-            'Thesis_Group' =>  'nullable',
+            'Thesis_Group' => 'nullable',
             'Academic_Year' => 'nullable',
             'Department' => 'nullable',
             'Major' => 'nullable',
@@ -53,40 +51,51 @@ class ThesisController extends Controller
             'Objective_Khmer' => 'nullable',
             'Summary' => 'nullable',
             'Submit_Date' => 'nullable',
-            'Teacher_id' => 'nullable',
+            'Teacher_id' => 'required',
             'Defend_Date' => 'nullable',
             'Book_Score' => 'nullable',
             'Defend_time' => 'nullable',
             'Submit_book' => 'nullable',
             'Building' => 'nullable',
-            'Room' => 'nullable',            
+            'Room' => 'nullable',
         ]);
-
-        if($request->input('id')){
-            $thesises = Thesis::findOrFail($request->input("id"));
-            $thesises->update($validatedData);
-        }else {      
+        if($id){
+            $thesis = Thesis::find($id);
+            $thesis -> update($validatedData);
+        }else{
+            $request->validate([
+                'Thesis_No' => 'required',
+                'Thesis_Group' => 'nullable',
+                'Academic_Year' => 'nullable',
+                'Department' => 'nullable',
+                'Major' => 'nullable',
+                'Year' => 'nullable',
+                'Batch' => 'nullable',
+                'Session' => 'nullable',
+                'Organizaition' => 'nullable',
+                'Organization_Type' => 'nullable',
+                'Location' => 'nullable',
+                'Organization_Phone' => 'nullable',
+                'Title' => 'nullable',
+                'Title_Khmer' => 'nullable',
+                'Objective' => 'nullable',
+                'Objective_Khmer' => 'nullable',
+                'Summary' => 'nullable',
+                'Submit_Date' => 'nullable',
+                'Teacher_id' => 'required',
+                'Defend_Date' => 'nullable',
+                'Book_Score' => 'nullable',
+                'Defend_time' => 'nullable',
+                'Submit_book' => 'nullable',
+                'Building' => 'nullable',
+                'Room' => 'nullable',
+            ]);
             Thesis::create($validatedData);
         }
-        return redirect()->route("thesis.index");
+        return  redirect()->back();
     }
-    public function show(string $id)
-    {
-        //
-    }
-    public function edit(Thesis $thesis)
-    {    
-        return Inertia::render('Thesis/Create', [
-            'thesis' => $thesis, 
-        ]);
-    }
-    public function update(Request $request, string $id)
-    {  
-    }
-    public function destroy($id)
-    {
-        $thesis = Thesis::findOrFail($id);
-        $thesis->delete();
+    public  function destroy($id) {
+        Thesis::findOrFail($id)->delete();
         return redirect()->back();
     }
 }
