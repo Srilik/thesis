@@ -136,17 +136,10 @@ const onDelete = async (id: number) => {
                         </label>
                     </div>
                     <div class="flex-1">
-<<<<<<< HEAD
-                        <label class="label">Advisor</label>
-                        <input v-model="form.Advisor" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Advisor">
-                            {{ form.errors.Advisor }}
-=======
-                        <label class="label">College</label>
-                        <input v-model="form.College" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.College">
-                            {{ form.errors.College }}
->>>>>>> c0af686d423d009776393f9817b694a558fc7f8b
+                        <label class="label">AThesisAdvisor</label>
+                        <input v-model="form.AThesisAdvisor" type="text" class="input input-primary w-full" />
+                        <label class="label text-red-500 text-sm" v-if="form.errors.AThesisAdvisor">
+                            {{ form.errors.AThesisAdvisor }}
                         </label>
                     </div>
                     <div class="flex-1">
@@ -186,13 +179,8 @@ const onDelete = async (id: number) => {
                         <tr class="text uppercase text-sm">
                             <th>ID</th>
                             <th>Academic Year</th>
-<<<<<<< HEAD
                             <th>Major</th>
-                            <th>Advisor</th>
-=======
-                            <th>Advisor</th>
-                            <th>College</th>
->>>>>>> c0af686d423d009776393f9817b694a558fc7f8b
+                            <th>AThesisAdvisor</th>
                             <th>Department</th>
                             <th>Actions</th>
                         </tr>
@@ -201,13 +189,8 @@ const onDelete = async (id: number) => {
                         <tr v-for="(item, index) in thesisAdvisors" :key="index">
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.Academic_Year }}</td>
-<<<<<<< HEAD
                             <td>{{ item.Major }}</td>
-                            <td>{{ item.Advisor }}</td>
-=======
-                            <td>{{ item.Advisor }}</td>
-                            <td>{{ item.College }}</td>
->>>>>>> c0af686d423d009776393f9817b694a558fc7f8b
+                            <td>{{ item.AThesisAdvisor }}</td>
                             <td>{{ item.Department }}</td>
                             <td>
                                 <button @click="onEdit(item.id)" class="btn btn-success btn-sm mr-2">Edit</button>
@@ -221,8 +204,7 @@ const onDelete = async (id: number) => {
             <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
                 <div class="join">
                     <Link 
-<<<<<<< HEAD
-                        v-for="link in thesisThesisAdvisors.links" 
+                        v-for="link in thesisAThesisAdvisors.links" 
                         :href="link.url ?? '#'"
                         class="join-item btn"
                         :class="{ 'btn-info': link.active }">
