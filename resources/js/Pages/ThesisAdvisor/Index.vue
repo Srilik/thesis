@@ -136,10 +136,10 @@ const onDelete = async (id: number) => {
                         </label>
                     </div>
                     <div class="flex-1">
-                        <label class="label">AThesisAdvisor</label>
-                        <input v-model="form.AThesisAdvisor" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.AThesisAdvisor">
-                            {{ form.errors.AThesisAdvisor }}
+                        <label class="label">Advisor</label>
+                        <input v-model="form.Advisor" type="text" class="input input-primary w-full" />
+                        <label class="label text-red-500 text-sm" v-if="form.errors.Advisor">
+                            {{ form.errors.Advisor }}
                         </label>
                     </div>
                     <div class="flex-1">
@@ -180,7 +180,7 @@ const onDelete = async (id: number) => {
                             <th>ID</th>
                             <th>Academic Year</th>
                             <th>Major</th>
-                            <th>AThesisAdvisor</th>
+                            <th>Advisor</th>
                             <th>Department</th>
                             <th>Actions</th>
                         </tr>
@@ -190,7 +190,7 @@ const onDelete = async (id: number) => {
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.Academic_Year }}</td>
                             <td>{{ item.Major }}</td>
-                            <td>{{ item.AThesisAdvisor }}</td>
+                            <td>{{ item.Advisor }}</td>
                             <td>{{ item.Department }}</td>
                             <td>
                                 <button @click="onEdit(item.id)" class="btn btn-success btn-sm mr-2">Edit</button>
@@ -204,7 +204,7 @@ const onDelete = async (id: number) => {
             <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
                 <div class="join">
                     <Link 
-                        v-for="link in thesisAThesisAdvisors.links" 
+                        v-for="link in thesisAdvisors.links" 
                         :href="link.url ?? '#'"
                         class="join-item btn"
                         :class="{ 'btn-info': link.active }">
@@ -213,10 +213,6 @@ const onDelete = async (id: number) => {
                 </div>  
             </div>
         </div>
-
-
-
-
 
         <div class="p-3">
             <h2 class="text-2xl font-bold">Create a ThesisAdvisor</h2>
@@ -228,7 +224,7 @@ const onDelete = async (id: number) => {
                             <!-- <label class="label">Academic year</label> -->
                             <input 
                             type="text" 
-                            v-model="form.Academic_year"  
+                            v-model="form.Academic_Year"  
                             placeholder="Academic Year" 
                             className="input input-bordered input-info w-full max-w-xs" />
                             <!-- <input v-model="form.Academic_Year" class="input input-primary w-full"
@@ -345,8 +341,6 @@ const onDelete = async (id: number) => {
             <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
                 <div class="join">
                     <Link 
-=======
->>>>>>> c0af686d423d009776393f9817b694a558fc7f8b
                         v-for="link in thesisAdvisors.links" 
                         :href="link.url ?? '#'"
                         class="join-item btn"
