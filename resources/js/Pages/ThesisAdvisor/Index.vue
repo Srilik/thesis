@@ -136,10 +136,10 @@ const onDelete = async (id: number) => {
                         </label>
                     </div>
                     <div class="flex-1">
-                        <label class="label">Advisor</label>
-                        <input v-model="form.Advisor" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Advisor">
-                            {{ form.errors.Advisor }}
+                        <label class="label">College</label>
+                        <input v-model="form.College" type="text" class="input input-primary w-full" />
+                        <label class="label text-red-500 text-sm" v-if="form.errors.College">
+                            {{ form.errors.College }}
                         </label>
                     </div>
                     <div class="flex-1">
@@ -179,8 +179,8 @@ const onDelete = async (id: number) => {
                         <tr class="text uppercase text-sm">
                             <th>ID</th>
                             <th>Academic Year</th>
-                            <th>Major</th>
                             <th>Advisor</th>
+                            <th>College</th>
                             <th>Department</th>
                             <th>Actions</th>
                         </tr>
@@ -189,8 +189,8 @@ const onDelete = async (id: number) => {
                         <tr v-for="(item, index) in thesisAdvisors" :key="index">
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.Academic_Year }}</td>
-                            <td>{{ item.Major }}</td>
                             <td>{{ item.Advisor }}</td>
+                            <td>{{ item.College }}</td>
                             <td>{{ item.Department }}</td>
                             <td>
                                 <button @click="onEdit(item.id)" class="btn btn-success btn-sm mr-2">Edit</button>
@@ -211,144 +211,6 @@ const onDelete = async (id: number) => {
                         <span v-html="link.label"></span>
                     </Link>
                 </div>  
-            </div>
-        </div>
-
-        <div class="p-3">
-            <h2 class="text-2xl font-bold">Create a ThesisAdvisor</h2>
-            <div class='mt-4 p-4 bg-base-100 rounded-xl'>
-                <form @submit.prevent="onSave">
-                    <div class="flex flex-col gap-2 lg:flex-row">
-
-                        <div class="flex flex-col w-full">
-                            <!-- <label class="label">Academic year</label> -->
-                            <input 
-                            type="text" 
-                            v-model="form.Academic_Year"  
-                            placeholder="Academic Year" 
-                            className="input input-bordered input-info w-full max-w-xs" />
-                            <!-- <input v-model="form.Academic_Year" class="input input-primary w-full"
-                                :class="{ 'input-error': form.errors.Academic_Year }" /> -->
-                            <div v-if="form.errors.Academic_Year" class="text-error">
-                                {{ form.errors.Academic_Year }}
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-col w-full">
-                            <!-- <label class="label">Advisor</label> -->
-                            <input 
-                            type="text" 
-                            v-model="form.Advisor" 
-                            placeholder="Advisor" 
-                            className="input input-bordered input-info w-full max-w-xs" />
-                            <!-- <input v-model="form.Advisor" class="input input-primary w-full"
-                                :class="{ 'input-error': form.errors.Advisor }" /> -->
-                            <div v-if="form.errors.Advisor" class="text-error">
-                                {{ form.errors.Advisor }}
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col w-full">
-                            <!-- <label class="label">College</label> -->
-                            <input 
-                            type="text" 
-                            v-model="form.College" 
-                            placeholder="College" 
-                            className="input input-bordered input-info w-full max-w-xs" />
-                            <!-- <input v-model="form.College" class="input input-primary w-full"
-                                :class="{ 'input-error': form.errors.College }" /> -->
-                            <div v-if="form.errors.College" class="text-error">
-                                {{ form.errors.College }}
-                            </div>
-                        </div>
-                        <div class="flex flex-col w-full">
-                            <!-- <label class="label">Department</label> -->
-                            <input 
-                            type="text" 
-                            v-model="form.Department" 
-                            placeholder="Department" 
-                            className="input input-bordered input-info w-full max-w-xs" />
-                            <!-- <input v-model="form.Department" class="input input-primary w-full"
-                                :class="{ 'input-error': form.errors.Department }" /> -->
-                            <div v-if="form.errors.Department" class="text-error">
-                                {{ form.errors.Department }}
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="mt-2 flex justify-end">
-                        <button type="submit" class="btn btn-success">Save</button>
-                    </div>
-
-                </form>
-            </div>
-        </div>  
-        <div class="p-3">
-            <div class="mb-2">
-                <h2 class="text-2xl font-bold">ThesisAdvisor Management</h2>
-                <div class="mt-4">
-                    <div class="bg-base-100 p-2 rounded-xl flex gap-2 items-center">
-                        <!-- <Link :href="route('thesisAdvisor.create')" class="btn btn-info">New</Link> -->
-                        <input 
-                            v-model="filterForm.keyword"
-                            type="text" 
-                            placeholder="Search..." 
-                            class="input input-info w-full"/>
-
-                        <button class="btn btn-warning" type="button" @click="onClearFilter">Clear</button>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-base-100 rounded-xl overflow-x-auto">
-                <table class="table table-2xl">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Academic_Year</th>
-                            <th>Advisor</th>
-                            <th>College</th>
-                            <th>Department</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
-                            v-for="(item, index) in thesisAdvisors.data" 
-                            :key="index">
-                            <td>{{ index + 1 }}</td>
-                            <td>{{ item.Academic_Year }}</td>
-                            <td>{{ item.Advisor }}</td>                          
-                            <td>{{ item.College }}</td>
-                            <td>{{ item.Department }}</td>
-                            <td>
-                                <Link 
-                                    :href="route('thesisAdvisor.edit', item.id)"
-                                    class="btn btn-warning mr-2">Edit
-                                </Link>
-                                <button 
-                                    type="button"
-                                    @click="onDelete(item.id)"
-                                    class="btn btn-error">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- Pagination -->
-            <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
-                <div class="join">
-                    <Link 
-                        v-for="link in thesisAdvisors.links" 
-                        :href="link.url ?? '#'"
-                        class="join-item btn"
-                        :class="{ 'btn-primary': link.active }">
-                        <span v-html="link.label"></span>
-                    </Link>
-                </div>
-                
             </div>
         </div>
     </App>
