@@ -16,18 +16,20 @@ return new class extends Migration
 
             $table->string('Department');
             $table->string('MajorID');
-            $table->integer('Promotion');
-            $table->integer('Year');
+            $table->string('Promotion');
+            $table->string('Year');
             $table->string('Semester');
             $table->string('Group');
             $table->string('AcademicYear');         
             $table->unique(['Department', 'MajorID', 'Promotion', 'Year', 'Semester', 'Group', 'AcademicYear']);
+            // $table->unique(['Department', 'MajorID', 'Promotion']);
+
 
             $table->string('ModifiedBy');
             $table->dateTime('ModifiedDate');
             $table->string('DMYS');
             $table->string('BatchByMajor');
-            $table->string('BNo');
+            $table->string('GNo');
             $table->string('MaxSeats');
             $table->string('Shift');
             $table->string('MaxSeat');

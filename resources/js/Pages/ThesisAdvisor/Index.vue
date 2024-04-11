@@ -136,10 +136,10 @@ const onDelete = async (id: number) => {
                         </label>
                     </div>
                     <div class="flex-1">
-                        <label class="label">AThesisAdvisor</label>
-                        <input v-model="form.AThesisAdvisor" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.AThesisAdvisor">
-                            {{ form.errors.AThesisAdvisor }}
+                        <label class="label">Advisor</label>
+                        <input v-model="form.Advisor" type="text" class="input input-primary w-full" />
+                        <label class="label text-red-500 text-sm" v-if="form.errors.Advisor">
+                            {{ form.errors.Advisor }}
                         </label>
                     </div>
                     <div class="flex-1">
@@ -187,7 +187,7 @@ const onDelete = async (id: number) => {
                             <th>ID</th>
                             <th>Academic Year</th>
                             <th>Major</th>
-                            <th>AThesisAdvisor</th>
+                            <th>Advisor</th>
                             <th>Department</th>
                             <th>Subject</th>
                             <th>Actions</th>
@@ -198,7 +198,7 @@ const onDelete = async (id: number) => {
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.Academic_Year }}</td>
                             <td>{{ item.Major }}</td>
-                            <td>{{ item.AThesisAdvisor }}</td>
+                            <td>{{ item.Advisor }}</td>
                             <td>{{ item.Department }}</td>
                             <td>{{ item.Subject }}</td>
                             <td>
@@ -213,7 +213,7 @@ const onDelete = async (id: number) => {
             <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
                 <div class="join">
                     <Link 
-                        v-for="link in thesisAThesisAdvisors.links" 
+                        v-for="link in thesisThesisAdvisors.links" 
                         :href="link.url ?? '#'"
                         class="join-item btn"
                         :class="{ 'btn-info': link.active }">
