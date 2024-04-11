@@ -20,15 +20,9 @@ return new class extends Migration
             $table->string('FieldOfStudy');
             $table->string('Degree');
             $table->string('Major');
-<<<<<<< HEAD
             // $table->string('DateOfAdmission');
             // $table->string('StateExam');
             // $table->string('ResearchStudy');
-=======
-            $table->dateTime('DateOfAdmission');
-            $table->string('StateExam');
-            $table->string('ResearchStudy');
->>>>>>> c0af686d423d009776393f9817b694a558fc7f8b
             $table->string('NameInKhmer');
             $table->string('Sex');
             $table->string('POB_Province');

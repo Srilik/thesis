@@ -17,18 +17,12 @@ return new class extends Migration
             $table->string('Department');
             $table->string('MajorID');
             $table->string('Promotion');
-            $table->string('Year');
-            $table->string('Semester');
-            $table->string('Group');
-            $table->string('AcademicYear');         
-<<<<<<< HEAD
-            $table->unique(['Department', 'MajorID', 'Promotion', 'Year', 'Semester', 'Group', 'AcademicYear']);
-            // $table->unique(['Department', 'MajorID', 'Promotion']);
-
-=======
+            // $table->string('Year');
+            // $table->string('Semester');
+            // $table->string('Group');
+            // $table->string('AcademicYear');         
             // $table->unique(['Department', 'MajorID', 'Promotion', 'Year', 'Semester', 'Group', 'AcademicYear']);
->>>>>>> c0af686d423d009776393f9817b694a558fc7f8b
-
+            $table->unique(['Department', 'MajorID', 'Promotion']);
             $table->string('ModifiedBy');
             $table->dateTime('ModifiedDate');
             $table->string('DMYS');
