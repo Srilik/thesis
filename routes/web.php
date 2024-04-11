@@ -19,7 +19,23 @@ Route::middleware('checkAuth')->group(function () {
     Route::resource('/thesis', ThesisController::class);
 
     // thesisAdvisor
-    Route::resource('/thesisAdvisor', ThesisAdvisorController::class);
+    // Route::resource('/thesisAdvisor', ThesisAdvisorController::class);
+    Route::prefix('/thesisAdvisor')->controller(ThesisAdvisorController::class)
+    ->name('thesisAdvisor.')
+    ->group(function () {
+        // your code here
+        // list thesisAdvisor and create or edit form
+
+        Route::get('/', 'index')->name('index');
+
+        // store or update thesisAdvisor
+        Route::post('/store/{id?}', 'store')->name('store');
+
+        Route::get('/edit/{id}', 'edit')->name('edit');
+
+        // delete thesisAdvisor
+        Route::delete('/delete/{id}', 'destroy')->name('destroy');
+    });
 
     // thesisCommittee
     // Route::resource('/thesisCommittee', ThesisCommitteeController::class);

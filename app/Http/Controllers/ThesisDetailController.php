@@ -11,14 +11,13 @@ class ThesisDetailController extends Controller
     public function index(Request $request)
     {
         $thesisDetails = ThesisDetail::query()
-            // ->when($request->input('keyword'), fn ($query)
-            // =>$query->where('Thesis_No', 'like', "%" . $request->input('keyword') . "%"))
-            // ->paginate(5)
-            // ->withQueryString();
-
             ->orderBy('Thesis_No')
+            ->when($request->input('keyword'), fn ($query)
+            =>$query->where('Thesis_No', 'like', "%" . $request->input('keyword') . "%"))
             ->get();
             
+            // ->paginate(5)
+            // ->withQueryString();            
         return Inertia::render("ThesisDetail/Index",[
             "thesisDetails"=>$thesisDetails,
             'filters' => $request->all('keyword'),

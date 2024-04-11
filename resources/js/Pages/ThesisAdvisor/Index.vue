@@ -30,7 +30,7 @@ const form = useForm({
     Department: props.thesisAdvisor?.Department ?? "",
 });
 const onSave = () => {
-    form.post(route("thesisAdvisor.store"), {
+    form.post(route("thesisAdvisor.store", form.id), {
         onSuccess: () => {
             form.reset();
             Swal.fire({
@@ -118,7 +118,7 @@ const onDelete = async (id: number) => {
             <div class='mt-4 p-4 bg-base-100 rounded-xl'>
 
             <form 
-                @submit.prevent="onSubmit" 
+                @submit.prevent="onSave" 
                 class="p-2 bg-white dark:bg-gray-900 rounded-lg">
                 <div class="flex items-start gap-4">
                     <div class="flex-1">
@@ -129,17 +129,24 @@ const onDelete = async (id: number) => {
                         </label>
                     </div>
                     <div class="flex-1">
-                        <label class="label">Major</label>
-                        <input v-model="form.Major" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Major">
-                            {{ form.errors.Major }}
-                        </label>
-                    </div>
-                    <div class="flex-1">
                         <label class="label">Advisor</label>
                         <input v-model="form.Advisor" type="text" class="input input-primary w-full" />
                         <label class="label text-red-500 text-sm" v-if="form.errors.Advisor">
                             {{ form.errors.Advisor }}
+                        </label>
+                    </div>
+                    <div class="flex-1">
+<<<<<<< HEAD
+                        <label class="label">Advisor</label>
+                        <input v-model="form.Advisor" type="text" class="input input-primary w-full" />
+                        <label class="label text-red-500 text-sm" v-if="form.errors.Advisor">
+                            {{ form.errors.Advisor }}
+=======
+                        <label class="label">College</label>
+                        <input v-model="form.College" type="text" class="input input-primary w-full" />
+                        <label class="label text-red-500 text-sm" v-if="form.errors.College">
+                            {{ form.errors.College }}
+>>>>>>> c0af686d423d009776393f9817b694a558fc7f8b
                         </label>
                     </div>
                     <div class="flex-1">
@@ -149,13 +156,6 @@ const onDelete = async (id: number) => {
                             {{ form.errors.Department }}
                         </label>
                     </div>
-                    <div class="flex-1">
-                        <label class="label">Subject</label>
-                        <input v-model="form.Subject" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Subject">
-                            {{ form.errors.Subject }}
-                        </label>
-                    </div> 
                 </div>
 
                 <div class="flex justify-end">
@@ -186,10 +186,14 @@ const onDelete = async (id: number) => {
                         <tr class="text uppercase text-sm">
                             <th>ID</th>
                             <th>Academic Year</th>
+<<<<<<< HEAD
                             <th>Major</th>
                             <th>Advisor</th>
+=======
+                            <th>Advisor</th>
+                            <th>College</th>
+>>>>>>> c0af686d423d009776393f9817b694a558fc7f8b
                             <th>Department</th>
-                            <th>Subject</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -197,10 +201,14 @@ const onDelete = async (id: number) => {
                         <tr v-for="(item, index) in thesisAdvisors" :key="index">
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.Academic_Year }}</td>
+<<<<<<< HEAD
                             <td>{{ item.Major }}</td>
                             <td>{{ item.Advisor }}</td>
+=======
+                            <td>{{ item.Advisor }}</td>
+                            <td>{{ item.College }}</td>
+>>>>>>> c0af686d423d009776393f9817b694a558fc7f8b
                             <td>{{ item.Department }}</td>
-                            <td>{{ item.Subject }}</td>
                             <td>
                                 <button @click="onEdit(item.id)" class="btn btn-success btn-sm mr-2">Edit</button>
                                 <button @click="onDelete(item.id)" class="btn btn-error btn-sm">Delete</button>
@@ -213,6 +221,7 @@ const onDelete = async (id: number) => {
             <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
                 <div class="join">
                     <Link 
+<<<<<<< HEAD
                         v-for="link in thesisThesisAdvisors.links" 
                         :href="link.url ?? '#'"
                         class="join-item btn"
@@ -354,10 +363,12 @@ const onDelete = async (id: number) => {
             <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
                 <div class="join">
                     <Link 
+=======
+>>>>>>> c0af686d423d009776393f9817b694a558fc7f8b
                         v-for="link in thesisAdvisors.links" 
                         :href="link.url ?? '#'"
                         class="join-item btn"
-                        :class="{ 'btn-info': link.active }">
+                        :class="{ 'btn-primary': link.active }">
                         <span v-html="link.label"></span>
                     </Link>
                 </div>

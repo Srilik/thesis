@@ -21,9 +21,13 @@ return new class extends Migration
             $table->string('Semester');
             $table->string('Group');
             $table->string('AcademicYear');         
+<<<<<<< HEAD
             $table->unique(['Department', 'MajorID', 'Promotion', 'Year', 'Semester', 'Group', 'AcademicYear']);
             // $table->unique(['Department', 'MajorID', 'Promotion']);
 
+=======
+            // $table->unique(['Department', 'MajorID', 'Promotion', 'Year', 'Semester', 'Group', 'AcademicYear']);
+>>>>>>> c0af686d423d009776393f9817b694a558fc7f8b
 
             $table->string('ModifiedBy');
             $table->dateTime('ModifiedDate');

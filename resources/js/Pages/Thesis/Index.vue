@@ -1,21 +1,75 @@
 <script setup lang="ts">
 import App from "@/Layouts/App.vue";
 import { PaginateType } from "@/types/paginateType";
+import { ThesisAdvisorType } from "@/types/thesisAdvisor";
 import { ThesisType } from "@/types/thesisType";
 import { router, useForm } from "@inertiajs/vue3";
-import { pickBy, throttle } from "lodash";
+import { filter, pickBy, throttle } from "lodash";
 import Swal from "sweetalert2";
 import { watch } from "vue";
 
 const props = defineProps<{
     thesises: PaginateType<ThesisType>
+    thesisAdvisors: ThesisAdvisorType[];
     filters?: {
         keyword: string;
+        id: number;
+        Thesis_No: number;
+        Thesis_Group: number;
+        Academic_Year: string;
+        Department: string;
+        Major: string;
+        Year: string;
+        Batch: string;
+        Session: string;
+        Organizaition: string;
+        Organization_Type: string;
+        Location: string;
+        Organization_Phone: string;
+        Title: string;
+        Title_Khmer: string;
+        Objective: string;
+        Objective_Khmer: string;
+        Summary: string;
+        Submit_Date: string;
+        Teacher_id: string;
+        Defend_Date: string;
+        Book_Score: number;
+        Defend_time: string;
+        Submit_book: string;
+        Building: string;
+        Room: string;
     };
 }>();
 
 const filterForm = useForm({
     keyword: props.filters?.keyword ?? "",
+    id: props.filters?.id ?? "",
+    Thesis_No: props.filters?.Thesis_No ?? "",
+    Thesis_Group: props.filters?.Thesis_Group ?? "",
+    Academic_Year: props.filters?.Academic_Year ?? "",
+    Department: props.filters?.Department ?? "",
+    Major: props.filters?.Major ?? "",
+    Year: props.filters?.Year ?? "",
+    Batch: props.filters?.Batch ?? "",
+    Session: props.filters?.Session ?? "",
+    Organizaition: props.filters?.Organizaition ?? "",
+    Organization_Type: props.filters?.Organization_Type ?? "",
+    Location: props.filters?.Location ?? "",
+    Organization_Phone: props.filters?.Organization_Phone ?? "",
+    Title: props.filters?.Title ?? "",
+    Title_Khmer: props.filters?.Title_Khmer ?? "",
+    Objective: props.filters?.Objective ?? "",
+    Objective_Khmer: props.filters?.Objective_Khmer ?? "",
+    Summary: props.filters?.Summary ?? "",
+    Submit_Date: props.filters?.Submit_Date ?? "",
+    Teacher_id: props.filters?.Teacher_id ?? "",
+    Defend_Date: props.filters?.Defend_Date ?? "",
+    Book_Score: props.filters?.Book_Score ?? "",
+    Defend_time: props.filters?.Defend_time ?? "",
+    Submit_book: props.filters?.Submit_book ?? "",
+    Building: props.filters?.Building ?? "",
+    Room: props.filters?.Room ?? "",
 });
 
 watch(
@@ -32,6 +86,32 @@ watch(
 
 const onClearFilter = () => {
     filterForm.keyword = "";
+    filterForm.id = "";
+    filterForm.Thesis_No = "";
+    filterForm.Thesis_Group = "";
+    filterForm.Academic_Year = "";
+    filterForm.Department = "";
+    filterForm.Major = "";
+    filterForm.Year = "";
+    filterForm.Batch = "";
+    filterForm.Session = "";
+    filterForm.Organizaition = "";
+    filterForm.Organization_Type = "";
+    filterForm.Location = "";
+    filterForm.Organization_Phone = "";
+    filterForm.Title = "";
+    filterForm.Title_Khmer = "";
+    filterForm.Objective = "";
+    filterForm.Objective_Khmer = "";
+    filterForm.Summary = "";
+    filterForm.Submit_Date = "";
+    filterForm.Teacher_id = "";
+    filterForm.Defend_Date = "";
+    filterForm.Book_Score = "";
+    filterForm.Defend_time = "";
+    filterForm.Submit_book = "";
+    filterForm.Building = "";
+    filterForm.Room = "";
 };
 
 const onDelete = async (id: number) => {
@@ -73,7 +153,17 @@ const onDelete = async (id: number) => {
                             type="text" 
                             placeholder="Search..." 
                             class="input input-primary w-full"/>
-
+                        <select
+                            v-model="filterForm.Teacher_id"
+                            class="select select-primary w-full">
+                            <option value="">Select Teacher ID</option>
+                            <option 
+                                v-for="(thesisAdvisor, index) in thesisAdvisors" 
+                                :key="index" 
+                                :value="thesisAdvisor.Advisor">
+                                {{ thesisAdvisor.Advisor }}
+                            </option>
+                        </select>              
                         <button class="btn btn-warning" type="button" @click="onClearFilter">Clear</button>
                     </div>
                 </div>
