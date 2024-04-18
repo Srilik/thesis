@@ -188,14 +188,19 @@ const oncloseModal = () => {
                         <div>
                             <div class="flex flex-col w-full">
                                 <label class="label">College</label>
-                                <input
+                                <!-- <input
                                     type="text"
                                     v-model="form.College"
                                     class="input input-primary w-full"
                                     :class="{
                                         'input-error': form.errors.College,
                                     }"
-                                />
+                                /> -->
+                                <select v-model="form.College" class="input input-primary w-full">
+                                    <option value="">Select a College</option>
+                                    <option value="sciences">Sciences</option>
+                                    <option value="social sciences">Social Sciences</option>
+                                </select>
                                 <div
                                     v-if="form.errors.College"
                                     class="text-error"
@@ -205,14 +210,22 @@ const oncloseModal = () => {
                             </div>
                             <div class="flex flex-col w-full">
                                 <label class="label">Department</label>
-                                <input
+                                <!-- <input
                                     type="text"
                                     v-model="form.Department"
                                     class="input input-primary w-full"
                                     :class="{
                                         'input-error': form.errors.Department,
                                     }"
-                                />
+                                /> -->
+                                <select v-model="form.Department" class="input input-primary w-full">
+                                    <option value="">Select a Department</option>
+                                    <option value="Architecture and Urbanism">Architecture and Urbanism</option>
+                                    <option value="Civil Engineering">Civil Engineering</option>
+                                    <option value="Computer Studies">Computer Studies</option>
+                                    <option value="Department of Research and Develop">Department of Research and Develop</option>
+                                    <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+                                </select>
                                 <div
                                     v-if="form.errors.Department"
                                     class="text-error"
