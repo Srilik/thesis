@@ -222,14 +222,54 @@ const onDelete = (id: number) => {
                     </div>
                     <div class="flex flex-col w-full">
                         <label class="label">Academic_Year</label>
-                        <input v-model="form.Academic_Year" type="text" class="input input-primary w-full" />
+                        <!-- <input v-model="form.Academic_Year" type="text" class="input input-primary w-full" /> -->
+                        <select 
+                            v-model="form.Academic_Year" 
+                            class="input input-primary w-full">
+                            <option value="">Select a Academic Year</option>
+                            <option value="">2000-2001</option>
+                            <option value="">2001-2002</option>
+                            <option value="">2002-2003</option>
+                            <option value="">2003-2004</option>
+                            <option value="">2004-2005</option>
+                            <option value="">2005-2006</option>
+                            <option value="">2006-2007</option>
+                            <option value="">2007-2008</option>
+                            <option value="">2008-2009</option>
+                            <option value="">2009-2010</option>
+                            <option value="">2010-2011</option>
+                            <option value="">2011-2012</option>
+                            <option value="">2012-2013</option>
+                            <option value="">2013-2014</option>
+                            <option value="">2014-2015</option>
+                            <option value="">2015-2016</option>
+                            <option value="">2016-2017</option>
+                            <option value="">2017-2018</option>
+                            <option value="">2018-2019</option>
+                            <option value="">2019-2020</option>
+                            <option value="">2020-2021</option>
+                            <option value="">2021-2022</option>
+                            <option value="">2022-2023</option>
+                            <option value="">2023-2024</option>
+                            <option value="">2024-2025</option>
+                            <option value="">2025-2026</option>
+                            <option value="">2026-2027</option>
+                        </select>
                         <label class="label text-red-500 text-sm" v-if="form.errors.Academic_Year">
                             {{ form.errors.Academic_Year }}
                         </label>
                     </div>
                     <div class="flex flex-col w-full">
                         <label class="label">Department</label>
-                        <input v-model="form.Department" type="text" class="input input-primary w-full" />
+                        <!-- <input v-model="form.Department" type="text" class="input input-primary w-full" /> -->
+                        <select v-model="form.Department" class="input input-primary w-full">
+                            <option value="">Select a Department</option>
+                            <option value="Architecture and Urbanism">Architecture and Urbanism</option>
+                            <option value="Civil Engineering">Civil Engineering</option>
+                            <option value="Computer Studies">Computer Studies</option>
+                            <option value="Department of Research and Develop">Department of Research and Develop</option>
+                            <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+                        </select>
                         <label class="label text-red-500 text-sm" v-if="form.errors.Department">
                             {{ form.errors.Department }}
                         </label>
@@ -290,14 +330,39 @@ const onDelete = (id: number) => {
                     </div>
                     <div class="flex flex-col w-full">
                         <label class="label">Organization_Type</label>
-                        <input v-model="form.Organization_Type" type="text" class="input input-primary w-full" />
+                        <!-- <input v-model="form.Organization_Type" type="text" class="input input-primary w-full" /> -->
+                        <select 
+                            v-model="form.Organization_Type"
+                            class="input input-primary w-full">
+                            <option value="">Select a Organization Type</option>
+                            <option value="Government">Government</option>
+                            <option value="Private">Private</option>
+                        </select>
                         <label class="label text-red-500 text-sm" v-if="form.errors.Organization_Type">
                             {{ form.errors.Organization_Type }}
                         </label>
                     </div>
                     <div class="flex flex-col w-full">
                         <label class="label">Location</label>
-                        <input v-model="form.Location" type="text" class="input input-primary w-full" />
+                        <!-- <input v-model="form.Location" type="text" class="input input-primary w-full" /> -->
+                        <select 
+                            v-model="form.Location"
+                            class="input input-primary w-full">
+                            <option value="">Select a Location</option>
+                            <option value="Phnom Penh">Phnom Penh</option>
+                            <option value="Banteay Meanchey">Banteay Meanchey</option>
+                            <option value="Battambang">Battambang</option>
+                            <option value="Kampong Cham">Kampong Cham</option>
+                            <option value="Kep">Kep</option>                        
+                            <option value="Kampong Chhnang">Kampong Chhnang</option>
+                            <option value="Kampong Speu">Kampong Speu</option>
+                            <option value="Kampong Thom">Kampong Thom</option>
+                            <option value="Kampot">Kampot</option>
+                            <option value="Kandal">Kandal</option>
+                            <option value="Koh Kong">Koh Kong</option>
+                            <option value="Kratie">Kratie</option>
+                            <option value="Mondulkiri">Mondulkiri</option>
+                        </select>
                         <label class="label text-red-500 text-sm" v-if="form.errors.Location">
                             {{ form.errors.Location }}
                         </label>

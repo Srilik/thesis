@@ -150,7 +150,7 @@ const oncloseModal = () => {
                         <div>
                             <div class="flex flex-col w-full">
                                 <label class="label">Academic year</label>
-                                <input
+                                <!-- <input
                                     type="text"
                                     v-model="form.Academic_Year"
                                     class="input input-primary w-full"
@@ -158,7 +158,39 @@ const oncloseModal = () => {
                                         'input-error':
                                             form.errors.Academic_Year,
                                     }"
-                                />
+                                /> -->
+                                <select 
+                                    v-model="form.Academic_Year" 
+                                    class="input input-primary w-full">
+                                    <option value="">Select a Academic Year</option>
+                                    <option value="">2000-2001</option>
+                                    <option value="">2001-2002</option>
+                                    <option value="">2002-2003</option>
+                                    <option value="">2003-2004</option>
+                                    <option value="">2004-2005</option>
+                                    <option value="">2005-2006</option>
+                                    <option value="">2006-2007</option>
+                                    <option value="">2007-2008</option>
+                                    <option value="">2008-2009</option>
+                                    <option value="">2009-2010</option>
+                                    <option value="">2010-2011</option>
+                                    <option value="">2011-2012</option>
+                                    <option value="">2012-2013</option>
+                                    <option value="">2013-2014</option>
+                                    <option value="">2014-2015</option>
+                                    <option value="">2015-2016</option>
+                                    <option value="">2016-2017</option>
+                                    <option value="">2017-2018</option>
+                                    <option value="">2018-2019</option>
+                                    <option value="">2019-2020</option>
+                                    <option value="">2020-2021</option>
+                                    <option value="">2021-2022</option>
+                                    <option value="">2022-2023</option>
+                                    <option value="">2023-2024</option>
+                                    <option value="">2024-2025</option>
+                                    <option value="">2025-2026</option>
+                                    <option value="">2026-2027</option>
+                                </select>
                                 <div
                                     v-if="form.errors.Academic_Year"
                                     class="text-error"
@@ -177,6 +209,7 @@ const oncloseModal = () => {
                                         'input-error': form.errors.Advisor,
                                     }"
                                 />
+
                                 <div
                                     v-if="form.errors.Advisor"
                                     class="text-error"

@@ -26,6 +26,7 @@
         "@fortawesome/free-regular-svg-icons": "^6.5.1",
         "@fortawesome/free-solid-svg-icons": "^6.5.1",
         "@fortawesome/vue-fontawesome": "^3.0.6",
+        "flatpickr": "^4.6.13",
         "lodash": "^4.17.21",
         "lucide-vue-next": "^0.311.0",
         "pinia": "^2.1.7",
