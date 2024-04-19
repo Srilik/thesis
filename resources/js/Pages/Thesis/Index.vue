@@ -2,6 +2,7 @@
 import App from "@/Layouts/App.vue";
 import { ThesisType } from "@/types/thesisType";
 import { PaginateType } from "@/types/paginateType";
+import { ThesisAdvisorType } from "@/types/thesisAdvisorType";
 import { router, useForm } from "@inertiajs/vue3";
 import axios from "axios";
 import { filter, pickBy, throttle } from "lodash";
@@ -41,6 +42,7 @@ import Swal from "sweetalert2";
 
 const props = defineProps<{
     thesis?: ThesisType
+    thesisAdvisors: ThesisAdvisorType[];
     thesis: PaginateType<ThesisType>
     filters?: {
         keyword: string;
@@ -83,7 +85,7 @@ watch(
         console.log("log data");
         router.get(route("thesis.index"), pickBy(filterForm.data()), {
             preserveState: true,
-            only:["thesis"],
+            only: ["thesis"],
             replace: true,
         });
     }, 500),
@@ -204,364 +206,381 @@ const onDelete = (id: number) => {
         <div class="p-4">
             <h2 class="text-2xl font-bold">Create a Thesis</h2>
             <div class="mt-4 p-3 bg-base-100 rounded-xl">
-            <form @submit.prevent="onSubmit" class="p-2 bg-white dark:bg-gray-900 rounded-lg">
-                <div class="flex flex-col gap-2 lg:flex-row">
-                    <div class="flex flex-col w-full">
-                        <label class="label">Thesis_No</label>
-                        <input v-model.number="form.Thesis_No" type="number" class="input input-primary w-full" />
-                        <label class=" text-red-500 text-sm" v-if="form.errors.Thesis_No">
-                            {{ form.errors.Thesis_No }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Thesis_Group</label>
-                        <input v-model.number="form.Thesis_Group" type="number" class="input input-primary w-full" />
-                        <label class=" text-red-500 text-sm" v-if="form.errors.Thesis_Group">
-                            {{ form.errors.Thesis_Group }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Academic_Year</label>
-                        <!-- <input v-model="form.Academic_Year" type="text" class="input input-primary w-full" /> -->
-                        <select 
-                            v-model="form.Academic_Year" 
-                            class="input input-primary w-full">
-                            <option value="">Select a Academic Year</option>
-                            <option value="">2000-2001</option>
-                            <option value="">2001-2002</option>
-                            <option value="">2002-2003</option>
-                            <option value="">2003-2004</option>
-                            <option value="">2004-2005</option>
-                            <option value="">2005-2006</option>
-                            <option value="">2006-2007</option>
-                            <option value="">2007-2008</option>
-                            <option value="">2008-2009</option>
-                            <option value="">2009-2010</option>
-                            <option value="">2010-2011</option>
-                            <option value="">2011-2012</option>
-                            <option value="">2012-2013</option>
-                            <option value="">2013-2014</option>
-                            <option value="">2014-2015</option>
-                            <option value="">2015-2016</option>
-                            <option value="">2016-2017</option>
-                            <option value="">2017-2018</option>
-                            <option value="">2018-2019</option>
-                            <option value="">2019-2020</option>
-                            <option value="">2020-2021</option>
-                            <option value="">2021-2022</option>
-                            <option value="">2022-2023</option>
-                            <option value="">2023-2024</option>
-                            <option value="">2024-2025</option>
-                            <option value="">2025-2026</option>
-                            <option value="">2026-2027</option>
-                        </select>
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Academic_Year">
-                            {{ form.errors.Academic_Year }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Department</label>
-                        <!-- <input v-model="form.Department" type="text" class="input input-primary w-full" /> -->
-                        <select v-model="form.Department" class="input input-primary w-full">
-                            <option value="">Select a Department</option>
-                            <option value="Architecture and Urbanism">Architecture and Urbanism</option>
-                            <option value="Civil Engineering">Civil Engineering</option>
-                            <option value="Computer Studies">Computer Studies</option>
-                            <option value="Department of Research and Develop">Department of Research and Develop</option>
-                            <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
-                        </select>
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Department">
-                            {{ form.errors.Department }}
-                        </label>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2 lg:flex-row">
-                    <div class="flex flex-col w-full">
-                        <label class="label">Major</label>
-                        <input v-model="form.Major" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Major">
-                            {{ form.errors.Major }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Year</label>
-                        <select v-model="form.Year" class="input input-primary w-full">
-                            <option value="">Select a Year</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                        </select>
-                        <!-- <input v-model="form.Year" type="text" class="input input-primary w-full" /> -->
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Year">
-                            {{ form.errors.Year }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Batch</label>
-                        <input v-model.number="form.Batch" type="number" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Batch">
-                            {{ form.errors.Batch }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Session</label>
-                        <select v-model="form.Session" class="input input-primary w-full">
-                            <option value="">Select a Session</option>
-                            <option value="morning">Morning</option>
-                            <option value="afternoon">Afternoon</option>
-                            <option value="evening">Evening</option>
-                        </select>
-                        <!-- <input v-model="form.Session" type="text" class="input input-primary w-full" /> -->
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Session">
-                            {{ form.errors.Session }}
-                        </label>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2 lg:flex-row">
-                    <div class="flex flex-col w-full">
-                        <label class="label">Organizaition</label>
-                        <input v-model="form.Organizaition" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Organizaition">
-                            {{ form.errors.Organizaition }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Organization_Type</label>
-                        <!-- <input v-model="form.Organization_Type" type="text" class="input input-primary w-full" /> -->
-                        <select 
-                            v-model="form.Organization_Type"
-                            class="input input-primary w-full">
-                            <option value="">Select a Organization Type</option>
-                            <option value="Government">Government</option>
-                            <option value="Private">Private</option>
-                        </select>
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Organization_Type">
-                            {{ form.errors.Organization_Type }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Location</label>
-                        <!-- <input v-model="form.Location" type="text" class="input input-primary w-full" /> -->
-                        <select 
-                            v-model="form.Location"
-                            class="input input-primary w-full">
-                            <option value="">Select a Location</option>
-                            <option value="Phnom Penh">Phnom Penh</option>
-                            <option value="Banteay Meanchey">Banteay Meanchey</option>
-                            <option value="Battambang">Battambang</option>
-                            <option value="Kampong Cham">Kampong Cham</option>
-                            <option value="Kep">Kep</option>                        
-                            <option value="Kampong Chhnang">Kampong Chhnang</option>
-                            <option value="Kampong Speu">Kampong Speu</option>
-                            <option value="Kampong Thom">Kampong Thom</option>
-                            <option value="Kampot">Kampot</option>
-                            <option value="Kandal">Kandal</option>
-                            <option value="Koh Kong">Koh Kong</option>
-                            <option value="Kratie">Kratie</option>
-                            <option value="Mondulkiri">Mondulkiri</option>
-                        </select>
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Location">
-                            {{ form.errors.Location }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Organization_Phone</label>
-                        <input v-model="form.Organization_Phone" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Organization_Phone">
-                            {{ form.errors.Organization_Phone }}
-                        </label>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2 lg:flex-row">
-                    <div class="flex flex-col w-full">
-                        <label class="label">Title</label>
-                        <textarea v-model="form.Title" class="textarea textarea-primary w-full"></textarea>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Title_Khmer</label>
-                        <textarea v-model="form.Title_Khmer" class="textarea textarea-primary w-full"></textarea>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Objective</label>
-                        <textarea v-model="form.Objective" class="textarea textarea-primary w-full"></textarea>
-                    </div>
-                    <div class="flex flex-col w-full">
-
-                        <label class="label">Objective_Khmer</label>
-                        <textarea v-model="form.Objective_Khmer" class="textarea textarea-primary w-full"></textarea>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Summary</label>
-                        <textarea v-model="form.Summary" class="textarea textarea-primary w-full"></textarea>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2 lg:flex-row">
-                    <div class="flex flex-col w-full">
-                        <label class="label">Submit_Date</label>
-                        <input v-model="form.Submit_Date" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Submit_Date">
-                            {{ form.errors.Submit_Date }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Teacher_id</label>
-                        <input v-model="form.Teacher_id" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Teacher_id">
-                            {{ form.errors.Teacher_id }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Defend_Date</label>
-                        <input v-model="form.Defend_Date" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Defend_Date">
-                            {{ form.errors.Defend_Date }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Book_Score</label>
-                        <input v-model="form.Book_Score" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Book_Score">
-                            {{ form.errors.Book_Score }}
-                        </label>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2 lg:flex-row">
-                    <div class="flex flex-col w-full">
-                        <label class="label">Defend_time</label>
-                        <input v-model="form.Defend_time" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Defend_time">
-                            {{ form.errors.Defend_time }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-
-                        <label class="label">Submit_book</label>
-                        <input v-model="form.Submit_book" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Submit_book">
-                            {{ form.errors.Submit_book }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Building</label>
-                        <input v-model="form.Building" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Building">
-                            {{ form.errors.Building }}
-                        </label>
-                    </div>
-                    <div class="flex flex-col w-full">
-                        <label class="label">Room</label>
-                        <input v-model="form.Room" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Room">
-                            {{ form.errors.Room }}
-                        </label>
-                    </div>
-                </div>
-
-                <div class="flex justify-end mt-3">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
-            </div>
-            </div>
-            <div class="p-3">
-                <div class="mb-2">
-                    <h2 class="text-2xl font-bold">ThesisDetail Management</h2>
-                    <div class="mt-4">
-                        <div class="bg-base-100 p-2 rounded-xl flex gap-2 items-center">
-                            <input v-model="filterForm.keyword" type="text" placeholder="Search..."
-                                class="input input-info w-full" />
-
-                            <button class="btn btn-warning" type="button" @click="onClearFilter">Clear</button>
+                <form @submit.prevent="onSubmit" class="p-2 bg-white dark:bg-gray-900 rounded-lg">
+                    <div class="flex flex-col gap-2 lg:flex-row">
+                        <div class="flex flex-col w-full">
+                            <label class="label">Thesis_No</label>
+                            <input v-model.number="form.Thesis_No" type="number" class="input input-primary w-full" />
+                            <label class=" text-red-500 text-sm" v-if="form.errors.Thesis_No">
+                                {{ form.errors.Thesis_No }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Thesis_Group</label>
+                            <input v-model.number="form.Thesis_Group" type="number"
+                                class="input input-primary w-full" />
+                            <label class=" text-red-500 text-sm" v-if="form.errors.Thesis_Group">
+                                {{ form.errors.Thesis_Group }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Academic_Year</label>
+                            <!-- <input v-model="form.Academic_Year" type="text" class="input input-primary w-full" /> -->
+                            <select v-model="form.Academic_Year" class="input input-primary w-full">
+                                <option value="">Select a Academic Year</option>
+                                <option value="2000-2001">2000-2001</option>
+                                <option value="2001-2002">2001-2002</option>
+                                <option value="2002-2003">2002-2003</option>
+                                <option value="2003-2004">2003-2004</option>
+                                <option value="2004-2005">2004-2005</option>
+                                <option value="2005-2006">2005-2006</option>
+                                <option value="2006-2007">2006-2007</option>
+                                <option value="2007-2008">2007-2008</option>
+                                <option value="2008-2009">2008-2009</option>
+                                <option value="2009-2010">2009-2010</option>
+                                <option value="2010-2011">2010-2011</option>
+                                <option value="2011-2012">2011-2012</option>
+                                <option value="2012-2013">2012-2013</option>
+                                <option value="2013-2014">2013-2014</option>
+                                <option value="2014-2015">2014-2015</option>
+                                <option value="2015-2016">2015-2016</option>
+                                <option value="2016-2017">2016-2017</option>
+                                <option value="2017-2018">2017-2018</option>
+                                <option value="2018-2019">2018-2019</option>
+                                <option value="2019-2020">2019-2020</option>
+                                <option value="2020-2021">2020-2021</option>
+                                <option value="2021-2022">2021-2022</option>
+                                <option value="2022-2023">2022-2023</option>
+                                <option value="2023-2024">2023-2024</option>
+                                <option value="2024-2025">2024-2025</option>
+                                <option value="2025-2026">2025-2026</option>
+                                <option value="2026-2027">2026-2027</option>
+                            </select>
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Academic_Year">
+                                {{ form.errors.Academic_Year }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Department</label>
+                            <!-- <input v-model="form.Department" type="text" class="input input-primary w-full" /> -->
+                            <select v-model="form.Department" class="input input-primary w-full">
+                                <option value="">Select a Department</option>
+                                <option value="Architecture and Urbanism">Architecture and Urbanism</option>
+                                <option value="Civil Engineering">Civil Engineering</option>
+                                <option value="Computer Studies">Computer Studies</option>
+                                <option value="Department of Research and Develop">Department of Research and Develop
+                                </option>
+                                <option value="Electrical and Electronics Engineering">Electrical and Electronics
+                                    Engineering</option>
+                            </select>
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Department">
+                                {{ form.errors.Department }}
+                            </label>
                         </div>
                     </div>
-                </div>
-                <!-- <div class="mt-4 bg-base-100 p-2 rounded-xl">
-                <table class="table-base table-zebra"> -->
-                <div class="bg-base-100 rounded-xl overflow-x-auto">
-                    <table class="table-base table-lg">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Thesis_No</th>
-                                <th>Thesis_Group</th>
-                                <th>Academic_Year</th>
-                                <th>Department</th>
-                                <th>Major</th>
-                                <th>Year</th>
-                                <th>Batch</th>
-                                <th>Session</th>
-                                <!-- <th>Organizaition</th>
-                            <th>Organization_Type</th>
-                            <th>Location</th>
-                            <th>Organization_Phone</th>
-                            <th>Title</th>
-                            <th>Title_Khmer</th>
-                            <th>Objective</th>
-                            <th>Objective_Khmer</th>
-                            <th>Summary</th>
-                            <th>Submit_Date</th> -->
-                                <th>Teacher_id</th>
-                                <!-- <th>Defend_Date</th> -->
-                                <th>Book_Score</th>
-                                <!-- <th>Defend_time</th>
-                            <th>Submit_book</th>
-                            <th>Building</th>
-                            <th>Room</th> -->
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item, index) in thesis" :key="index">
-                                <td>{{ index + 1 }}</td>
-                                <td>{{ item.Thesis_No }}</td>
-                                <td>{{ item.Thesis_Group }}</td>
-                                <td>{{ item.Academic_Year }}</td>
-                                <td>{{ item.Department }}</td>
-                                <td>{{ item.Major }}</td>
-                                <td>{{ item.Year }}</td>
-                                <td>{{ item.Batch }}</td>
-                                <td>{{ item.Session }}</td>
-                                <!-- <td>{{ item.Organizaition }}</td>
-                            <td>{{ item.Organization_Type }}</td>
-                            <td>{{ item.Location }}</td>
-                            <td>{{ item.Organization_Phone }}</td>
-                            <td>{{ item.Title }}</td>
-                            <td>{{ item.Title_Khmer }}</td>
-                            <td>{{ item.Objective }}</td>
-                            <td>{{ item.Objective_Khmer }}</td>
-                            <td>{{ item.Summary }}</td>
-                            <td>{{ item.Submit_Date }}</td> -->
-                                <td>{{ item.Teacher_id }}</td>
-                                <!-- <td>{{ item.Defend_Date }}</td> -->
-                                <td>{{ item.Book_Score }}</td>
-                                <!-- <td>{{ item.Defend_time }}</td>
-                            <td>{{ item.Submit_book }}</td>
-                            <td>{{ item.Building }}</td>
-                            <td>{{ item.Room }}</td>  -->
-                                <td>
-                                    <button @click="onEdit(item.id)" class="btn btn-success btn-sm mr-2">Edit</button>
-                                    <button @click="onDelete(item.id)" class="btn btn-error btn-sm">Delete</button>
-                                </td>
+                    <div class="flex flex-col gap-2 lg:flex-row">
+                        <div class="flex flex-col w-full">
+                            <label class="label">Major</label>
+                            <input v-model="form.Major" type="text" class="input input-primary w-full" />
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Major">
+                                {{ form.errors.Major }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Year</label>
+                            <select v-model="form.Year" class="input input-primary w-full">
+                                <option value="">Select a Year</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                            <!-- <input v-model="form.Year" type="text" class="input input-primary w-full" /> -->
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Year">
+                                {{ form.errors.Year }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Batch</label>
+                            <input v-model.number="form.Batch" type="number" class="input input-primary w-full" />
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Batch">
+                                {{ form.errors.Batch }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Session</label>
+                            <select v-model="form.Session" class="input input-primary w-full">
+                                <option value="">Select a Session</option>
+                                <option value="Morning">Morning</option>
+                                <option value="Afternoon">Afternoon</option>
+                                <option value="Evening">Evening</option>
+                            </select>
+                            <!-- <input v-model="form.Session" type="text" class="input input-primary w-full" /> -->
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Session">
+                                {{ form.errors.Session }}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2 lg:flex-row">
+                        <div class="flex flex-col w-full">
+                            <label class="label">Organizaition</label>
+                            <input v-model="form.Organizaition" type="text" class="input input-primary w-full" />
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Organizaition">
+                                {{ form.errors.Organizaition }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Organization_Type</label>
+                            <!-- <input v-model="form.Organization_Type" type="text" class="input input-primary w-full" /> -->
+                            <select v-model="form.Organization_Type" class="input input-primary w-full">
+                                <option value="">Select a Organization Type</option>
+                                <option value="Government">Government</option>
+                                <option value="Private">Private</option>
+                            </select>
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Organization_Type">
+                                {{ form.errors.Organization_Type }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Location</label>
+                            <!-- <input v-model="form.Location" type="text" class="input input-primary w-full" /> -->
+                            <select v-model="form.Location" class="input input-primary w-full">
+                                <option value="">Select a Location</option>
+                                <option value="Phnom Penh">Phnom Penh</option>
+                                <option value="Banteay Meanchey">Banteay Meanchey</option>
+                                <option value="Battambang">Battambang</option>
+                                <option value="Kampong Cham">Kampong Cham</option>
+                                <option value="Kep">Kep</option>
+                                <option value="Kampong Chhnang">Kampong Chhnang</option>
+                                <option value="Kampong Speu">Kampong Speu</option>
+                                <option value="Kampong Thom">Kampong Thom</option>
+                                <option value="Kampot">Kampot</option>
+                                <option value="Kandal">Kandal</option>
+                                <option value="Koh Kong">Koh Kong</option>
+                                <option value="Kratie">Kratie</option>
+                                <option value="Mondulkiri">Mondulkiri</option>
+                            </select>
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Location">
+                                {{ form.errors.Location }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Organization_Phone</label>
+                            <input v-model="form.Organization_Phone" type="text" class="input input-primary w-full" />
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Organization_Phone">
+                                {{ form.errors.Organization_Phone }}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2 lg:flex-row">
+                        <div class="flex flex-col w-full">
+                            <label class="label">Title</label>
+                            <textarea v-model="form.Title" class="textarea textarea-primary w-full"></textarea>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Title_Khmer</label>
+                            <textarea v-model="form.Title_Khmer" class="textarea textarea-primary w-full"></textarea>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Objective</label>
+                            <textarea v-model="form.Objective" class="textarea textarea-primary w-full"></textarea>
+                        </div>
+                        <div class="flex flex-col w-full">
 
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- Pagination -->
-                <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
-                    <div class="join">
-                        <Link 
-                            v-for="link in thesis.links" 
-                            :href="link.url ?? '#'"
-                            class="join-item btn"
-                            :class="{ 'btn-info': link.active }">
-                            <span v-html="link.label"></span>
-                        </Link>
-                    </div>  
+                            <label class="label">Objective_Khmer</label>
+                            <textarea v-model="form.Objective_Khmer"
+                                class="textarea textarea-primary w-full"></textarea>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Summary</label>
+                            <textarea v-model="form.Summary" class="textarea textarea-primary w-full"></textarea>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2 lg:flex-row">
+                        <div class="flex flex-col w-full">
+                            <label class="label">Submit_Date</label>
+                            <input v-model="form.Submit_Date" type="text" class="input input-primary w-full" />
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Submit_Date">
+                                {{ form.errors.Submit_Date }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Teacher_id</label>
+                            <!-- <input v-model="form.Teacher_id" type="text" class="input input-primary w-full" /> -->
+                            <select v-model="form.Teacher_id" class="select select-primary w-full"
+                                :class="{ 'select-error': form.errors.Teacher_id }">
+                                <option :value="item.id" v-for="(item, index) in thesisAdvisors">
+                                    {{ item.Advisor }}
+                                </option>
+                            </select>
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Teacher_id">
+                                {{ form.errors.Teacher_id }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Defend_Date</label>
+                            <input v-model="form.Defend_Date" type="text" class="input input-primary w-full" />
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Defend_Date">
+                                {{ form.errors.Defend_Date }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Book_Score</label>
+                            <input v-model="form.Book_Score" type="text" class="input input-primary w-full" />
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Book_Score">
+                                {{ form.errors.Book_Score }}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2 lg:flex-row">
+                        <div class="flex flex-col w-full">
+                            <label class="label">Defend_time</label>
+                            <input v-model="form.Defend_time" type="text" class="input input-primary w-full" />
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Defend_time">
+                                {{ form.errors.Defend_time }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+
+                            <label class="label">Submit_book</label>
+                            <input v-model="form.Submit_book" type="text" class="input input-primary w-full" />
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Submit_book">
+                                {{ form.errors.Submit_book }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Building</label>
+                            <input v-model="form.Building" type="text" class="input input-primary w-full" />
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Building">
+                                {{ form.errors.Building }}
+                            </label>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <label class="label">Room</label>
+                            <input v-model="form.Room" type="text" class="input input-primary w-full" />
+                            <label class="label text-red-500 text-sm" v-if="form.errors.Room">
+                                {{ form.errors.Room }}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end mt-3">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="p-3">
+            <div class="mb-3">
+                <h2 class="text-2xl font-bold">ThesisDetail Management</h2>
+                <div class="mt-4">
+                    <div class="bg-base-100 p-2 rounded-xl flex gap-2 items-center">
+                        <input v-model="filterForm.keyword" type="text" placeholder="Search..."
+                            class="input input-info w-full" />
+                        <select v-model="form.Teacher_id" class="select select-info w-full">
+                            <option value="">All Lecturers</option>
+                            <option :value="item.id" v-for="(item, index) in thesisAdvisors">
+                                {{ item.Advisor }}
+                            </option>
+                        </select>
+
+                        <!-- :class="{ 'select-error': form.errors.Teacher_id }"  -->
+                        <!-- <option
+                                    v-for="advisors in thesisAdvisors"
+                                    :value="advisors"
+                                >
+                                    {{ advisors }}
+                                </option> -->
+
+                        <button class="btn btn-warning" type="button" @click="onClearFilter">Clear</button>
+                    </div>
                 </div>
             </div>
+            <!-- <div class="mt-4 bg-base-100 p-2 rounded-xl">
+                <table class="table-base table-zebra"> -->
+            <!-- <div class="bg-base-100 rounded-xl overflow-x-auto">
+                    <table class="table-base table-lg"> -->
+            <div class="p-2 bg-white rounded-lg dark:bg-gray-800">
+                <table class="w-full table-auto">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <!-- <th>Thesis_No</th>
+                                <th>Thesis_Group</th> -->
+                            <th>Academic_Year</th>
+                            <th>Department</th>
+                            <th>Major</th>
+                            <th>Year</th>
+                            <!-- <th>Batch</th> -->
+                            <th>Session</th>
+                            <!-- <th>Organizaition</th>
+                                <th>Organization_Type</th>
+                                <th>Location</th>
+                                <th>Organization_Phone</th>
+                                <th>Title</th>
+                                <th>Title_Khmer</th>
+                                <th>Objective</th>
+                                <th>Objective_Khmer</th>
+                                <th>Summary</th>
+                                <th>Submit_Date</th> -->
+                            <th>Teacher_id</th>
+                            <!-- <th>Defend_Date</th> -->
+                            <th>Book_Score</th>
+                            <!-- <th>Defend_time</th>
+                                <th>Submit_book</th>
+                                <th>Building</th>
+                                <th>Room</th> -->
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in thesis" :key="index">
+                            <td>{{ index + 1 }}</td>
+                            <!-- <td>{{ item.Thesis_No }}</td>
+                                <td>{{ item.Thesis_Group }}</td> -->
+                            <td>{{ item.Academic_Year }}</td>
+                            <td>{{ item.Department }}</td>
+                            <td>{{ item.Major }}</td>
+                            <td>{{ item.Year }}</td>
+                            <!-- <td>{{ item.Batch }}</td> -->
+                            <td>{{ item.Session }}</td>
+                            <!-- <td>{{ item.Organizaition }}</td>
+                                <td>{{ item.Organization_Type }}</td>
+                                <td>{{ item.Location }}</td>
+                                <td>{{ item.Organization_Phone }}</td>
+                                <td>{{ item.Title }}</td>
+                                <td>{{ item.Title_Khmer }}</td>
+                                <td>{{ item.Objective }}</td>
+                                <td>{{ item.Objective_Khmer }}</td>
+                                <td>{{ item.Summary }}</td>
+                                <td>{{ item.Submit_Date }}</td> -->
+                            <td>{{ item.Teacher_id }}</td>
+                            <!-- <td>{{ item.Defend_Date }}</td> -->
+                            <td>{{ item.Book_Score }}</td>
+                            <!-- <td>{{ item.Defend_time }}</td>
+                                <td>{{ item.Submit_book }}</td>
+                                <td>{{ item.Building }}</td>
+                                <td>{{ item.Room }}</td>  -->
+                            <td>
+                                <button @click="onEdit(item.id)" class="btn btn-success btn-sm mr-2">Edit</button>
+                                <button @click="onDelete(item.id)" class="btn btn-error btn-sm">Delete</button>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination -->
+            <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
+                <div class="join">
+                    <Link v-for="link in thesis.links" :href="link.url ?? '#'" class="join-item btn"
+                        :class="{ 'btn-info': link.active }">
+                    <span v-html="link.label"></span>
+                    </Link>
+                </div>
+            </div>
+        </div>
     </App>
 </template>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ThesisAdvisorController;
 use App\Http\Controllers\ThesisCommitteeController;
 use App\Http\Controllers\ThesisController;

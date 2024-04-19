@@ -12,25 +12,62 @@ class ThesisController extends Controller
 {
     public function index(Request $request){
         $thesis = Thesis::query()
+            // ->with(['Teacher_id']) 
+
             ->orderBy('Thesis_No')
+
             ->when($request->input('keyword'), fn($query)
             =>$query->where('Thesis_No', 'like', "%" . $request->input('keyword') . "%"))
-            ->get();
 
-            return Inertia::render("Thesis/Index",[
-                "thesis"=>$thesis,
-                'filters' => $request->all
-                (
-                    'keyword'
-                )
-            ]);
+            // ->when($request->input('Teacher_id'), fn($query)
+            // =>$query->where('Teacher_id', $request->input('Teacher_id')))
+            ->get();
+            // ->paginate(2);
+
+            $thesisAdvisors = ThesisAdvisor::query()
+            ->select("id", "Advisor")
+            ->orderBy('Advisor')
+            ->get();
+        
+        return Inertia::render('Thesis/Index', [
+            'thesisAdvisors' => $thesisAdvisors,
+            'thesis' => $thesis,
+            'filters' => $request->all(
+                'id',
+                'keyword'
+            ),
+        ]);
     }
-    public function create(){
-        return Inertia::render('Thesis/Create');
+
+    // public function create(){
+    //     return Inertia::render('Thesis/Create');
+    // }
+    public function create()
+    {
+        $thesisAdvisors = ThesisAdvisor::query()
+            ->select("id", "Advisor")
+            ->orderBy('Advisor')
+            ->get(); 
+        return Inertia::render('Thesis/Create', [
+            'thesisAdvisors' => $thesisAdvisors,
+        ]);
     }
+
     public function edit($id){
         return Thesis::findOrFail($id);
     }
+    // public function edit(Thesis $thesis, $id)
+    // {    
+    //     $thesisAdvisors = ThesisAdvisor::query()
+    //         ->select("id", "Advisor")
+    //         ->orderBy('Advisor')
+    //         ->get(); 
+    //     return Thesis::findOrFail($id,
+    //     [
+    //         'thesisAdvisors' => $thesisAdvisors,
+    //         'thesis' => $thesis, 
+    //     ]);
+    // }
     public  function store(Request $request, $id = null){
         $validatedData= $request->validate([
             'Thesis_No' => 'required',

@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import App from "@/Layouts/App.vue";
 </script>
-
 <template>
     <App>
-        <div>
-            <h1>Dashboard 15</h1>
+        <div class="text-3xl mt-20 text-center">
+            <h1>WELCOME TO DASHBOARD THESIS MANAGEMENT SYSTEM</h1>
         </div>
     </App>
 
-</template>
+  </template>
 
 <!-- <template>
     <Head title="Dashboard" />

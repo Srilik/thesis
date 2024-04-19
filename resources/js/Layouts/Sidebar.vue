@@ -9,7 +9,7 @@ import TheSidebarItem from "@/Components/Layout/TheSidebarItem.vue";
 const sidebar = useToggleSidebar();
 </script>
 <template>
-    <div class="flex print:hidden">
+    <div class="flex print:hidden text-xl">
        
 
         <!-- Backdrop -->
@@ -26,9 +26,9 @@ const sidebar = useToggleSidebar();
                     ? 'translate-x-0 ease-out'
                     : '-translate-x-full ease-in'
             "
-            class="fixed inset-y-0 left-0 z-50 overflow-y-auto transition transform bg-blue-700 w-60 dark:bg-blue-900 lg:translate-x-0 lg:static lg:inset-0"
+            class="rounded-xl fixed inset-y-0 left-0 z-50 overflow-y-auto transition transform bg-blue-700 w-70 dark:bg-blue-900 lg:translate-x-0 lg:static lg:inset-0"
         >
-            <div class="flex items-center justify-center mt-8">
+            <div class="flex items-center justify-center mt-10">
                 <div class="flex items-center justify-center">
                     <div
                         class="mx-4 text-4xl font-semibold text-center text-white"
@@ -38,7 +38,7 @@ const sidebar = useToggleSidebar();
             </div>
             </div>
 
-            <div class="flex items-center justify-center mt-2">
+            <div class="flex items-center justify-center mt-4">
                 <div class="flex items-center justify-center">
                     <div
                         class="mx-2 text-md font-semibold text-center text-white"
@@ -48,7 +48,7 @@ const sidebar = useToggleSidebar();
             </div>
             </div>
 
-            <nav class="mt-8">
+            <nav class="mt-10">
                
                 <TheSidebarItem
                     title="Dashboard"
