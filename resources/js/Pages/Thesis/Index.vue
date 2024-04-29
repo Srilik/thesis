@@ -1,84 +1,39 @@
 <script setup lang="ts">
 import App from "@/Layouts/App.vue";
-import { PaginateType } from "@/types/paginateType";
-import { ThesisAdvisorType } from "@/types/thesisAdvisor";
 import { ThesisType } from "@/types/thesisType";
-import { router, useForm } from "@inertiajs/vue3";
-import { filter, pickBy, throttle } from "lodash";
-import Swal from "sweetalert2";
+import { PaginateType } from "@/types/paginateType";
+// import { StatusType } from "@/types/status";
+import { useForm, router } from "@inertiajs/vue3";
 import { watch } from "vue";
+import { throttle, pickBy } from "lodash";
+import Swal from "sweetalert2";
+
+import 'primeicons/primeicons.css';
+import 'primevue/resources/primevue.min.css';
+import 'primevue/resources/themes/saga-blue/theme.css';
+
 
 const props = defineProps<{
-    thesises: PaginateType<ThesisType>
-    thesisAdvisors: ThesisAdvisorType[];
+    thesises: PaginateType<ThesisType>;
+    // statuses: StatusType[];
     filters?: {
         keyword: string;
-        id: number;
-        Thesis_No: number;
-        Thesis_Group: number;
-        Academic_Year: string;
-        Department: string;
-        Major: string;
-        Year: string;
-        Batch: string;
-        Session: string;
-        Organizaition: string;
-        Organization_Type: string;
-        Location: string;
-        Organization_Phone: string;
-        Title: string;
-        Title_Khmer: string;
-        Objective: string;
-        Objective_Khmer: string;
-        Summary: string;
-        Submit_Date: string;
-        Teacher_id: string;
-        Defend_Date: string;
-        Book_Score: number;
-        Defend_time: string;
-        Submit_book: string;
-        Building: string;
-        Room: string;
+        // status_id: number | null;
     };
 }>();
 
 const filterForm = useForm({
     keyword: props.filters?.keyword ?? "",
-    id: props.filters?.id ?? "",
-    Thesis_No: props.filters?.Thesis_No ?? "",
-    Thesis_Group: props.filters?.Thesis_Group ?? "",
-    Academic_Year: props.filters?.Academic_Year ?? "",
-    Department: props.filters?.Department ?? "",
-    Major: props.filters?.Major ?? "",
-    Year: props.filters?.Year ?? "",
-    Batch: props.filters?.Batch ?? "",
-    Session: props.filters?.Session ?? "",
-    Organizaition: props.filters?.Organizaition ?? "",
-    Organization_Type: props.filters?.Organization_Type ?? "",
-    Location: props.filters?.Location ?? "",
-    Organization_Phone: props.filters?.Organization_Phone ?? "",
-    Title: props.filters?.Title ?? "",
-    Title_Khmer: props.filters?.Title_Khmer ?? "",
-    Objective: props.filters?.Objective ?? "",
-    Objective_Khmer: props.filters?.Objective_Khmer ?? "",
-    Summary: props.filters?.Summary ?? "",
-    Submit_Date: props.filters?.Submit_Date ?? "",
-    Teacher_id: props.filters?.Teacher_id ?? "",
-    Defend_Date: props.filters?.Defend_Date ?? "",
-    Book_Score: props.filters?.Book_Score ?? "",
-    Defend_time: props.filters?.Defend_time ?? "",
-    Submit_book: props.filters?.Submit_book ?? "",
-    Building: props.filters?.Building ?? "",
-    Room: props.filters?.Room ?? "",
+    // status_id: props.filters?.status_id ?? null,
 });
 
 watch(
     () => filterForm.data(),
     throttle(() => {
-        console.log("log data");
+        // console.log("log data");
         router.get(route("thesis.index"), pickBy(filterForm.data()), {
             preserveState: true,
-            only:["thesises"],
+            only: ["thesises"],
             replace: true,
         });
     }, 500),
@@ -86,51 +41,24 @@ watch(
 
 const onClearFilter = () => {
     filterForm.keyword = "";
-    filterForm.id = "";
-    filterForm.Thesis_No = "";
-    filterForm.Thesis_Group = "";
-    filterForm.Academic_Year = "";
-    filterForm.Department = "";
-    filterForm.Major = "";
-    filterForm.Year = "";
-    filterForm.Batch = "";
-    filterForm.Session = "";
-    filterForm.Organizaition = "";
-    filterForm.Organization_Type = "";
-    filterForm.Location = "";
-    filterForm.Organization_Phone = "";
-    filterForm.Title = "";
-    filterForm.Title_Khmer = "";
-    filterForm.Objective = "";
-    filterForm.Objective_Khmer = "";
-    filterForm.Summary = "";
-    filterForm.Submit_Date = "";
-    filterForm.Teacher_id = "";
-    filterForm.Defend_Date = "";
-    filterForm.Book_Score = "";
-    filterForm.Defend_time = "";
-    filterForm.Submit_book = "";
-    filterForm.Building = "";
-    filterForm.Room = "";
+    // filterForm.room_id = "";
 };
 
 const onDelete = async (id: number) => {
     await Swal.fire({
         title: "Do you want to delete?",
-        showDenyButton: false,
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        showDenyButton: true,
+        showCancelButton: false,
         confirmButtonText: "Delete",
-        denyButtonText: "Cancel",
+        denyButtonText: `Cancel`,
     }).then((result) => {
         if (result.isConfirmed) {
             router.delete(route("thesis.destroy", id), {
                 onSuccess: () => {
                     Swal.fire({
+                        title: "Success",
+                        text: "thesis has been deleted",
                         icon: "success",
-                        text: "Deleted successfully!",
-                        title: "thesis has been deleted.",
                         toast: true,
                         timer: 3000,
                     });
@@ -147,29 +75,29 @@ const onDelete = async (id: number) => {
                 <h2 class="text-2xl font-bold">Thesis Management</h2>
                 <div class="mt-4">
                     <div class="bg-base-100 p-2 rounded-xl flex gap-2 items-center">
-                        <Link :href="route('thesis.create')" class="btn btn-primary">New</Link>
-                        <input 
-                            v-model="filterForm.keyword"
-                            type="text" 
-                            placeholder="Search..." 
-                            class="input input-primary w-full"/>
-                        <select
-                            v-model="filterForm.Teacher_id"
-                            class="select select-primary w-full">
-                            <option value="">Select Teacher ID</option>
-                            <option 
-                                v-for="(thesisAdvisor, index) in thesisAdvisors" 
-                                :key="index" 
-                                :value="thesisAdvisor.Advisor">
-                                {{ thesisAdvisor.Advisor }}
+                        <Link :href="route('thesis.create')" class="btn btn-primary">
+                            <i class="pi pi-file-plus"></i>
+                            New</Link>
+                        <!-- <input v-model="filterForm.keyword" type="text" class="input input-primary w-full"
+                            placeholder="Search..." /> -->
+                            <input v-model="filterForm.keyword" type="text" class="input input-primary w-full"
+                            placeholder="&#128269; Search...">
+                        <i class="pi pi-search search-icon"></i>
+                        <!-- <select v-model="filterForm.status_id" class="select select-primary w-full">
+                            <option :value="null">Select Status</option>
+                            <option v-for="(status, index) in statuses" :key="index" :value="status.id">
+                                {{ status.name }}
                             </option>
-                        </select>              
-                        <button class="btn btn-warning" type="button" @click="onClearFilter">Clear</button>
+                        </select> -->
+                        <button class="btn btn-warning" type="button" @click="onClearFilter">
+                            <i class="pi pi-eraser"></i>
+                            Clear
+                        </button>
                     </div>
                 </div>
             </div>
             <div class="bg-base-100 rounded-xl overflow-x-auto">
-                <table class="table table-lg">
+                <table class="table table-lg w-full h-full">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -178,10 +106,10 @@ const onDelete = async (id: number) => {
                             <th>Academic_Year</th>
                             <th>Department</th>
                             <th>Major</th>
-                            <th>Year</th>
+                            <!-- <th>Year</th>
                             <th>Batch</th>
                             <th>Session</th>
-                            <!-- <th>Organizaition</th>
+                            <th>Organizaition</th>
                             <th>Organization_Type</th>
                             <th>Location</th>
                             <th>Organization_Phone</th>
@@ -190,31 +118,29 @@ const onDelete = async (id: number) => {
                             <th>Objective</th>
                             <th>Objective_Khmer</th>
                             <th>Summary</th>
-                            <th>Submit_Date</th> -->
+                            <th>Submit_Date</th>
                             <th>Teacher_id</th>
-                            <!-- <th>Defend_Date</th> -->
+                            <th>Defend_Date</th>
                             <th>Book_Score</th>
-                            <!-- <th>Defend_time</th>
-                            <th>Submit_book</th>
+                            <th>Defend_time</th>
+                            <th>Submit_book</th> -->
                             <th>Building</th>
-                            <th>Room</th> -->
-                            <th>Actions</th>
+                            <th>Room</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr
-                            v-for="(item, index) in thesises.data" 
-                            :key="index">  
-                            <td>{{ index + 1 }}</td>                 
+                        <tr v-for="(item, index) in thesises.data" :key="index">
+                            <td>{{ index + 1 }}</td>
                             <td>{{ item.Thesis_No }}</td>
                             <td>{{ item.Thesis_Group }}</td>
                             <td>{{ item.Academic_Year }}</td>
                             <td>{{ item.Department }}</td>
                             <td>{{ item.Major }}</td>
-                            <td>{{ item.Year }}</td>
+                            <!-- <td>{{ item.Year }}</td>
                             <td>{{ item.Batch }}</td>
                             <td>{{ item.Session }}</td>
-                            <!-- <td>{{ item.Organizaition }}</td>
+                            <td>{{ item.Organizaition }}</td>
                             <td>{{ item.Organization_Type }}</td>
                             <td>{{ item.Location }}</td>
                             <td>{{ item.Organization_Phone }}</td>
@@ -223,23 +149,21 @@ const onDelete = async (id: number) => {
                             <td>{{ item.Objective }}</td>
                             <td>{{ item.Objective_Khmer }}</td>
                             <td>{{ item.Summary }}</td>
-                            <td>{{ item.Submit_Date }}</td> -->
+                            <td>{{ item.Submit_Date }}</td>
                             <td>{{ item.Teacher_id }}</td>
-                            <!-- <td>{{ item.Defend_Date }}</td> -->
+                            <td>{{ item.Defend_Date }}</td>
                             <td>{{ item.Book_Score }}</td>
-                            <!-- <td>{{ item.Defend_time }}</td>
-                            <td>{{ item.Submit_book }}</td>
+                            <td>{{ item.Defend_time }}</td>
+                            <td>{{ item.Submit_book }}</td> -->
                             <td>{{ item.Building }}</td>
-                            <td>{{ item.Room }}</td>  -->                         
+                            <td>{{ item.Room }}</td>
                             <td>
-                                <Link 
-                                    :href="route('thesis.edit', item.id)"
-                                    class="btn btn-warning mr-2">Edit
+                                <Link :href="route('thesis.edit', item.id)" class="btn btn-warning mr-2">
+                                    <i class="pi pi-file-edit"></i>
+                                    Edit
                                 </Link>
-                                <button 
-                                    type="button"
-                                    @click="onDelete(item.id)"
-                                    class="btn btn-error">
+                                <button type="button" @click="onDelete(item.id)" class="btn btn-error">
+                                    <i class="pi pi-trash"></i>
                                     Delete
                                 </button>
                             </td>
@@ -247,22 +171,33 @@ const onDelete = async (id: number) => {
                     </tbody>
                 </table>
             </div>
-
-            <!-- Pagination -->
             <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
                 <div class="join">
-                    <Link 
-                        v-for="link in thesises.links" 
-                        :href="link.url ?? '#'"
-                        class="join-item btn"
+                    <Link v-for="link in thesises.links" :href="link.url ?? '#'" class="join-item btn"
                         :class="{ 'btn-primary': link.active }">
-                        <span v-html="link.label"></span>
+                    <span v-html="link.label"></span>
                     </Link>
                 </div>
-                
             </div>
         </div>
     </App>
 </template>
+<style scoped>
 
+.search-container {
+    position: relative;
+}
 
+.search-container input {
+    padding-left: 2rem; /* Adjust as needed */
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem; /* Adjust as needed */
+    transform: translateY(-50%);
+    font-size: 1.25rem; /* Adjust as needed */
+    color: #6b7280;
+}
+</style>

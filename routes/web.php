@@ -57,23 +57,23 @@ Route::middleware('checkAuth')->group(function () {
     });
 
     // thesisDetail
-    // Route::resource('/thesisDetail', ThesisDetailController::class);
-    Route::prefix('/thesisDetail')->controller(ThesisDetailController::class)
-        ->name('thesisDetail.')
-        ->group(function () {
-            // your code here
-            // list thesisDetail and create or edit form
+    Route::resource('/thesisDetail', ThesisDetailController::class);
+    // Route::prefix('/thesisDetail')->controller(ThesisDetailController::class)
+    //     ->name('thesisDetail.')
+    //     ->group(function () {
+    //         // your code here
+    //         // list thesisDetail and create or edit form
 
-            Route::get('/', 'index')->name('index');
+    //         Route::get('/', 'index')->name('index');
 
-            // store or update thesisDetail
-            Route::post('/store/{id?}', 'store')->name('store');
+    //         // store or update thesisDetail
+    //         Route::post('/store/{id?}', 'store')->name('store');
 
-            Route::get('/edit/{id}', 'edit')->name('edit');
+    //         Route::get('/edit/{id}', 'edit')->name('edit');
 
-            // delete thesisDetail
-            Route::delete('/delete/{id}', 'destroy')->name('destroy');
-        });
+    //         // delete thesisDetail
+    //         Route::delete('/delete/{id}', 'destroy')->name('destroy');
+    //     });
 
     // logout
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
