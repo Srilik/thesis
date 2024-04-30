@@ -10,67 +10,49 @@ use Inertia\Inertia;
 
 class ThesisController extends Controller
 {
-    public function index(Request $request){
-        $thesis = Thesis::query()
-            // ->with(['Teacher_id']) 
+    public function index(Request $request)
+    {
+        $thesises = Thesis::query()
+            // ->with(['thesisAdvisor'])
 
-            ->orderBy('Thesis_No')
-
-            ->when($request->input('keyword'), fn($query)
-            =>$query->where('Thesis_No', 'like', "%" . $request->input('keyword') . "%"))
+            ->when($request->input('keyword'), fn ($query)
+            => $query->where('Academic_Year', 'like', '%' . $request->input('keyword') . '%'))
 
             // ->when($request->input('Teacher_id'), fn($query)
             // =>$query->where('Teacher_id', $request->input('Teacher_id')))
-            ->get();
-            // ->paginate(2);
+
+            ->paginate(5)
+            ->withQueryString();
 
             $thesisAdvisors = ThesisAdvisor::query()
-            ->select("id", "Advisor")
-            ->orderBy('Advisor')
-            ->get();
-        
+                ->select('id', "Advisor")
+                ->orderBy('Advisor')
+                ->get();
+
         return Inertia::render('Thesis/Index', [
             'thesisAdvisors' => $thesisAdvisors,
-            'thesis' => $thesis,
+            'thesises' => $thesises,
             'filters' => $request->all(
-                'id',
-                'keyword'
-            ),
+                'keyword',
+                'id'
+            )
         ]);
     }
-
-    // public function create(){
-    //     return Inertia::render('Thesis/Create');
-    // }
     public function create()
     {
         $thesisAdvisors = ThesisAdvisor::query()
-            ->select("id", "Advisor")
+            ->select('id', "Advisor")
             ->orderBy('Advisor')
-            ->get(); 
+            ->get();
         return Inertia::render('Thesis/Create', [
-            'thesisAdvisors' => $thesisAdvisors,
+            'thesisAdvisors' => $thesisAdvisors
         ]);
     }
-
-    public function edit($id){
-        return Thesis::findOrFail($id);
-    }
-    // public function edit(Thesis $thesis, $id)
-    // {    
-    //     $thesisAdvisors = ThesisAdvisor::query()
-    //         ->select("id", "Advisor")
-    //         ->orderBy('Advisor')
-    //         ->get(); 
-    //     return Thesis::findOrFail($id,
-    //     [
-    //         'thesisAdvisors' => $thesisAdvisors,
-    //         'thesis' => $thesis, 
-    //     ]);
-    // }
-    public  function store(Request $request, $id = null){
-        $validatedData= $request->validate([
-            'Thesis_No' => 'required',
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'id' => 'nullable',
+            'Thesis_No' => 'nullable',
             'Thesis_Group' => 'nullable',
             'Academic_Year' => 'nullable',
             'Department' => 'nullable',
@@ -88,7 +70,8 @@ class ThesisController extends Controller
             'Objective_Khmer' => 'nullable',
             'Summary' => 'nullable',
             'Submit_Date' => 'nullable',
-            'Teacher_id' => 'required',
+            'Teacher_id' => 'nullable',
+            // 'Teacher_id' => 'required|exists:thesisAdvisors, Teacher_id',
             'Defend_Date' => 'nullable',
             'Book_Score' => 'nullable',
             'Defend_time' => 'nullable',
@@ -96,43 +79,42 @@ class ThesisController extends Controller
             'Building' => 'nullable',
             'Room' => 'nullable',
         ]);
-        if($id){
-            $thesis = Thesis::find($id);
-            $thesis -> update($validatedData);
-        }else{
-            $request->validate([
-                'Thesis_No' => 'required',
-                'Thesis_Group' => 'nullable',
-                'Academic_Year' => 'nullable',
-                'Department' => 'nullable',
-                'Major' => 'nullable',
-                'Year' => 'nullable',
-                'Batch' => 'nullable',
-                'Session' => 'nullable',
-                'Organizaition' => 'nullable',
-                'Organization_Type' => 'nullable',
-                'Location' => 'nullable',
-                'Organization_Phone' => 'nullable',
-                'Title' => 'nullable',
-                'Title_Khmer' => 'nullable',
-                'Objective' => 'nullable',
-                'Objective_Khmer' => 'nullable',
-                'Summary' => 'nullable',
-                'Submit_Date' => 'nullable',
-                'Teacher_id' => 'required',
-                'Defend_Date' => 'nullable',
-                'Book_Score' => 'nullable',
-                'Defend_time' => 'nullable',
-                'Submit_book' => 'nullable',
-                'Building' => 'nullable',
-                'Room' => 'nullable',
-            ]);
+        if ($request->input('id')) {
+            $thesis = Thesis::findOrFail($request->input('id'));
+            $thesis->update($validatedData);
+        } else {
             Thesis::create($validatedData);
         }
-        return  redirect()->back();
+
+        return redirect()->route('thesis.index');
     }
-    public  function destroy($id) {
-        Thesis::findOrFail($id)->delete();
+
+    public function show(Thesis $thesis)
+    {
+        //
+    }
+
+    public function edit(Thesis $thesis, $id)
+    {
+        $thesis = Thesis::findOrFail($id);
+
+        $thesisAdvisors = ThesisAdvisor::query()
+        ->select('id', "Advisor")
+        ->orderBy('Advisor')
+        ->get();
+
+        return Inertia::render('Thesis/Create', [
+            'thesis' => $thesis,
+            'thesisAdvisors' => $thesisAdvisors,
+        ]);
+    }
+    public function update(Request $request, string $id)
+    {  
+    }
+    public function destroy(Thesis $thesis, $id)
+    {
+        $thesis = Thesis::findOrFail($id);
+        $thesis->delete();
         return redirect()->back();
     }
 }
