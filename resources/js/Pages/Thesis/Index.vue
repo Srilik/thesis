@@ -3,15 +3,10 @@ import App from "@/Layouts/App.vue";
 import { ThesisType } from "@/types/thesisType";
 import { PaginateType } from "@/types/paginateType";
 import { ThesisAdvisorType } from "@/types/thesisAdvisor";
-<<<<<<< HEAD
 import { router, useForm } from "@inertiajs/vue3";
 import axios from "axios";
 import { filter, pickBy, throttle } from "lodash";
-=======
-import { useForm, router } from "@inertiajs/vue3";
->>>>>>> a7a5a31 (edit)
 import { watch } from "vue";
-import { throttle, pickBy } from "lodash";
 import Swal from "sweetalert2";
 
 import 'primeicons/primeicons.css';
