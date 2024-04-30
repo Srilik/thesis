@@ -13,39 +13,39 @@ class ThesisController extends Controller
     public function index(Request $request)
     {
         $thesises = Thesis::query()
-            // ->with(['thesisAdvisor'])
+            ->with(['thesisAdvisor'])
 
             ->when($request->input('keyword'), fn ($query)
             => $query->where('Academic_Year', 'like', '%' . $request->input('keyword') . '%'))
 
-            // ->when($request->input('Teacher_id'), fn($query)
-            // =>$query->where('Teacher_id', $request->input('Teacher_id')))
+            ->when($request->input('Teacher_id'), fn($query)
+            =>$query->where('Teacher_id', $request->input('Teacher_id')))
 
             ->paginate(20)
             ->withQueryString();
 
-            // $thesisAdvisors = ThesisAdvisor::query()
-            //     ->select('id', "Advisor")
-            //     ->orderBy('Advisor')
-            //     ->get();
+            $thesisAdvisors = ThesisAdvisor::query()
+                ->select('id', "Advisor")
+                ->orderBy('Advisor')
+                ->get();
 
         return Inertia::render('Thesis/Index', [
-            // 'thesisAdvisors' => $thesisAdvisors,
+            'thesisAdvisors' => $thesisAdvisors,
             'thesises' => $thesises,
             'filters' => $request->all(
                 'keyword',
-                // 'id'
+                'id'
             )
         ]);
     }
     public function create()
     {
-        // $thesisAdvisors = ThesisAdvisor::query()
-        //     ->select('id', "Advisor")
-        //     ->orderBy('Advisor')
-        //     ->get();
+        $thesisAdvisors = ThesisAdvisor::query()
+            ->select('id', "Advisor")
+            ->orderBy('Advisor')
+            ->get();
         return Inertia::render('Thesis/Create', [
-            // 'thesisAdvisors' => $thesisAdvisors
+            'thesisAdvisors' => $thesisAdvisors
         ]);
     }
     public function store(Request $request)
@@ -98,14 +98,14 @@ class ThesisController extends Controller
     {
         $thesis = Thesis::findOrFail($id);
 
-        // $thesisAdvisors = ThesisAdvisor::query()
-        // ->select('id', "Advisor")
-        // ->orderBy('Advisor')
-        // ->get();
+        $thesisAdvisors = ThesisAdvisor::query()
+        ->select('id', "Advisor")
+        ->orderBy('Advisor')
+        ->get();
 
         return Inertia::render('Thesis/Create', [
             'thesis' => $thesis,
-            // 'thesisAdvisors' => $thesisAdvisors,
+            'thesisAdvisors' => $thesisAdvisors,
         ]);
     }
     public function update(Request $request, string $id)

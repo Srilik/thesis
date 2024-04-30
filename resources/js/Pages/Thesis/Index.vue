@@ -2,7 +2,7 @@
 import App from "@/Layouts/App.vue";
 import { ThesisType } from "@/types/thesisType";
 import { PaginateType } from "@/types/paginateType";
-// import { ThesisAdvisorType } from "@/types/thesisAdvisor";
+import { ThesisAdvisorType } from "@/types/thesisAdvisor";
 import { useForm, router } from "@inertiajs/vue3";
 import { watch } from "vue";
 import { throttle, pickBy } from "lodash";
@@ -15,7 +15,7 @@ import 'primevue/resources/themes/saga-blue/theme.css';
 
 const props = defineProps<{
     thesises: PaginateType<ThesisType>;
-    // thesisAdvisors: ThesisAdvisorType[];
+    thesisAdvisors: ThesisAdvisorType[];
     filters?: {
         keyword: string;
         // Advisor: string | null;
