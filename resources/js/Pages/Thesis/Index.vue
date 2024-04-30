@@ -2,7 +2,7 @@
 import App from "@/Layouts/App.vue";
 import { ThesisType } from "@/types/thesisType";
 import { PaginateType } from "@/types/paginateType";
-import { ThesisAdvisorType } from "@/types/thesisAdvisorType";
+import { ThesisAdvisorType } from "@/types/thesisAdvisor";
 import { router, useForm } from "@inertiajs/vue3";
 import axios from "axios";
 import { filter, pickBy, throttle } from "lodash";
