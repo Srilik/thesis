@@ -2,7 +2,7 @@
 import App from "@/Layouts/App.vue";
 import { ThesisType } from "@/types/thesisType";
 import { PaginateType } from "@/types/paginateType";
-// import { StatusType } from "@/types/status";
+// import { ThesisAdvisorType } from "@/types/thesisAdvisor";
 import { useForm, router } from "@inertiajs/vue3";
 import { watch } from "vue";
 import { throttle, pickBy } from "lodash";
@@ -15,16 +15,16 @@ import 'primevue/resources/themes/saga-blue/theme.css';
 
 const props = defineProps<{
     thesises: PaginateType<ThesisType>;
-    // statuses: StatusType[];
+    // thesisAdvisors: ThesisAdvisorType[];
     filters?: {
         keyword: string;
-        // status_id: number | null;
+        // Advisor: string | null;
     };
 }>();
 
 const filterForm = useForm({
     keyword: props.filters?.keyword ?? "",
-    // status_id: props.filters?.status_id ?? null,
+    // Advisor: props.filters?.Advisor ?? null,
 });
 
 watch(
@@ -41,7 +41,7 @@ watch(
 
 const onClearFilter = () => {
     filterForm.keyword = "";
-    // filterForm.room_id = "";
+    // filterForm.Advisor = "";
 };
 
 const onDelete = async (id: number) => {
@@ -77,16 +77,16 @@ const onDelete = async (id: number) => {
                     <div class="bg-base-100 p-2 rounded-xl flex gap-2 items-center">
                         <Link :href="route('thesis.create')" class="btn btn-primary">
                             <i class="pi pi-file-plus"></i>
-                            New</Link>
-                        <!-- <input v-model="filterForm.keyword" type="text" class="input input-primary w-full"
-                            placeholder="Search..." /> -->
-                            <input v-model="filterForm.keyword" type="text" class="input input-primary w-full"
-                            placeholder="&#128269; Search...">
+                            New
+                        </Link>
+                        <input v-model="filterForm.keyword" type="text" class="input input-primary w-full"
+                        placeholder="&#128269; Search...">
                         <i class="pi pi-search search-icon"></i>
-                        <!-- <select v-model="filterForm.status_id" class="select select-primary w-full">
-                            <option :value="null">Select Status</option>
-                            <option v-for="(status, index) in statuses" :key="index" :value="status.id">
-                                {{ status.name }}
+
+                        <!-- <select v-model="filterForm.Advisor" class="select select-primary w-full">
+                            <option :value="null">Select a Advisor</option>
+                            <option v-for="(thesisAdvisor, index) in thesisAdvisors" :key="index" :value="thesisAdvisor.id">
+                                {{ thesisAdvisor.Advisor }}
                             </option>
                         </select> -->
                         <button class="btn btn-warning" type="button" @click="onClearFilter">
@@ -118,9 +118,9 @@ const onDelete = async (id: number) => {
                             <th>Objective</th>
                             <th>Objective_Khmer</th>
                             <th>Summary</th>
-                            <th>Submit_Date</th>
-                            <th>Teacher_id</th>
-                            <th>Defend_Date</th>
+                            <th>Submit_Date</th> -->
+                            <!-- <th>Teacher_id</th> -->
+                            <!-- <th>Defend_Date</th>
                             <th>Book_Score</th>
                             <th>Defend_time</th>
                             <th>Submit_book</th> -->
@@ -149,9 +149,9 @@ const onDelete = async (id: number) => {
                             <td>{{ item.Objective }}</td>
                             <td>{{ item.Objective_Khmer }}</td>
                             <td>{{ item.Summary }}</td>
-                            <td>{{ item.Submit_Date }}</td>
-                            <td>{{ item.Teacher_id }}</td>
-                            <td>{{ item.Defend_Date }}</td>
+                            <td>{{ item.Submit_Date }}</td> -->
+                            <!-- <td>{{ item.Teacher_id }}</td> -->
+                            <!-- <td>{{ item.Defend_Date }}</td>
                             <td>{{ item.Book_Score }}</td>
                             <td>{{ item.Defend_time }}</td>
                             <td>{{ item.Submit_book }}</td> -->
@@ -183,21 +183,20 @@ const onDelete = async (id: number) => {
     </App>
 </template>
 <style scoped>
+    .search-container {
+        position: relative;
+    }
 
-.search-container {
-    position: relative;
-}
+    .search-container input {
+        padding-left: 2rem; /* Adjust as needed */
+    }
 
-.search-container input {
-    padding-left: 2rem; /* Adjust as needed */
-}
-
-.search-icon {
-    position: absolute;
-    top: 50%;
-    left: 0.75rem; /* Adjust as needed */
-    transform: translateY(-50%);
-    font-size: 1.25rem; /* Adjust as needed */
-    color: #6b7280;
-}
+    .search-icon {
+        position: absolute;
+        top: 50%;
+        left: 0.75rem; /* Adjust as needed */
+        transform: translateY(-50%);
+        font-size: 1.25rem; /* Adjust as needed */
+        color: #6b7280;
+    }
 </style>

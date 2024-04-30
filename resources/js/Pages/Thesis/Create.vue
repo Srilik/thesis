@@ -11,7 +11,10 @@ import 'primevue/resources/primevue.min.css';
 import 'primevue/resources/themes/saga-blue/theme.css';
 
 const props = defineProps<{
-
+    // thesisAdvisors:{
+    //     id: number;
+    //     Advisor: string;
+    // }[];
     thesis?: ThesisType;
 }>();
 
@@ -167,7 +170,7 @@ const onSave = () => {
                             <label class="label">Title</label>
                             <textarea 
                                 v-model="form.Title" class="input input-info w-full h-full"
-                                :class="{ 'textarea-error': form.errors.Title }">
+                                :class="{ 'input-error': form.errors.Title }">
                             </textarea>
                             <div class="text-error" v-if="form.errors.Title">
                                 {{ form.errors.Title }}
@@ -177,7 +180,7 @@ const onSave = () => {
                             <label class="label">Title_Khmer</label>
                             <textarea 
                                 v-model="form.Title_Khmer" class="input input-info w-full h-full"
-                                :class="{ 'textarea-error': form.errors.Title_Khmer }">
+                                :class="{ 'input-error': form.errors.Title_Khmer }">
                             </textarea>
                             <div class="text-error" v-if="form.errors.Title_Khmer">
                                 {{ form.errors.Title_Khmer }}
@@ -187,7 +190,7 @@ const onSave = () => {
                             <label class="label">Objective</label>
                             <textarea 
                                 v-model="form.Objective" class="input input-info w-full h-full"
-                                :class="{ 'textarea-error': form.errors.Objective }">
+                                :class="{ 'input-error': form.errors.Objective }">
                             </textarea>
                             <div class="text-error" v-if="form.errors.Objective">
                                 {{ form.errors.Objective }}
@@ -197,7 +200,7 @@ const onSave = () => {
                             <label class="label">Objective_Khmer</label>
                             <textarea 
                                 v-model="form.Objective_Khmer" class="input input-info w-full h-full"
-                                :class="{ 'textarea-error': form.errors.Objective_Khmer }">
+                                :class="{ 'input-error': form.errors.Objective_Khmer }">
                             </textarea>
                             <div class="text-error" v-if="form.errors.Objective_Khmer">
                                 {{ form.errors.Objective_Khmer }}
@@ -207,7 +210,7 @@ const onSave = () => {
                             <label class="label">Summary</label>
                             <textarea 
                                 v-model="form.Summary" class="input input-info w-full h-full"
-                                :class="{ 'textarea-error': form.errors.Summary }">
+                                :class="{ 'input-error': form.errors.Summary }">
                             </textarea>
                             <div class="text-error" v-if="form.errors.Summary">
                                 {{ form.errors.Summary }}
@@ -243,6 +246,13 @@ const onSave = () => {
                             <label class="label">Teacher_id</label>
                             <input v-model="form.Teacher_id" class="input input-info w-full"
                                 :class="{ 'input-error': form.errors.Teacher_id }" />
+                            <!-- <select v-model="form.Teacher_id" class="select select-primary w-full"
+                                :class="{ 'select-error': form.errors.Teacher_id }">
+                                <option :value="null">Select a Advisor</option>
+                                <option v-for="(item, index) in thesisAdvisors" :value="item.id">
+                                    {{ item.Advisor }}
+                                </option>
+                            </select> -->
                             <div class="text-error" v-if="form.errors.Teacher_id">
                                 {{ form.errors.Teacher_id }}
                             </div>
