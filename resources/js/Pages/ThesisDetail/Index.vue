@@ -8,6 +8,12 @@ import { router, useForm } from "@inertiajs/vue3";
 import { pickBy, throttle } from "lodash";
 import { watch } from "vue";
 
+import 'primeicons/primeicons.css';
+import 'primevue/resources/primevue.min.css';
+import 'primevue/resources/themes/saga-blue/theme.css';
+import { text } from "@fortawesome/fontawesome-svg-core";
+
+
 // defineProps<{
 //     thesisDetails: {
 //         id: number;
@@ -145,14 +151,13 @@ const onDelete = (id: number) => {
         <div class="p-4">
             <h2 class="text-2xl font-bold">Create a ThesisDetail</h2>
             <div class='mt-4 p-4 bg-base-100 rounded-xl'>
-
             <form 
                 @submit.prevent="onSubmit" 
                 class="p-2 bg-white dark:bg-gray-900 rounded-lg">
                 <div class="flex items-start gap-4">
                     <div class="flex-1">
                         <label class="label">Thesis_No</label>
-                        <input v-model="form.Thesis_No" type="text" class="input input-primary w-full" />
+                        <input v-model.number="form.Thesis_No" type="number" class="input input-primary w-full" />
                         <label class="label text-red-500 text-sm" v-if="form.errors.Thesis_No">
                             {{ form.errors.Thesis_No }}
                         </label>
@@ -166,7 +171,7 @@ const onDelete = (id: number) => {
                     </div>
                     <div class="flex-1">
                         <label class="label">Phone</label>
-                        <input v-model="form.Phone" type="text" class="input input-primary w-full" />
+                        <input v-model.number="form.Phone" type="number" class="input input-primary w-full" />
                         <label class="label text-red-500 text-sm" v-if="form.errors.Phone">
                             {{ form.errors.Phone }}
                         </label>
@@ -196,14 +201,14 @@ const onDelete = (id: number) => {
                     </div>
                     <div class="flex-1">
                         <label class="label">Other</label>
-                        <input v-model="form.Other" type="text" class="input input-primary w-full" />
+                        <textarea v-model="form.Other" type="text" class="textarea textarea-primary w-full" />
                         <label class="label text-red-500 text-sm" v-if="form.errors.Other">
                             {{ form.errors.Other }}
                         </label>
                     </div>
                     <div class="flex-1">
                         <label class="label">Hardwork</label>
-                        <input v-model="form.Hardwork" type="text" class="input input-primary w-full" />
+                        <input v-model.number="form.Hardwork" type="number" class="input input-primary w-full" />
                         <label class="label text-red-500 text-sm" v-if="form.errors.Hardwork">
                             {{ form.errors.Hardwork }}
                         </label>
@@ -212,17 +217,17 @@ const onDelete = (id: number) => {
                 <div class="flex items-start gap-4">    
                     <div class="flex-1">
                         <label class="label">Charateristic</label>
-                        <input v-model="form.Charateristic" type="text" class="input input-primary w-full" />
+                        <input v-model.number="form.Charateristic" type="number" class="input input-primary w-full" />
                         <label class="label text-red-500 text-sm" v-if="form.errors.Charateristic">
                             {{ form.errors.Charateristic }}
                         </label>
                     </div>
                     <div class="flex-1">
                         <label class="label">Remark</label>
-                        <input v-model="form.Remark" type="text" class="input input-primary w-full" />
-                        <label class="label text-red-500 text-sm" v-if="form.errors.Remark">
+                        <textarea v-model="form.Remark" type="text" class="textarea textarea-primary w-full" />
+                        <input class="label text-red-500 text-sm" v-if="form.errors.Remark">
                             {{ form.errors.Remark }}
-                        </label>
+                        </input>
                     </div>
                     <div class="flex-1">
                         <label class="label">Result</label>
@@ -233,7 +238,10 @@ const onDelete = (id: number) => {
                     </div>
                 </div> 
                 <div class="flex justify-end">
-                    <button type="submit" class="btn btn-primary mt-5">Save</button>
+                    <button type="submit" class="btn btn-primary mt-5">
+                        <i class="pi pi-save"></i>
+                        Save
+                    </button>
                 </div>
             </form>
             </div>
@@ -246,9 +254,9 @@ const onDelete = (id: number) => {
                         <input 
                             v-model="filterForm.keyword"
                             type="text" 
-                            placeholder="Search..." 
-                            class="input input-info w-full"/>
-
+                            class="input input-info w-full"
+                            placeholder="&#128269; Search..."/>
+                                <i class="pi pi-search search-icon"></i>
                         <button class="btn btn-warning" type="button" @click="onClearFilter">Clear</button>
                     </div>
                 </div>
@@ -310,3 +318,21 @@ const onDelete = (id: number) => {
         </div>
     </App>
 </template>
+<style scoped>
+    .search-container {
+        position: relative;
+    }
+
+    .search-container input {
+        padding-left: 2rem; /* Adjust as needed */
+    }
+
+    .search-icon {
+        position: absolute;
+        top: 50%;
+        left: 0.75rem; /* Adjust as needed */
+        transform: translateY(-50%);
+        font-size: 1.25rem; /* Adjust as needed */
+        color: #6b7280;
+    }
+</style>

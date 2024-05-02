@@ -98,12 +98,12 @@ const onDelete = async (id: number) => {
                 </div>
             </div>
             <div class="bg-base-100 rounded-xl overflow-x-auto">
-                <table class="table table-lg w-full h-full">
+                <table class="table table-auto uppercase font-bold">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Thesis_No</th>
-                            <th>Thesis_Group</th>
+                            <!-- <th>Thesis_Group</th> -->
                             <th>Academic_Year</th>
                             <th>Department</th>
                             <th>Major</th>
@@ -120,12 +120,12 @@ const onDelete = async (id: number) => {
                             <th>Objective_Khmer</th>
                             <th>Summary</th>
                             <th>Submit_Date</th> -->
-                            <!-- <th>Teacher_id</th> -->
-                            <!-- <th>Defend_Date</th>
-                            <th>Book_Score</th>
-                            <th>Defend_time</th>
-                            <th>Submit_book</th> -->
-                            <th>Building</th>
+                            <th>Teacher_id</th>
+                            <!-- <th>Defend_Date</th> -->
+                            <!-- <th>Book_Score</th> -->
+                            <!-- <th>Defend_time</th> -->
+                            <!-- <th>Submit_book</th> -->
+                            <!-- <th>Building</th> -->
                             <th>Room</th>
                             <th>Action</th>
                         </tr>
@@ -134,7 +134,7 @@ const onDelete = async (id: number) => {
                         <tr v-for="(item, index) in thesises.data" :key="index">
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.Thesis_No }}</td>
-                            <td>{{ item.Thesis_Group }}</td>
+                            <!-- <td>{{ item.Thesis_Group }}</td> -->
                             <td>{{ item.Academic_Year }}</td>
                             <td>{{ item.Department }}</td>
                             <td>{{ item.Major }}</td>
@@ -151,12 +151,12 @@ const onDelete = async (id: number) => {
                             <td>{{ item.Objective_Khmer }}</td>
                             <td>{{ item.Summary }}</td>
                             <td>{{ item.Submit_Date }}</td> -->
-                            <!-- <td>{{ item.Teacher_id }}</td> -->
-                            <!-- <td>{{ item.Defend_Date }}</td>
-                            <td>{{ item.Book_Score }}</td>
-                            <td>{{ item.Defend_time }}</td>
-                            <td>{{ item.Submit_book }}</td> -->
-                            <td>{{ item.Building }}</td>
+                            <td>{{ item.Teacher_id }}</td>
+                            <!-- <td>{{ item.Defend_Date }}</td> -->
+                            <!-- <td>{{ item.Book_Score }}</td> -->
+                            <!-- <td>{{ item.Defend_time }}</td> -->
+                            <!-- <td>{{ item.Submit_book }}</td> -->
+                            <!-- <td>{{ item.Building }}</td> -->
                             <td>{{ item.Room }}</td>
                             <td>
                                 <Link :href="route('thesis.edit', item.id)" class="btn btn-warning mr-2">
