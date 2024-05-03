@@ -21,7 +21,7 @@ const props = defineProps<{
     advisor_options?: string[];
     department_options?: string[];
     filters?: {
-        academic_Year?: string | null;
+        academic_year?: string | null;
         advisor?: string | null;
         department?: string | null;
     };
@@ -55,7 +55,7 @@ const onSave = () => {
 };
 
 const filterForm = useForm({
-    academic_year: props.filters?.academic_Year ?? "",
+    academic_year: props.filters?.academic_year ?? "",
     advisor: props.filters?.advisor ?? "",
     department: props.filters?.department ?? "",
 });

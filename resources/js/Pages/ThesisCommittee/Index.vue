@@ -62,7 +62,7 @@ const onSave = () => {
 };
 
 const filterForm = useForm({
-    academic_year: props.filters?.academic_Year ?? "",
+    academic_year: props.filters?.academic_year ?? "",
     major: props.filters?.major ?? "",
     // committee: props.filters?.Committee ?? "",
     department: props.filters?.department ?? "",
@@ -130,7 +130,7 @@ const oncloseModal = () => {
             showDenyButton: true,
             showCancelButton: false,
             confirmButtonText: "Yes",
-            denyButtonText: No,
+            denyButtonText: "No",
         }).then((result) => {
             if (result.isConfirmed) {
                 onOpenModal.value = false;
