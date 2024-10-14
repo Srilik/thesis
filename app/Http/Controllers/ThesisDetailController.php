@@ -14,9 +14,9 @@ class ThesisDetailController extends Controller
             ->orderBy('Thesis_No')
             ->when($request->input('keyword'), fn ($query)
             =>$query->where('Thesis_No', 'like', "%" . $request->input('keyword') . "%"))
-            ->get();
+            // ->get();
             
-            // ->paginate(5)
+            ->paginate(5);
             // ->withQueryString();            
         return Inertia::render("ThesisDetail/Index",[
             "thesisDetails"=>$thesisDetails,
@@ -27,22 +27,22 @@ class ThesisDetailController extends Controller
 
     public function create()
     {
-        return Inertia::render('ThesisDetail/Create');
+        return Inertia::render('ThesisDetail/Index');
     }
     public function store(Request $request, $id=null)
     {
         $validatedData = $request->validate([
-            "Thesis_No" => "required",
-            "Student_ID" => "required",
-            "Phone" => "required",
-            "Defend" => "required",
-            "Pass_State" => "required",
-            "Issue_Tem_Certificate" => "required",
-            "Other" => "required",
-            "Hardwork" => "required",
-            "Charateristic" => "required",
-            "Remark" => "required",
-            "Result" => "required",
+            "Thesis_No" => "nullable",
+            "Student_ID" => "nullable",
+            "Phone" => "nullable",
+            "Defend" => "nullable",
+            "Pass_State" => "nullable",
+            "Issue_Tem_Certificate" => "nullable",
+            "Other" => "nullable",
+            "Hardwork" => "nullable",
+            "Charateristic" => "nullable",
+            "Remark" => "nullable",
+            "Result" => "nullable",
         ]);
         if($id){
             $thesisDetails = ThesisDetail::findOrFail($id);
@@ -52,17 +52,17 @@ class ThesisDetailController extends Controller
         //     $thesisDetails->update($validatedData);
         }else{
             $request->validate([
-                "Thesis_No" => "required",
-                "Student_ID" => "required",
-                "Phone" => "required",
-                "Defend" => "required",
-                "Pass_State" => "required",
-                "Issue_Tem_Certificate" => "required",
-                "Other" => "required",
-                "Hardwork" => "required",
-                "Charateristic" => "required",
-                "Remark" => "required",
-                "Result" => "required",
+                "Thesis_No" => "nullable",
+                "Student_ID" => "nullable",
+                "Phone" => "nullable",
+                "Defend" => "nullable",
+                "Pass_State" => "nullable",
+                "Issue_Tem_Certificate" => "nullable",
+                "Other" => "nullable",
+                "Hardwork" => "nullable",
+                "Charateristic" => "nullable",
+                "Remark" => "nullable",
+                "Result" => "nullable",
             ]);
             ThesisDetail::create($validatedData);
         }

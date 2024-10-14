@@ -3,7 +3,7 @@ import { ref } from "vue";
 </script>
 
 <template>
-    <div class="container p-4 px-8 mx-auto mt-6 border rounded-xl bg-gray-200">
+    <div class="container p-4 px-8 mx-auto mt-6 bg-gray-200 border rounded-xl">
         <!-- md:text-sm -->
         <h2
             class="text-2xl text-blue-600 sm:text-red-600 md:text-yellow-600 lg:text-purple-600 xl:text-teal-600"
@@ -19,7 +19,7 @@ import { ref } from "vue";
                     <!-- <input v-model="Academic_Year" type="text" class="p-2 rounded-md"> -->
                     <select
                         v-model="form.Academic_Year"
-                        class="input input-primary w-full"
+                        class="w-full input input-primary"
                     >
                         <option value="">Select a Academic Year</option>
                         <option value="2000-2001">2000-2001</option>
@@ -56,7 +56,7 @@ import { ref } from "vue";
                     <!-- <input v-model="Major" type="text" class="p-2 rounded-md"> -->
                     <select
                         v-model="form.Major"
-                        class="input input-primary w-full"
+                        class="w-full input input-primary"
                     >
                         <option value="">Select a Major</option>
                         <!-- ARCHITECTURE -->
@@ -194,7 +194,7 @@ import { ref } from "vue";
                     <!-- <input v-model="Department" type="text" class="p-2 rounded-md"> -->
                     <select
                         v-model="form.Department"
-                        class="input input-primary w-full"
+                        class="w-full input input-primary"
                     >
                         <option value="">Select a Department</option>
                         <option value="Architecture and Urbanism">
@@ -228,7 +228,7 @@ import { ref } from "vue";
                     <!-- <input v-model="Subject" type="text" class="p-2 rounded-md"> -->
                     <select
                         v-model="form.Subject"
-                        class="input input-primary w-full"
+                        class="w-full input input-primary"
                     >
                         <option value="">Select a Subject</option>
                         <option value="Introduction to Computer">
@@ -1607,7 +1607,7 @@ import { ref } from "vue";
                 </div>
             </div>
 
-            <div class="mt-2 flex justify-end">
+            <div class="flex justify-end mt-2">
                 <button type="submit" class="btn btn-success">Save</button>
             </div>
             <div class="flex justify-end">

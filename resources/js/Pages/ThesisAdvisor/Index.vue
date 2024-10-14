@@ -10,6 +10,10 @@ import Modal from "@/Components/Modal.vue";
 import { ref } from "vue";
 import axios from "axios";
 
+import 'primeicons/primeicons.css';
+import 'primevue/resources/primevue.min.css';
+import 'primevue/resources/themes/saga-blue/theme.css';
+
 const props = defineProps<{
     thesisAdvisor?: ThesisAdvisorType;
     thesisAdvisors: PaginateType<ThesisAdvisorType>;
@@ -17,7 +21,7 @@ const props = defineProps<{
     advisor_options?: string[];
     department_options?: string[];
     filters?: {
-        academic_Year?: string | null;
+        academic_year?: string | null;
         advisor?: string | null;
         department?: string | null;
     };
@@ -51,7 +55,7 @@ const onSave = () => {
 };
 
 const filterForm = useForm({
-    academic_year: props.filters?.academic_Year ?? "",
+    academic_year: props.filters?.academic_year ?? "",
     advisor: props.filters?.advisor ?? "",
     department: props.filters?.department ?? "",
 });
@@ -274,9 +278,11 @@ const oncloseModal = () => {
                             class="btn btn-warning"
                             @click="oncloseModal"
                         >
+                        <i class="pi pi-times"></i>
                             Close
                         </button>
                         <button type="submit" class="btn btn-success">
+                            <i class="pi pi-save"></i>
                             {{ form.id ? "Update" : "Save" }}
                         </button>
                     </div>
@@ -289,14 +295,15 @@ const oncloseModal = () => {
             <div class="mb-2">
                 <h2 class="text-2xl font-bold">ThesisAdvisor Management</h2>
                 <div class="mt-2 bg-base-100 px-2 pb-2 rounded-xl flex gap-2">
-                    <div class="mt-auto">
+                    <!-- <div class="mt-auto"> -->
                         <button
-                            class="btn btn-primary align-bottom"
+                            class="btn btn-primary align-bottom mt-9"
                             @click="onOpenModal = true"
                         >
+                        <i class="pi pi-file-plus"></i>
                             New
                         </button>
-                    </div>
+                    <!-- </div> -->
 
                     <div class="flex flex-col w-full">
                         <label class="label label-text">Academic Year</label>
@@ -346,15 +353,16 @@ const oncloseModal = () => {
                         </select>
                     </div>
 
-                    <div class="mt-auto">
+                    <!-- <div class="mt-auto"> -->
                         <button
-                            class="btn btn-warning"
+                            class="btn btn-warning mt-9"
                             type="button"
                             @click="onClearFilter"
                         >
+                        <i class="pi pi-eraser"></i>
                             Clear
                         </button>
-                    </div>
+                    <!-- </div> -->
                 </div>
             </div>
             <div class="bg-base-100 rounded-xl overflow-x-auto">
@@ -385,6 +393,7 @@ const oncloseModal = () => {
                                     @click="onEdit(item.id)"
                                     class="btn btn-warning mr-2"
                                 >
+                                <i class="pi pi-file-edit"></i>
                                     Edit
                                 </button>
                                 <button
@@ -392,6 +401,7 @@ const oncloseModal = () => {
                                     @click="onDelete(item.id)"
                                     class="btn btn-error"
                                 >
+                                <i class="pi pi-trash"></i>
                                     Delete
                                 </button>
                             </td>
