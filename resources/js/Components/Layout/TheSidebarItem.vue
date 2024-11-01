@@ -3,6 +3,7 @@ import { Link } from "@inertiajs/vue3";
 defineProps<{
     title: string;
     link: string;
+    icon?: string; // Add icon prop
     isActive?: boolean;
 }>();
 </script>
@@ -40,7 +41,9 @@ defineProps<{
                 :href="link"
             >
                 <div class="flex items-center w-full">
-                    <span> {{ title }} </span>
+                    <!-- Render the icon here -->
+                    <i v-if="icon" :class="icon" class="mr-2"></i>
+                    <span>{{ title }}</span>
                 </div>
             </Link>
         </div>
