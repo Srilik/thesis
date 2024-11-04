@@ -8,9 +8,9 @@ import { router, useForm } from "@inertiajs/vue3";
 import { pickBy, throttle } from "lodash";
 import { watch } from "vue";
 
-import 'primeicons/primeicons.css';
-import 'primevue/resources/primevue.min.css';
-import 'primevue/resources/themes/saga-blue/theme.css';
+// import 'primeicons/primeicons.css';
+// import 'primevue/resources/primevue.min.css';
+// import 'primevue/resources/themes/saga-blue/theme.css';
 import { text } from "@fortawesome/fontawesome-svg-core";
 
 
@@ -49,7 +49,7 @@ const props = defineProps<{
         Remark: string;
         Result: string;
     }
-}>(); 
+}>();
 const form = useForm({
     id: null,
     Thesis_No: "",
@@ -148,7 +148,7 @@ const onDelete = (id: number) => {
                         position: "top-end",
                         timer: 3000,
                         showConfirmButton: false,
-                    });   
+                    });
                 },
             });
         }
@@ -162,100 +162,100 @@ const onDelete = (id: number) => {
     <App>
         <div class="p-4">
             <h2 class="text-2xl font-bold text-center">
-                <i class="pi pi-folder-plus text-3xl mr-3"></i>
+                <i class="mr-3 text-3xl pi pi-folder-plus"></i>
                 Create a ThesisDetail
             </h2>
-            <div class='mt-4 p-4 bg-base-100 rounded-xl'>
-                <form 
-                    @submit.prevent="onSubmit" 
-                    class="p-2 bg-white dark:bg-gray-900 rounded-lg">
+            <div class='p-4 mt-4 bg-base-100 rounded-xl'>
+                <form
+                    @submit.prevent="onSubmit"
+                    class="p-2 bg-white rounded-lg dark:bg-gray-900">
                     <div class="flex items-start gap-4">
                         <div class="flex-1">
                             <label class="label">Thesis_No</label>
-                            <input v-model.number="form.Thesis_No" type="number" class="input input-primary w-full" />
-                            <label class="label text-red-500 text-sm" v-if="form.errors.Thesis_No">
+                            <input v-model.number="form.Thesis_No" type="number" class="w-full input input-primary" />
+                            <label class="text-sm text-red-500 label" v-if="form.errors.Thesis_No">
                                 {{ form.errors.Thesis_No }}
                             </label>
                         </div>
                         <div class="flex-1">
                             <label class="label">Student_ID</label>
-                            <input v-model="form.Student_ID" type="text" class="input input-primary w-full" />
-                            <label class="label text-red-500 text-sm" v-if="form.errors.Student_ID">
+                            <input v-model="form.Student_ID" type="text" class="w-full input input-primary" />
+                            <label class="text-sm text-red-500 label" v-if="form.errors.Student_ID">
                                 {{ form.errors.Student_ID }}
                             </label>
                         </div>
                         <div class="flex-1">
                             <label class="label">Phone</label>
-                            <input v-model.number="form.Phone" type="number" class="input input-primary w-full" />
-                            <label class="label text-red-500 text-sm" v-if="form.errors.Phone">
+                            <input v-model.number="form.Phone" type="number" class="w-full input input-primary" />
+                            <label class="text-sm text-red-500 label" v-if="form.errors.Phone">
                                 {{ form.errors.Phone }}
                             </label>
                         </div>
                         <div class="flex-1">
                             <label class="label">Defend</label>
-                            <input v-model="form.Defend" type="text" class="input input-primary w-full" />
-                            <label class="label text-red-500 text-sm" v-if="form.errors.Defend">
+                            <input v-model="form.Defend" type="text" class="w-full input input-primary" />
+                            <label class="text-sm text-red-500 label" v-if="form.errors.Defend">
                                 {{ form.errors.Defend }}
                             </label>
                         </div>
                         <div class="flex-1">
                             <label class="label">Pass_State</label>
-                            <input v-model="form.Pass_State" type="text" class="input input-primary w-full" />
-                            <label class="label text-red-500 text-sm" v-if="form.errors.Pass_State">
+                            <input v-model="form.Pass_State" type="text" class="w-full input input-primary" />
+                            <label class="text-sm text-red-500 label" v-if="form.errors.Pass_State">
                                 {{ form.errors.Pass_State }}
                             </label>
                         </div>
                         <div class="flex-1">
                             <label class="label">Issue_Tem_Certificate</label>
-                            <input v-model="form.Issue_Tem_Certificate" type="text" class="input input-primary w-full" />
-                            <label class="label text-red-500 text-sm" v-if="form.errors.Issue_Tem_Certificate">
+                            <input v-model="form.Issue_Tem_Certificate" type="text" class="w-full input input-primary" />
+                            <label class="text-sm text-red-500 label" v-if="form.errors.Issue_Tem_Certificate">
                                 {{ form.errors.Issue_Tem_Certificate }}
                             </label>
                         </div>
                     </div>
-                    <div class="flex items-start gap-4">    
+                    <div class="flex items-start gap-4">
                         <div class="flex-1">
                             <label class="label">Hardwork</label>
-                            <input v-model.number="form.Hardwork" type="number" class="input input-primary w-full" />
-                            <label class="label text-red-500 text-sm" v-if="form.errors.Hardwork">
+                            <input v-model.number="form.Hardwork" type="number" class="w-full input input-primary" />
+                            <label class="text-sm text-red-500 label" v-if="form.errors.Hardwork">
                                 {{ form.errors.Hardwork }}
                             </label>
                         </div>
                         <div class="flex-1">
                             <label class="label">Charateristic</label>
-                            <input v-model.number="form.Charateristic" type="number" class="input input-primary w-full" />
-                            <label class="label text-red-500 text-sm" v-if="form.errors.Charateristic">
+                            <input v-model.number="form.Charateristic" type="number" class="w-full input input-primary" />
+                            <label class="text-sm text-red-500 label" v-if="form.errors.Charateristic">
                                 {{ form.errors.Charateristic }}
                             </label>
                         </div>
                         <div class="flex-1">
                             <label class="label">Result</label>
-                            <input v-model="form.Result" type="text" class="input input-primary w-full" />
-                            <label class="label text-red-500 text-sm" v-if="form.errors.Result">
+                            <input v-model="form.Result" type="text" class="w-full input input-primary" />
+                            <label class="text-sm text-red-500 label" v-if="form.errors.Result">
                                 {{ form.errors.Result }}
                             </label>
                         </div>
                         <div class="flex-1">
                             <label class="label">Other</label>
-                            <textarea v-model="form.Other" type="text" class="textarea textarea-primary w-full" />
-                            <label class="label text-red-500 text-sm" v-if="form.errors.Other">
+                            <textarea v-model="form.Other" type="text" class="w-full textarea textarea-primary" />
+                            <label class="text-sm text-red-500 label" v-if="form.errors.Other">
                                 {{ form.errors.Other }}
                             </label>
                         </div>
                         <div class="flex-1">
                             <label class="label">Remark</label>
-                            <textarea v-model="form.Remark" type="text" class="textarea textarea-primary w-full" />
-                            <input class="label text-red-500 text-sm" v-if="form.errors.Remark">
+                            <textarea v-model="form.Remark" type="text" class="w-full textarea textarea-primary" />
+                            <input class="text-sm text-red-500 label" v-if="form.errors.Remark">
                                 {{ form.errors.Remark }}
                             </input>
                         </div>
                     </div>
-                    <!-- <div class="flex items-start gap-4">    
+                    <!-- <div class="flex items-start gap-4">
 
                     </div>  -->
                     <div class="flex justify-end">
-                        <button type="submit" class="btn btn-primary mt-3">
-                            <i class="pi pi-save"></i>
+                        <button type="submit" class="mt-3 btn btn-primary">
+                            <i class="fa-regular fa-floppy-disk"></i>
                             Save
                         </button>
                     </div>
@@ -266,25 +266,25 @@ const onDelete = (id: number) => {
             <div class="mb-2">
                 <h2 class="text-2xl font-bold">ThesisDetail Management</h2>
                 <div class="mt-4">
-                    <div class="bg-base-100 p-2 rounded-xl flex gap-2 items-center">
-                        <input 
+                    <div class="flex items-center gap-2 p-2 bg-base-100 rounded-xl">
+                        <input
                             v-model="filterForm.keyword"
-                            type="text" 
-                            class="input input-info w-full"
+                            type="text"
+                            class="w-full input input-info"
                             placeholder="&#128269; Search..."/>
                                 <i class="pi pi-search search-icon"></i>
                         <button class="btn btn-warning" type="button" @click="onClearFilter">
-                            <i class="pi pi-eraser"></i>
+                            <i class="fa-solid fa-eraser"></i>
                             Clear
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-base-100 rounded-xl overflow-x-auto">
+            <div class="overflow-x-auto bg-base-100 rounded-xl">
                 <table class="table table-lg">
                     <thead>
-                        <tr class="text uppercase text-base">
+                        <tr class="text-base uppercase text">
                             <th>ID</th>
                             <th>Thesis_No</th>
                             <th>Student_ID</th>
@@ -315,12 +315,12 @@ const onDelete = (id: number) => {
                             <td>{{ item.Remark }}</td>
                             <td>{{ item.Result }}</td>
                             <td>
-                                <button @click="onEdit(item.id)" class="btn btn-success mr-2">
-                                    <i class="pi pi-file-edit"></i>
+                                <button @click="onEdit(item.id)" class="mr-2 btn btn-success">
+                                    <i class="fa-solid fa-pen-to-square"></i>
                                     Edit
                                 </button>
                                 <button @click="onDelete(item.id)" class="btn btn-error">
-                                    <i class="pi pi-trash"></i>
+                                    <i class="fa-solid fa-trash-plus"></i>
                                     Delete
                                 </button>
                             </td>
@@ -329,16 +329,16 @@ const onDelete = (id: number) => {
                 </table>
             </div>
             <!-- Pagination -->
-            <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
+            <div class="flex justify-center p-2 mt-2 bg-base-100 rounded-xl">
                 <div class="join">
-                    <Link 
-                        v-for="link in thesisDetails.links" 
+                    <Link
+                        v-for="link in thesisDetails.links"
                         :href="link.url ?? '#'"
                         class="join-item btn"
                         :class="{ 'btn-info': link.active }">
                         <span v-html="link.label"></span>
                     </Link>
-                </div>  
+                </div>
             </div>
         </div>
     </App>

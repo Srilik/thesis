@@ -1608,7 +1608,9 @@ import { ref } from "vue";
             </div>
 
             <div class="flex justify-end mt-2">
-                <button type="submit" class="btn btn-success">Save</button>
+                <button type="submit" class="btn btn-success">
+                    <i class="fa-regular fa-floppy-disk"></i>Save
+                </button>
             </div>
             <div class="flex justify-end">
                 <button

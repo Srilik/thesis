@@ -10,10 +10,6 @@ import Modal from "@/Components/Modal.vue";
 import { ref } from "vue";
 import axios from "axios";
 
-import 'primeicons/primeicons.css';
-import 'primevue/resources/primevue.min.css';
-import 'primevue/resources/themes/saga-blue/theme.css';
-
 const props = defineProps<{
     thesisAdvisor?: ThesisAdvisorType;
     thesisAdvisors: PaginateType<ThesisAdvisorType>;
@@ -139,7 +135,7 @@ const oncloseModal = () => {
 <template>
     <Modal :show="onOpenModal" maxWidth="2xl" @close="oncloseModal">
         <div class="p-3 bg-base-200 rounded-xl">
-            <div class="text-center mt-2">
+            <div class="mt-2 text-center">
                 <h2 class="text-2xl font-bold">
                     {{
                         form.id
@@ -157,16 +153,19 @@ const oncloseModal = () => {
                                 <!-- <input
                                     type="text"
                                     v-model="form.Academic_Year"
-                                    class="input input-primary w-full"
+                                    class="w-full input input-primary"
                                     :class="{
                                         'input-error':
                                             form.errors.Academic_Year,
                                     }"
                                 /> -->
-                                <select 
-                                    v-model="form.Academic_Year" 
-                                    class="input input-primary w-full">
-                                    <option value="">Select a Academic Year</option>
+                                <select
+                                    v-model="form.Academic_Year"
+                                    class="w-full input input-primary"
+                                >
+                                    <option value="">
+                                        Select a Academic Year
+                                    </option>
                                     <option value="2000-2001">2000-2001</option>
                                     <option value="2001-2002">2001-2002</option>
                                     <option value="2002-2003">2002-2003</option>
@@ -208,7 +207,7 @@ const oncloseModal = () => {
                                 <input
                                     type="text"
                                     v-model="form.Advisor"
-                                    class="input input-primary w-full"
+                                    class="w-full input input-primary"
                                     :class="{
                                         'input-error': form.errors.Advisor,
                                     }"
@@ -228,15 +227,20 @@ const oncloseModal = () => {
                                 <!-- <input
                                     type="text"
                                     v-model="form.College"
-                                    class="input input-primary w-full"
+                                    class="w-full input input-primary"
                                     :class="{
                                         'input-error': form.errors.College,
                                     }"
                                 /> -->
-                                <select v-model="form.College" class="input input-primary w-full">
+                                <select
+                                    v-model="form.College"
+                                    class="w-full input input-primary"
+                                >
                                     <option value="">Select a College</option>
                                     <option value="sciences">Sciences</option>
-                                    <option value="social sciences">Social Sciences</option>
+                                    <option value="social sciences">
+                                        Social Sciences
+                                    </option>
                                 </select>
                                 <div
                                     v-if="form.errors.College"
@@ -250,18 +254,37 @@ const oncloseModal = () => {
                                 <!-- <input
                                     type="text"
                                     v-model="form.Department"
-                                    class="input input-primary w-full"
+                                    class="w-full input input-primary"
                                     :class="{
                                         'input-error': form.errors.Department,
                                     }"
                                 /> -->
-                                <select v-model="form.Department" class="input input-primary w-full">
-                                    <option value="">Select a Department</option>
-                                    <option value="Architecture and Urbanism">Architecture and Urbanism</option>
-                                    <option value="Civil Engineering">Civil Engineering</option>
-                                    <option value="Computer Studies">Computer Studies</option>
-                                    <option value="Department of Research and Develop">Department of Research and Develop</option>
-                                    <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+                                <select
+                                    v-model="form.Department"
+                                    class="w-full input input-primary"
+                                >
+                                    <option value="">
+                                        Select a Department
+                                    </option>
+                                    <option value="Architecture and Urbanism">
+                                        Architecture and Urbanism
+                                    </option>
+                                    <option value="Civil Engineering">
+                                        Civil Engineering
+                                    </option>
+                                    <option value="Computer Studies">
+                                        Computer Studies
+                                    </option>
+                                    <option
+                                        value="Department of Research and Develop"
+                                    >
+                                        Department of Research and Develop
+                                    </option>
+                                    <option
+                                        value="Electrical and Electronics Engineering"
+                                    >
+                                        Electrical and Electronics Engineering
+                                    </option>
                                 </select>
                                 <div
                                     v-if="form.errors.Department"
@@ -272,17 +295,17 @@ const oncloseModal = () => {
                             </div>
                         </div>
                     </div>
-                    <div class="mt-3 flex justify-end gap-4">
+                    <div class="flex justify-end gap-4 mt-3">
                         <button
                             type="button"
                             class="btn btn-warning"
                             @click="oncloseModal"
                         >
-                        <i class="pi pi-times"></i>
+                            <i class="fa-solid fa-xmark"></i>
                             Close
                         </button>
                         <button type="submit" class="btn btn-success">
-                            <i class="pi pi-save"></i>
+                            <i class="fa-regular fa-floppy-disk"></i>
                             {{ form.id ? "Update" : "Save" }}
                         </button>
                     </div>
@@ -294,22 +317,23 @@ const oncloseModal = () => {
         <div class="p-3">
             <div class="mb-2">
                 <h2 class="text-2xl font-bold">ThesisAdvisor Management</h2>
-                <div class="mt-2 bg-base-100 px-2 pb-2 rounded-xl flex gap-2">
+                <div class="flex gap-2 px-2 pb-2 mt-2 bg-base-100 rounded-xl">
                     <!-- <div class="mt-auto"> -->
-                        <button
-                            class="btn btn-primary align-bottom mt-9"
-                            @click="onOpenModal = true"
-                        >
-                        <i class="pi pi-file-plus"></i>
-                            New
-                        </button>
+                    <button
+                        class="align-bottom btn btn-primary mt-9"
+                        @click="onOpenModal = true"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+
+                        New
+                    </button>
                     <!-- </div> -->
 
                     <div class="flex flex-col w-full">
                         <label class="label label-text">Academic Year</label>
                         <select
                             v-model="filterForm.academic_year"
-                            class="select select-info w-full"
+                            class="w-full select select-info"
                         >
                             <option value="">All Years</option>
                             <option
@@ -325,7 +349,7 @@ const oncloseModal = () => {
                         <label class="label label-text">Advisor Name</label>
                         <select
                             v-model="filterForm.advisor"
-                            class="select select-info w-full"
+                            class="w-full select select-info"
                         >
                             <option value="">All Advisors</option>
                             <option
@@ -341,7 +365,7 @@ const oncloseModal = () => {
                         <label class="label label-text">Department</label>
                         <select
                             v-model="filterForm.department"
-                            class="select select-info w-full"
+                            class="w-full select select-info"
                         >
                             <option value="">All Departments</option>
                             <option
@@ -354,21 +378,21 @@ const oncloseModal = () => {
                     </div>
 
                     <!-- <div class="mt-auto"> -->
-                        <button
-                            class="btn btn-warning mt-9"
-                            type="button"
-                            @click="onClearFilter"
-                        >
-                        <i class="pi pi-eraser"></i>
-                            Clear
-                        </button>
+                    <button
+                        class="btn btn-warning mt-9"
+                        type="button"
+                        @click="onClearFilter"
+                    >
+                        <i class="fa-solid fa-eraser"></i>
+                        Clear
+                    </button>
                     <!-- </div> -->
                 </div>
             </div>
-            <div class="bg-base-100 rounded-xl overflow-x-auto">
+            <div class="overflow-x-auto bg-base-100 rounded-xl">
                 <table class="table">
                     <thead>
-                        <tr class="text uppercase text-sm">
+                        <tr class="text-sm uppercase text">
                             <th>Id</th>
                             <th>Academic</th>
                             <th>Advisor</th>
@@ -391,9 +415,9 @@ const oncloseModal = () => {
                                 <button
                                     type="button"
                                     @click="onEdit(item.id)"
-                                    class="btn btn-warning mr-2"
+                                    class="mr-2 btn btn-warning"
                                 >
-                                <i class="pi pi-file-edit"></i>
+                                    <i class="fa-solid fa-pen-to-square"></i>
                                     Edit
                                 </button>
                                 <button
@@ -401,7 +425,7 @@ const oncloseModal = () => {
                                     @click="onDelete(item.id)"
                                     class="btn btn-error"
                                 >
-                                <i class="pi pi-trash"></i>
+                                    <i class="fa-solid fa-trash-plus"></i>
                                     Delete
                                 </button>
                             </td>
@@ -411,7 +435,7 @@ const oncloseModal = () => {
             </div>
 
             <!-- Pagination -->
-            <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
+            <div class="flex justify-center p-2 mt-2 bg-base-100 rounded-xl">
                 <div class="join">
                     <Link
                         v-for="link in thesisAdvisors.links"

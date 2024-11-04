@@ -4,9 +4,6 @@ import TheSidebarItem from "@/Components/Layout/TheSidebarItem.vue";
 // import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 // import { faMyIcon } from '@awesome.me/kit-KIT_CODE/icons/kit/custom';
 // import { NotebookPen } from 'lucide-vue-next';
-import "primeicons/primeicons.css";
-import "primevue/resources/primevue.min.css";
-import "primevue/resources/themes/saga-blue/theme.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 const sidebar = useToggleSidebar();
@@ -29,30 +26,6 @@ const sidebar = useToggleSidebar();
             "
             class="fixed inset-y-0 left-0 z-50 overflow-y-auto transition transform bg-blue-700 w-70 dark:bg-blue-900 lg:translate-x-0 lg:static lg:inset-0"
         >
-            <!-- <div class="flex items-center justify-between pr-6 mt-5 print:pl-7">
-                <div class="max-w-xs w-full print:w-[180mm]">
-                    <img
-                        src="/images/nu-banner-logo.png"
-                        alt="logo"
-                        class="print:w-[162px] w-full dark:hidden"
-                    />
-                    <img
-                        src="/images/nu-banner-logo-white.png"
-                        alt="logo"
-                        class="print:w-[162px] w-full hidden dark:block"
-                    />
-                </div>
-            </div> -->
-
-            <!-- <div class="flex items-center justify-center mt-8">
-                <div class="flex items-center justify-center">
-                    <div
-                        class="mx-4 text-4xl font-semibold text-center text-white"
-                    >
-                        <i class="pi pi-school"> </i> Norton University
-                    </div>
-                </div>
-            </div> -->
             <div class="flex items-center justify-center mt-8 mr-4">
                 <div class="flex items-center justify-center space-x-4">
                     <img
@@ -68,80 +41,6 @@ const sidebar = useToggleSidebar();
                 </div>
             </div>
 
-            <!-- <nav class="mt-8">
-                <TheSidebarItem
-                    title="Dashboard"<i class="fa-solid fa-house"></i>
-                    :link="route('dashboard')"
-                    :is-active="$page.component === 'Dashboard'"
-                />
-
-                <TheSidebarItem
-                    title="Thesis"
-                    :link="route('thesis.index')"
-                    :is-active="$page.component.startsWith('Thesis/')"
-                />
-
-                <TheSidebarItem
-                    title="ThesisAdvisor"
-                    :link="route('thesisAdvisor.index')"
-                    :is-active="$page.component.startsWith('ThesisAdvisor/')"
-                />
-                <TheSidebarItem
-                    title="ThesisCommittee"
-                    :link="route('thesisCommittee.index')"
-                    :is-active="$page.component.startsWith('ThesisCommittee/')"
-                />
-                <TheSidebarItem
-                    title="ThesisDetail"
-                    :link="route('thesisDetail.index')"
-                    :is-active="$page.component.startsWith('ThesisDetail/')"
-                />
-                <TheSidebarItem
-                    title="Teacher"<i class="fa-solid fa-chalkboard-teacher"></i>
-                    :link="route('')"
-                    :is-active="$page.component.startsWith('')"
-                />
-                <TheSidebarItem
-                    title="Student"<i class="fa-solid fa-user-graduate"></i>
-                    :link="route('')"
-                    :is-active="$page.component.startsWith('')"
-                />
-                <TheSidebarItem
-                    title="All Advisor"<i class="fa-solid fa-user-tie"></i>
-                    :link="route('')"
-                    :is-active="$page.component.startsWith('')"
-                />
-                <TheSidebarItem
-                    title="All Committee"<i class="fa-solid fa-users"></i>
-                    :link="route('')"
-                    :is-active="$page.component.startsWith('')"
-                />
-                <TheSidebarItem
-                    title="Student Score"<i class="fa-solid fa-book"></i>
-                    :link="route('')"
-                    :is-active="$page.component.startsWith('')"
-                />
-                <TheSidebarItem
-                    title="Add Group Thesis"<i class="fa-solid fa-plus-square"></i>
-                    :link="route('')"
-                    :is-active="$page.component.startsWith('')"
-                />
-                <TheSidebarItem
-                    title="Advisor Score Report"<i class="fa-solid fa-chart-bar"></i>
-                    :link="route('')"
-                    :is-active="$page.component.startsWith('')"
-                />
-                <TheSidebarItem
-                    title="Committee List Report"<i class="fa-solid fa-clipboard-list"></i>
-                    :link="route('')"
-                    :is-active="$page.component.startsWith('')"
-                />
-                <TheSidebarItem
-                    title="Sarana Schedule Report"<i class="fa-solid fa-calendar"></i>
-                    :link="route('')"
-                    :is-active="$page.component.startsWith('')"
-                />
-            </nav> -->
             <nav class="mt-8">
                 <TheSidebarItem
                     title="Dashboard"
@@ -166,6 +65,12 @@ const sidebar = useToggleSidebar();
                     icon="fa-solid fa-users"
                     :link="route('thesisCommittee.index')"
                     :is-active="$page.component.startsWith('ThesisCommittee/')"
+                />
+                <TheSidebarItem
+                    title="ThesisDetail"
+                    icon="fa-solid fa-file-alt"
+                    :link="route('thesisDetail.index')"
+                    :is-active="$page.component.startsWith('ThesisDetail/')"
                 />
                 <TheSidebarItem
                     title="Teacher"

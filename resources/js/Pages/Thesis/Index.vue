@@ -9,11 +9,6 @@ import { filter, pickBy, throttle } from "lodash";
 import { watch } from "vue";
 import Swal from "sweetalert2";
 
-import 'primeicons/primeicons.css';
-import 'primevue/resources/primevue.min.css';
-import 'primevue/resources/themes/saga-blue/theme.css';
-
-
 const props = defineProps<{
     thesises: PaginateType<ThesisType>;
     thesisAdvisors: ThesisAdvisorType[];
@@ -75,30 +70,43 @@ const onDelete = async (id: number) => {
             <div class="mb-2">
                 <h2 class="text-2xl font-bold">Thesis Management</h2>
                 <div class="mt-4">
-                    <div class="bg-base-100 p-2 rounded-xl flex gap-2 items-center">
-                        <Link :href="route('thesis.create')" class="btn btn-primary">
-                            <i class="pi pi-file-plus"></i>
+                    <div
+                        class="flex items-center gap-2 p-2 bg-base-100 rounded-xl"
+                    >
+                        <Link
+                            :href="route('thesis.create')"
+                            class="btn btn-primary"
+                        >
+                            <i class="fa-solid fa-plus"></i>
                             New
                         </Link>
-                        <input v-model="filterForm.keyword" type="text" class="input input-primary w-full"
-                        placeholder="&#128269; Search...">
+                        <input
+                            v-model="filterForm.keyword"
+                            type="text"
+                            class="w-full input input-primary"
+                            placeholder="&#128269; Search..."
+                        />
                         <i class="pi pi-search search-icon"></i>
 
-                        <!-- <select v-model="filterForm.Advisor" class="select select-primary w-full">
+                        <!-- <select v-model="filterForm.Advisor" class="w-full select select-primary">
                             <option :value="null">Select a Advisor</option>
                             <option v-for="(thesisAdvisor, index) in thesisAdvisors" :key="index" :value="thesisAdvisor.id">
                                 {{ thesisAdvisor.Advisor }}
                             </option>
                         </select> -->
-                        <button class="btn btn-warning" type="button" @click="onClearFilter">
-                            <i class="pi pi-eraser"></i>
+                        <button
+                            class="btn btn-warning"
+                            type="button"
+                            @click="onClearFilter"
+                        >
+                            <i class="fa-solid fa-eraser"></i>
                             Clear
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="bg-base-100 rounded-xl overflow-x-auto">
-                <table class="table table-auto uppercase font-bold">
+            <div class="overflow-x-auto bg-base-100 rounded-xl">
+                <table class="table font-bold uppercase table-auto">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -159,12 +167,19 @@ const onDelete = async (id: number) => {
                             <!-- <td>{{ item.Building }}</td> -->
                             <td>{{ item.Room }}</td>
                             <td>
-                                <Link :href="route('thesis.edit', item.id)" class="btn btn-warning mr-2">
-                                    <i class="pi pi-file-edit"></i>
+                                <Link
+                                    :href="route('thesis.edit', item.id)"
+                                    class="mr-2 btn btn-warning"
+                                >
+                                    <i class="fa-solid fa-pen-to-square"></i>
                                     Edit
                                 </Link>
-                                <button type="button" @click="onDelete(item.id)" class="btn btn-error">
-                                    <i class="pi pi-trash"></i>
+                                <button
+                                    type="button"
+                                    @click="onDelete(item.id)"
+                                    class="btn btn-error"
+                                >
+                                    <i class="fa-solid fa-trash-plus"></i>
                                     Delete
                                 </button>
                             </td>
@@ -172,11 +187,15 @@ const onDelete = async (id: number) => {
                     </tbody>
                 </table>
             </div>
-            <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
+            <div class="flex justify-center p-2 mt-2 bg-base-100 rounded-xl">
                 <div class="join">
-                    <Link v-for="link in thesises.links" :href="link.url ?? '#'" class="join-item btn"
-                        :class="{ 'btn-primary': link.active }">
-                    <span v-html="link.label"></span>
+                    <Link
+                        v-for="link in thesises.links"
+                        :href="link.url ?? '#'"
+                        class="join-item btn"
+                        :class="{ 'btn-primary': link.active }"
+                    >
+                        <span v-html="link.label"></span>
                     </Link>
                 </div>
             </div>
@@ -184,20 +203,20 @@ const onDelete = async (id: number) => {
     </App>
 </template>
 <style scoped>
-    .search-container {
-        position: relative;
-    }
+.search-container {
+    position: relative;
+}
 
-    .search-container input {
-        padding-left: 2rem; /* Adjust as needed */
-    }
+.search-container input {
+    padding-left: 2rem; /* Adjust as needed */
+}
 
-    .search-icon {
-        position: absolute;
-        top: 50%;
-        left: 0.75rem; /* Adjust as needed */
-        transform: translateY(-50%);
-        font-size: 1.25rem; /* Adjust as needed */
-        color: #6b7280;
-    }
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem; /* Adjust as needed */
+    transform: translateY(-50%);
+    font-size: 1.25rem; /* Adjust as needed */
+    color: #6b7280;
+}
 </style>
