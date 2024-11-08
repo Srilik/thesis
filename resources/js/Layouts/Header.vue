@@ -74,7 +74,7 @@ let selectedIndex = ref<number>(-1);
 // Function to filter the fruits based on the search input
 function filteredList() {
     return fruits.filter((fruit) =>
-        fruit.toLowerCase().includes(input.value.toLowerCase())
+        fruit.toLowerCase().includes(input.value.toLowerCase()),
     );
 }
 // Handling up and down arrow key navigation
@@ -145,8 +145,8 @@ onUnmounted(() => {
                 <input
                     v-model="input"
                     type="text"
-                    class="w-full text-lg rounded-md bg-base-100 input-sm input input-primary"
-                    placeholder="Search fruits..."
+                    class="w-full rounded-md text-md bg-base-100 input-sm input input-primary"
+                    placeholder="Search Thesis Topic..."
                 />
                 <!-- Results dropdown -->
                 <div
