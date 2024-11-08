@@ -2366,7 +2366,7 @@ const oncloseModal = () => {
                                     @click="onDelete(item.id)"
                                     class="btn btn-error"
                                 >
-                                    <i class="fa-solid fa-trash-plus"></i>
+                                    <i class="fa-solid fa-trash-can"></i>
                                     Delete
                                 </button>
                             </td>

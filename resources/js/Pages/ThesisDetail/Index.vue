@@ -254,7 +254,7 @@ const onDelete = (id: number) => {
 
                     </div>  -->
                     <div class="flex justify-end">
-                        <button type="submit" class="mt-3 btn btn-primary">
+                        <button type="submit" class="mt-3 btn btn-success">
                             <i class="fa-regular fa-floppy-disk"></i>
                             Save
                         </button>
@@ -315,12 +315,12 @@ const onDelete = (id: number) => {
                             <td>{{ item.Remark }}</td>
                             <td>{{ item.Result }}</td>
                             <td>
-                                <button @click="onEdit(item.id)" class="mr-2 btn btn-success">
+                                <button @click="onEdit(item.id)" class="mr-2 btn btn-warning">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                     Edit
                                 </button>
                                 <button @click="onDelete(item.id)" class="btn btn-error">
-                                    <i class="fa-solid fa-trash-plus"></i>
+                                    <i class="fa-solid fa-trash-can"></i>
                                     Delete
                                 </button>
                             </td>

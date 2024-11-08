@@ -27,11 +27,15 @@
         "@fortawesome/free-regular-svg-icons": "^6.5.1",
         "@fortawesome/free-solid-svg-icons": "^6.5.1",
         "@fortawesome/vue-fontawesome": "^3.0.6",
+        "@headlessui/vue": "^1.7.23",
+        "class-variance-authority": "^0.7.0",
         "flatpickr": "^4.6.13",
         "lodash": "^4.17.21",
         "lucide-vue-next": "^0.311.0",
         "pinia": "^2.1.7",
+        "radix-vue": "^1.9.8",
         "sweetalert2": "^11.6.13",
+        "tailwind-merge": "^2.5.4",
         "ziggy": "^2.4.0"
     }
 }
