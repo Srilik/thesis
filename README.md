@@ -5,44 +5,47 @@
 git clone https://github.com/Srilik/thesis.git
 ```
 
-#### Pushing an existing repository
+## Log Project
 
 - cd into the directory
 - Initialize the directory as a git repository
 
 ```bash
-git init
+code .
 ```
 
-- Add the files to the repository
+## Run In Command
 
 ```bash
-git add .
+composer install
 ```
-
-- Commit the files to the repository
-
 ```bash
-git commit -m "Initial commit"
+npm install
 ```
-
-- Add Branch name main
-
 ```bash
-git branch -M main
+php artisan key:generate
 ```
-
-- Add remote repository
-
 ```bash
-git remote add origin https://github.com/chanthornsp/test-repo.git
+copy .env.example .env
 ```
-
-- Push the files to the repository
-
 ```bash
-git push -u origin main
+php artisan migrate
 ```
+```bash
+```bash
+git checkout vatey OR
+```
+```bash
+git checkout sreynuon OR
+```
+```bash
+git checkout hea
+```
+```
+```bash
+npm run dev
+```
+
 
 ## Basic Git Commands
 
