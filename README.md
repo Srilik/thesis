@@ -11,6 +11,9 @@ git clone https://github.com/Srilik/thesis.git
 - Initialize the directory as a git repository
 
 ```bash
+cd /thesis
+```
+```bash
 code .
 ```
 
