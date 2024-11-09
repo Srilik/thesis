@@ -32,15 +32,9 @@ copy .env.example .env
 php artisan migrate
 ```
 ```bash
-```bash
 git checkout vatey OR
-```
-```bash
 git checkout sreynuon OR
-```
-```bash
 git checkout hea
-```
 ```
 ```bash
 npm run dev
