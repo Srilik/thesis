@@ -40,6 +40,18 @@ git checkout hea
 npm run dev
 ```
 
+## When You Do Correct All In Your Branch Run In Command
+
+```bash
+git add .
+```
+```bash
+git commit -m "initial commit"
+```
+```bash
+git push -u
+```
+
 
 ## Basic Git Commands
 
