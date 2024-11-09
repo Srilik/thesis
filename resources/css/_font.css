@@ -1,0 +1,338 @@
+/* khmer */
+@import url("https://fonts.googleapis.com/css2?family=Moulpali&display=swap&family=Moul&display=swap&family=Siemreap&display=swap&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@font-face {
+    font-family: "Noto Sans Khmer";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/khmer/NotoSansKhmer/NotoSansKhmer-Thin.ttf");
+    unicode-range: U+1780-17FF, U+200C, U+25CC, U+0000-00FF, U+0131, U+0152-0153,
+        U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122,
+        U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* khmer */
+@font-face {
+    font-family: "Noto Sans Khmer";
+    font-style: normal;
+    font-weight: 200;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/khmer/NotoSansKhmer/NotoSansKhmer-SemiBold.ttf");
+    unicode-range: U+1780-17FF, U+200C, U+25CC, U+0000-00FF, U+0131, U+0152-0153,
+        U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122,
+        U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* khmer */
+@font-face {
+    font-family: "Noto Sans Khmer";
+    font-style: normal;
+    font-weight: 300;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/khmer/NotoSansKhmer/NotoSansKhmer-Regular.ttf");
+    unicode-range: U+1780-17FF, U+200C, U+25CC, U+0000-00FF, U+0131, U+0152-0153,
+        U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122,
+        U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* khmer */
+@font-face {
+    font-family: "Noto Sans Khmer";
+    font-style: normal;
+    font-weight: 400;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/khmer/NotoSansKhmer/NotoSansKhmer-Medium.ttf");
+    unicode-range: U+1780-17FF, U+200C, U+25CC, U+0000-00FF, U+0131, U+0152-0153,
+        U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122,
+        U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Norton Fonts */
+@font-face {
+    font-family: "Norton R1";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/nu/norton-r1.ttf");
+}
+
+/* Norton S1 */
+@font-face {
+    font-family: "Norton S1";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/nu/norton-s1.ttf");
+}
+/* Khmer-S1-Regular */
+@font-face {
+    font-family: "Khmer S1";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/Khmer-S1-Regular.ttf");
+}
+
+/* KHMEROSSYS.TTF */
+@font-face {
+    font-family: "Khmer OS System";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/KHMEROSSYS.TTF");
+}
+
+/* Tacteng */
+@font-face {
+    font-family: "Tacteng";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/TACTENG.TTF");
+}
+/* barcode */
+@font-face {
+    font-family: "barcode";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/Hrsokha_Code39.ttf");
+}
+/* tahoma */
+@font-face {
+    font-family: "tahoma";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/tahoma.ttf");
+}
+/* tahomabd */
+@font-face {
+    font-family: "tahomabd";
+    font-style: bold;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/tahomabd.ttf");
+}
+/* utsaahb */
+@font-face {
+    font-family: "utsaahb";
+    font-style: bold;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/utsaahb.ttf");
+}
+
+@font-face {
+    font-family: "Kh Baphnom Limon R1";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/Kh-Baphnom-Limon-R1.ttf");
+}
+
+/* KhmerOSmuollight.ttf */
+@font-face {
+    font-family: "Moul Light";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/KhmerOSmuollight.ttf");
+}
+
+/* Moulpali */
+@font-face {
+    font-family: "Moulpali";
+}
+/* Moul */
+@font-face {
+    font-family: "Moul";
+}
+
+/* Siemreap */
+@font-face {
+    font-family: "Siemreap";
+    font-style: normal;
+}
+
+/* Os Siemereap */
+@font-face {
+    font-family: "Khmer OS Siemreap";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/KhmerOSsiemreap.ttf");
+}
+
+/* Os Muol */
+@font-face {
+    font-family: "Khmer OS Muol";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/KhmerOSmuol.ttf");
+}
+
+/* Arial Black font */
+@font-face {
+    font-family: "Arial Black";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/arial-black.ttf");
+}
+/* Arial */
+@font-face {
+    font-family: "Arial";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/arial.ttf");
+}
+/* SCHNDLK.TTF */
+@font-face {
+    font-family: "schneidlerblk";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/SCHNDLK.TTF");
+}
+/* times new roman */
+@font-face {
+    font-family: "times new roman";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/times.ttf");
+}
+/* Arial Rounded Bold */
+
+@font-face {
+    font-family: "Arial Rounded Bold";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/arialrbd.ttf");
+}
+
+/* MesloL GMDZ NF*/
+@font-face {
+    font-family: "MesloL GMDZ NF";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/MesloLGMDZBoldNerdFontCompleteMono.ttf");
+}
+@font-face {
+    font-family: "Ubuntu Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/*
+georgiab.ttf
+*/
+@font-face {
+    font-family: "georgiab";
+    font-style: bold;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/georgiab.ttf");
+}
+
+/* CityDBol */
+@font-face {
+    font-family: "CityDBol";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/CityDBol.ttf");
+}
+
+/*
+Legacy fonts
+Name: LimonS1
+*/
+@font-face {
+    font-family: "LimonS1";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/LIMONS1.TTF");
+}
+
+/*
+ALGER.TTF
+*/
+@font-face {
+    font-family: "Algerian";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/ALGER.TTF");
+}
+/*
+Bodoni MT Black
+BOD_BLAR.TTF
+*/
+@font-face {
+    font-family: "Bodoni MT Black";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/BOD_BLAR.TTF");
+}
+
+/*
+BERNHC.TTF
+Bernard MT Condensed
+*/
+@font-face {
+    font-family: "Bernard MT Condensed";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/BERNHC.TTF");
+}
+
+/*
+ELEPHNT.TTF
+Elephant
+*/
+@font-face {
+    font-family: "Elephant";
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url("fonts/ELEPHNT.TTF");
+}

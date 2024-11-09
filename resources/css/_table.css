@@ -1,0 +1,182 @@
+/* Base table */
+.base-table {
+    @apply border-separate border-spacing-y-2 rounded-xl;
+    /*border-spacing: 0 5px;*/
+    /*border-collapse: separate;*/
+}
+
+.base-table thead tr {
+    @apply border-b bg-primary text-white dark:bg-darkPrimary;
+}
+
+.base-table tr td,
+.base-table tr th {
+    @apply p-1 px-2;
+}
+
+.base-table tr td {
+    @apply bg-white dark:bg-slate-500/75;
+}
+
+.base-table tr td:first-child,
+.base-table tr th:first-child {
+    @apply rounded-l-xl;
+}
+
+.base-table tr td:last-child,
+.base-table tr th:last-child {
+    @apply rounded-r-xl;
+}
+
+.base-table .head-row td {
+    @apply bg-gray-200 drop-shadow-sm;
+}
+
+.base-table .danger td {
+    @apply bg-red-100 text-red-800;
+}
+
+.base-table2 {
+    @apply table-auto border-collapse;
+}
+
+.base-table2 thead tr td,
+.base-table2 thead tr th {
+    @apply border border-b border-t-0 border-base-300 bg-white p-2  dark:border-gray-500 dark:bg-gray-700 dark:text-gray-100;
+}
+
+.base-table2 thead tr:first-child td:first-child,
+.base-table2 thead tr:first-child th:first-child {
+    @apply overflow-hidden rounded-tl-2xl border-l-0;
+}
+
+.base-table2 thead tr:first-child td:last-child,
+.base-table2 thead tr:first-child th:last-child {
+    @apply overflow-hidden rounded-tr-2xl border-r-0;
+}
+
+/* border-x except first and last */
+.base-table2 tbody td:not(:first-child):not(:last-child),
+.base-table2 tbody th:not(:first-child):not(:last-child) {
+    @apply border-x border-base-300 dark:border-gray-500;
+}
+
+/* border-y except first and last column */
+.base-table2 tbody tr:not(:first-child):not(:last-child) td,
+.base-table2 tbody tr:not(:first-child):not(:last-child) th {
+    @apply border-y border-base-300 dark:border-gray-500;
+}
+
+.base-table2 tbody tr td,
+.base-table2 tbody tr th {
+    @apply border-base-300 bg-base-100 p-2  dark:border-gray-500;
+}
+
+.base-table2 tbody tr:hover td,
+.base-table2 tbody tr:hover th {
+    @apply bg-gray-200 p-2 dark:bg-gray-900;
+}
+
+.base-table2 tbody tr:last-child td:first-child,
+.base-table2 tbody tr:last-child th:first-child {
+    @apply overflow-hidden rounded-bl-2xl;
+}
+
+.base-table2 tbody tr:last-child td:last-child,
+.base-table2 tbody tr:last-child th:last-child {
+    @apply overflow-hidden rounded-br-2xl;
+}
+
+.base-table2 tbody tr:not(:last-child) {
+    @apply border-b border-base-300;
+}
+
+.row-danger td,
+.row-danger th {
+    @apply !bg-red-100 !text-red-600 dark:!bg-red-800 dark:!text-red-200;
+}
+
+.row-success td,
+.row-success th {
+    @apply !bg-green-100 !text-green-600 dark:!bg-green-800 dark:!text-green-200;
+}
+
+.row-primary td,
+.row-primary th {
+    @apply !bg-blue-100 !text-blue-600 dark:!bg-blue-800 dark:!text-blue-200;
+}
+
+.row-secondary td,
+.row-secondary th {
+    @apply !bg-gray-200 !text-gray-600 dark:!bg-gray-800 dark:!text-gray-200;
+}
+
+.row-warning td,
+.row-warning th {
+    @apply !bg-yellow-100 !text-yellow-600 dark:!bg-yellow-800 dark:!text-yellow-200;
+}
+
+.row-dissabled td,
+.row-dissabled th {
+    @apply !bg-gray-100 !text-gray-400 dark:!bg-gray-800 dark:!text-gray-400;
+}
+
+.row-loading td,
+.row-loading th {
+    @apply animate-pulse !bg-gray-100 !text-gray-400 dark:!bg-gray-800 dark:!text-gray-400;
+}
+
+.row-danger:hover td,
+.row-danger:hover th,
+.row-success:hover td,
+.row-success:hover th,
+.row-warning:hover td,
+.row-warning:hover th .row-primary:hover td,
+.row-primary:hover th,
+.row-secondary:hover td,
+.row-secondary:hover th .row-dissabled:hover td,
+.row-dissabled:hover th {
+    @apply opacity-80;
+}
+
+/*.base-table2 tbody tr td:first-child,*/
+/*.base-table2 tbody tr th:first-child {*/
+/*    @apply border-l-primary border-l-4 ;*/
+/*}*/
+
+.table-bordered {
+    @apply border border-base-300 dark:border-gray-500;
+}
+
+.table-bordered thead tr td,
+.table-bordered thead tr th,
+.table-bordered tbody tr td,
+.table-bordered tbody tr th {
+    @apply border border-base-300 dark:border-gray-500 print:border-spacing-0 print:border-black;
+    @apply p-1;
+}
+
+.table-print {
+    @apply table-auto border-collapse;
+}
+
+/*
+* Table Print Head
+*/
+.table-print thead tr td,
+.table-print thead tr th {
+    @apply border border-base-300 bg-base-200 p-2  print:border-black;
+}
+
+/*
+* Table Print Body
+*/
+.table-print tbody tr td,
+.table-print tbody tr th {
+    @apply border border-base-300  p-1  print:border-black;
+}
+
+.table-print tbody tr:hover td,
+.table-print tbody tr:hover th {
+    @apply bg-base-300;
+}

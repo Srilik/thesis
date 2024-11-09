@@ -12,6 +12,7 @@ class ThesisDetailController extends Controller
     {
 
         $thesisDetails = ThesisDetail::query()
+<<<<<<< HEAD
             // ->with(['status', 'room'])
 
             ->when($request->input('keyword'), fn ($query)
@@ -63,10 +64,30 @@ class ThesisDetailController extends Controller
             // 'rooms' => $rooms,
             // 'statuses' => $statuses
         ]);
+=======
+            ->orderBy('Thesis_No')
+            ->when($request->input('keyword'), fn ($query)
+            =>$query->where('Thesis_No', 'like', "%" . $request->input('keyword') . "%"))
+            // ->get();
+            
+            ->paginate(5);
+            // ->withQueryString();            
+        return Inertia::render("ThesisDetail/Index",[
+            "thesisDetails"=>$thesisDetails,
+            'filters' => $request->all('keyword'),
+        ]);
+  
     }
-    public function store(Request $request)
+
+    public function create()
+    {
+        return Inertia::render('ThesisDetail/Index');
+>>>>>>> main
+    }
+    public function store(Request $request, $id=null)
     {
         $validatedData = $request->validate([
+<<<<<<< HEAD
             'id' => 'nullable',
             // 'name' => [
             //     'required',
@@ -81,6 +102,8 @@ class ThesisDetailController extends Controller
             //     }
             // ],
 
+=======
+>>>>>>> main
             "Thesis_No" => "nullable",
             "Student_ID" => "nullable",
             "Phone" => "nullable",
@@ -92,6 +115,7 @@ class ThesisDetailController extends Controller
             "Charateristic" => "nullable",
             "Remark" => "nullable",
             "Result" => "nullable",
+<<<<<<< HEAD
 
 
             // 'room_id' => 'required|exists:rooms,room_id',
@@ -106,6 +130,33 @@ class ThesisDetailController extends Controller
         } else {
             ThesisDetail::create($validatedData);
         }
+=======
+        ]);
+        if($id){
+            $thesisDetails = ThesisDetail::findOrFail($id);
+            $thesisDetails->update($validatedData);
+        // if($request->input('id')){
+        //     $thesisDetails = ThesisDetail::findOrFail($request->input("id"));
+        //     $thesisDetails->update($validatedData);
+        }else{
+            $request->validate([
+                "Thesis_No" => "nullable",
+                "Student_ID" => "nullable",
+                "Phone" => "nullable",
+                "Defend" => "nullable",
+                "Pass_State" => "nullable",
+                "Issue_Tem_Certificate" => "nullable",
+                "Other" => "nullable",
+                "Hardwork" => "nullable",
+                "Charateristic" => "nullable",
+                "Remark" => "nullable",
+                "Result" => "nullable",
+            ]);
+            ThesisDetail::create($validatedData);
+        }
+        return  redirect()->back();
+    }
+>>>>>>> main
 
         return redirect()->route('thesisDetail.index');
     }
@@ -115,8 +166,10 @@ class ThesisDetailController extends Controller
         //
     }
 
-    public function edit(ThesisDetail $thesisDetail)
+    public function edit($id)
+    // ThesisDetail $thesisDetail 
     {
+<<<<<<< HEAD
         // $rooms = Room::query()
         //     ->select('room_id', 'name')
         //     ->orderBy('name')
@@ -132,6 +185,13 @@ class ThesisDetailController extends Controller
             // 'statuses' => $statuses,
             'thesisDetail' => $thesisDetail
         ]);
+=======
+        return ThesisDetail::findOrFail($id);
+
+        // return Inertia::render('ThesisDetail/Create', [
+        //     'thesisDetail' =>$thesisDetail
+        // ]);    
+>>>>>>> main
     }
 
     public function update(Request $request, ThesisDetail $thesisDetail)
@@ -143,6 +203,10 @@ class ThesisDetailController extends Controller
     {
         $thesisDetail->delete();
         return redirect()->back();
+<<<<<<< HEAD
     }    
+=======
+    }
+>>>>>>> main
 
 }

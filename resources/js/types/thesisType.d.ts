@@ -31,5 +31,9 @@ export interface ThesisType {
     created_at: string;
     updated_at: string;
 
+<<<<<<< HEAD
     // thesisAdvisor?: ThesisAdvisorType;
+=======
+    thesisAdvisor?:  ThesisAdvisorType;
+>>>>>>> main
 }

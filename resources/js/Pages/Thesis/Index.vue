@@ -3,6 +3,7 @@ import App from "@/Layouts/App.vue";
 import { ThesisType } from "@/types/thesisType";
 import { PaginateType } from "@/types/paginateType";
 import { ThesisAdvisorType } from "@/types/thesisAdvisor";
+<<<<<<< HEAD
 import { useForm, router } from "@inertiajs/vue3";
 import { watch } from "vue";
 import { throttle, pickBy } from "lodash";
@@ -12,6 +13,13 @@ import 'primeicons/primeicons.css';
 import 'primevue/resources/primevue.min.css';
 import 'primevue/resources/themes/saga-blue/theme.css';
 
+=======
+import { router, useForm } from "@inertiajs/vue3";
+import axios from "axios";
+import { filter, pickBy, throttle } from "lodash";
+import { watch } from "vue";
+import Swal from "sweetalert2";
+>>>>>>> main
 
 const props = defineProps<{
     thesises: PaginateType<ThesisType>;
@@ -74,6 +82,7 @@ const onDelete = async (id: number) => {
             <div class="mb-2">
                 <h2 class="text-2xl font-bold">Thesis Management</h2>
                 <div class="mt-4">
+<<<<<<< HEAD
                     <div class="bg-base-100 p-2 rounded-xl flex gap-2 items-center">
                         <Link :href="route('thesis.create')" class="btn btn-primary">
                             <i class="pi pi-file-plus"></i>
@@ -84,25 +93,60 @@ const onDelete = async (id: number) => {
                         <i class="pi pi-search search-icon"></i>
 
                         <!-- <select v-model="filterForm.Advisor" class="select select-primary w-full">
+=======
+                    <div
+                        class="flex items-center gap-2 p-2 bg-base-100 rounded-xl"
+                    >
+                        <Link
+                            :href="route('thesis.create')"
+                            class="btn btn-primary"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            New
+                        </Link>
+                        <input
+                            v-model="filterForm.keyword"
+                            type="text"
+                            class="w-full input input-primary"
+                            placeholder="&#128269; Search..."
+                        />
+                        <i class="pi pi-search search-icon"></i>
+
+                        <!-- <select v-model="filterForm.Advisor" class="w-full select select-primary">
+>>>>>>> main
                             <option :value="null">Select a Advisor</option>
                             <option v-for="(thesisAdvisor, index) in thesisAdvisors" :key="index" :value="thesisAdvisor.id">
                                 {{ thesisAdvisor.Advisor }}
                             </option>
                         </select> -->
+<<<<<<< HEAD
                         <button class="btn btn-warning" type="button" @click="onClearFilter">
                             <i class="pi pi-eraser"></i>
+=======
+                        <button
+                            class="btn btn-warning"
+                            type="button"
+                            @click="onClearFilter"
+                        >
+                            <i class="fa-solid fa-eraser"></i>
+>>>>>>> main
                             Clear
                         </button>
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
             <div class="bg-base-100 rounded-xl overflow-x-auto">
                 <table class="table table-lg w-full h-full">
+=======
+            <div class="overflow-x-auto bg-base-100 rounded-xl">
+                <table class="table font-bold uppercase table-auto">
+>>>>>>> main
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Thesis_No</th>
-                            <th>Thesis_Group</th>
+                            <!-- <th>Thesis_Group</th> -->
                             <th>Academic_Year</th>
                             <th>Department</th>
                             <th>Major</th>
@@ -119,12 +163,21 @@ const onDelete = async (id: number) => {
                             <th>Objective_Khmer</th>
                             <th>Summary</th>
                             <th>Submit_Date</th> -->
+<<<<<<< HEAD
                             <!-- <th>Teacher_id</th> -->
                             <!-- <th>Defend_Date</th>
                             <th>Book_Score</th>
                             <th>Defend_time</th>
                             <th>Submit_book</th> -->
                             <th>Building</th>
+=======
+                            <th>Teacher_id</th>
+                            <!-- <th>Defend_Date</th> -->
+                            <!-- <th>Book_Score</th> -->
+                            <!-- <th>Defend_time</th> -->
+                            <!-- <th>Submit_book</th> -->
+                            <!-- <th>Building</th> -->
+>>>>>>> main
                             <th>Room</th>
                             <th>Action</th>
                         </tr>
@@ -133,7 +186,7 @@ const onDelete = async (id: number) => {
                         <tr v-for="(item, index) in thesises.data" :key="index">
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.Thesis_No }}</td>
-                            <td>{{ item.Thesis_Group }}</td>
+                            <!-- <td>{{ item.Thesis_Group }}</td> -->
                             <td>{{ item.Academic_Year }}</td>
                             <td>{{ item.Department }}</td>
                             <td>{{ item.Major }}</td>
@@ -150,6 +203,7 @@ const onDelete = async (id: number) => {
                             <td>{{ item.Objective_Khmer }}</td>
                             <td>{{ item.Summary }}</td>
                             <td>{{ item.Submit_Date }}</td> -->
+<<<<<<< HEAD
                             <!-- <td>{{ item.Teacher_id }}</td> -->
                             <!-- <td>{{ item.Defend_Date }}</td>
                             <td>{{ item.Book_Score }}</td>
@@ -164,6 +218,29 @@ const onDelete = async (id: number) => {
                                 </Link>
                                 <button type="button" @click="onDelete(item.id)" class="btn btn-error">
                                     <i class="pi pi-trash"></i>
+=======
+                            <td>{{ item.Teacher_id }}</td>
+                            <!-- <td>{{ item.Defend_Date }}</td> -->
+                            <!-- <td>{{ item.Book_Score }}</td> -->
+                            <!-- <td>{{ item.Defend_time }}</td> -->
+                            <!-- <td>{{ item.Submit_book }}</td> -->
+                            <!-- <td>{{ item.Building }}</td> -->
+                            <td>{{ item.Room }}</td>
+                            <td>
+                                <Link
+                                    :href="route('thesis.edit', item.id)"
+                                    class="mr-2 btn btn-warning"
+                                >
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Edit
+                                </Link>
+                                <button
+                                    type="button"
+                                    @click="onDelete(item.id)"
+                                    class="btn btn-error"
+                                >
+                                    <i class="fa-solid fa-trash-can"></i>
+>>>>>>> main
                                     Delete
                                 </button>
                             </td>
@@ -171,11 +248,23 @@ const onDelete = async (id: number) => {
                     </tbody>
                 </table>
             </div>
+<<<<<<< HEAD
             <div class="bg-base-100 rounded-xl mt-2 flex justify-center p-2">
                 <div class="join">
                     <Link v-for="link in thesises.links" :href="link.url ?? '#'" class="join-item btn"
                         :class="{ 'btn-primary': link.active }">
                     <span v-html="link.label"></span>
+=======
+            <div class="flex justify-center p-2 mt-2 bg-base-100 rounded-xl">
+                <div class="join">
+                    <Link
+                        v-for="link in thesises.links"
+                        :href="link.url ?? '#'"
+                        class="join-item btn"
+                        :class="{ 'btn-primary': link.active }"
+                    >
+                        <span v-html="link.label"></span>
+>>>>>>> main
                     </Link>
                 </div>
             </div>
@@ -183,6 +272,7 @@ const onDelete = async (id: number) => {
     </App>
 </template>
 <style scoped>
+<<<<<<< HEAD
     .search-container {
         position: relative;
     }
@@ -200,3 +290,22 @@ const onDelete = async (id: number) => {
         color: #6b7280;
     }
 </style>
+=======
+.search-container {
+    position: relative;
+}
+
+.search-container input {
+    padding-left: 2rem; /* Adjust as needed */
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem; /* Adjust as needed */
+    transform: translateY(-50%);
+    font-size: 1.25rem; /* Adjust as needed */
+    color: #6b7280;
+}
+</style>
+>>>>>>> main

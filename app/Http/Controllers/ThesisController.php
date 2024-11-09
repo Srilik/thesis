@@ -13,6 +13,7 @@ class ThesisController extends Controller
     public function index(Request $request)
     {
         $thesises = Thesis::query()
+<<<<<<< HEAD
             ->with(['thesisAdvisor'])
 
             ->when($request->input('keyword'), fn ($query)
@@ -22,6 +23,17 @@ class ThesisController extends Controller
             =>$query->where('Teacher_id', $request->input('Teacher_id')))
 
             ->paginate(20)
+=======
+            // ->with(['thesisAdvisor'])
+
+            ->when($request->input('keyword'), fn ($query)
+            => $query->where('Academic_Year', 'like', '%' . $request->input('keyword') . '%'))
+
+            // ->when($request->input('Teacher_id'), fn($query)
+            // =>$query->where('Teacher_id', $request->input('Teacher_id')))
+
+            ->paginate(5)
+>>>>>>> main
             ->withQueryString();
 
             $thesisAdvisors = ThesisAdvisor::query()
