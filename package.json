@@ -28,6 +28,7 @@
         "@fortawesome/free-solid-svg-icons": "^6.5.1",
         "@fortawesome/vue-fontawesome": "^3.0.6",
         "@headlessui/vue": "^1.7.23",
+        "@heroicons/vue": "^2.1.5",
         "class-variance-authority": "^0.7.0",
         "flatpickr": "^4.6.13",
         "lodash": "^4.17.21",

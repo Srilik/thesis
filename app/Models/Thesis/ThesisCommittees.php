@@ -9,6 +9,8 @@ class ThesisCommittees extends Model
 {
     use HasFactory;
     protected $table = 'thesis_committees';
+    protected $primaryKey = 'id';
+    protected $keyType = 'integer';
     protected $fillable = [
         'thesis_id',
         'lecturer_id',
@@ -21,7 +23,7 @@ class ThesisCommittees extends Model
      */
     public function thesises()
     {
-        return $this->belongsTo(Thesises::class);
+        return $this->belongsTo(Thesises::class, 'thesis_id');
     }
 
 }

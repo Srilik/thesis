@@ -9,6 +9,9 @@ class Thesises extends Model
 {
     use HasFactory;
     protected $table = 'thesises';
+    protected $primaryKey = 'id';
+    protected $keyType = 'integer';
+
     protected $fillable = [
         'group_id',
         'academic_year',
@@ -27,4 +30,12 @@ class Thesises extends Model
         'organization_email',
         'lecturer_id',
     ];
+    public function thesisCommittees()
+    {
+        return $this->hasMany(ThesisCommittees::class, 'thesis_id');
+    }
+    public function thesisStudents()
+    {
+        return $this->hasMany(ThesisStudents::class, 'thesis_id');
+    }
 }

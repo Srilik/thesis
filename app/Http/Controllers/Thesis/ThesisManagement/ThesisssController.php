@@ -4,30 +4,15 @@ namespace App\Http\Controllers\Thesis\ThesisManagement;
 use App\Http\Controllers\Controller;
 use App\Models\Thesis\Thesises;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class ThesisssController extends Controller
 {
     /**
-     * Display a listing of the theses.
-     */
-    public function index()
-    {
-        $theses = Thesises::all();
-        return response()->json($theses);
-    }
-
-    /**
-     * Show the form for creating a new thesis.
-     */
-    public function create()
-    {
-        return view('theses.create');
-    }
-
-    /**
      * Store a newly created thesis in storage.
      */
-    public function store(Request $request)
+    public function storeThesis(Request $request, $id = null)
     {
         $validatedData = $request->validate([
             'group_id' => 'required|integer',
@@ -47,61 +32,52 @@ class ThesisssController extends Controller
             'organization_email' => 'nullable|email',
             'lecturer_id' => 'nullable|string',
         ]);
-
-        $thesis = Thesises::create($validatedData);
-        return response()->json($thesis);
-    }
-
-    /**
-     * Display the specified thesis.
-     */
-    public function show(Thesises $thesis)
-    {
-        return response()->json($thesis);
+        // dd($validatedData);
+        try {
+            if ($id) {
+                // Update existing thesis
+                $thesis = Thesises::findOrFail($id);
+                $thesis->update($validatedData);
+                return redirect()->back()->with('success', 'Thesis updated successfully.');
+            } else {
+                // Create new thesis
+                Thesises::create($validatedData);
+                return redirect()->back()->with('success', 'Thesis created successfully.');
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in storeThesis: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'There was an issue saving the thesis. Please try again.');
+        }
     }
 
     /**
      * Show the form for editing the specified thesis.
      */
-    public function edit(Thesises $thesis)
+    public function editThesis($id)
     {
-        return view('theses.edit', compact('thesis'));
-    }
-
-    /**
-     * Update the specified thesis in storage.
-     */
-    public function update(Request $request, Thesises $thesis)
-    {
-        $validatedData = $request->validate([
-            'group_id' => 'required|integer',
-            'academic_year' => 'required|string',
-            'major' => 'required|string',
-            'year' => 'required|integer|min:1|max:5',
-            'batch' => 'required|integer',
-            'topic' => 'nullable|string',
-            'topic_kh' => 'nullable|string',
-            'objective' => 'nullable|string',
-            'objective_kh' => 'nullable|string',
-            'description' => 'nullable|string',
-            'organization' => 'nullable|string',
-            'organization_type' => 'nullable|string',
-            'organization_address' => 'nullable|string',
-            'organization_phone' => 'nullable|string',
-            'organization_email' => 'nullable|email',
-            'lecturer_id' => 'nullable|string',
-        ]);
-
-        $thesis->update($validatedData);
-        return response()->json($thesis);
+        return $thesis = Thesises::findOrFail($id);
     }
 
     /**
      * Remove the specified thesis from storage.
      */
-    public function destroy(Thesises $thesis)
+    public function deleteThesis($id)
     {
+        // Find the thesis by ID
+        $thesis = Thesises::findOrFail($id);
+
+        // Check if the thesis has associated products
+        if ($thesis->products()->count() > 0) {
+            // Throw a validation exception with a custom error message
+            throw ValidationException::withMessages([
+                'thesis' => 'Cannot delete thesis. Products are associated with this thesis.',
+            ]);
+        }
+
+        // If no associated products, delete the thesis
         $thesis->delete();
-        return response()->json(['message' => 'Thesis deleted successfully.']);
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Thesis deleted successfully.');
     }
 }

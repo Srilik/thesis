@@ -9,6 +9,8 @@ class ThesisStudents extends Model
 {
     use HasFactory;
     protected $table = 'thesis_students';
+    protected $primaryKey = 'id';
+    protected $keyType = 'integer';
     protected $fillable = [
         'thesis_id',
         'student_id',
@@ -21,6 +23,6 @@ class ThesisStudents extends Model
      */
     public function thesises()
     {
-        return $this->belongsTo(Thesises::class);
+        return $this->belongsTo(Thesises::class, 'thesis_id');
     }
 }

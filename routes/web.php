@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Thesis\ThesisManagement\ManagementController;
 use App\Http\Controllers\ThesisAdvisorController;
 use App\Http\Controllers\ThesisCommitteeController;
 use App\Http\Controllers\ThesisController;
@@ -23,7 +24,7 @@ Route::get('/', function () {
 
 Route::middleware('checkAuth')->group(function () {
 
-    // // thesis
+    // thesis
     // Route::resource('/thesis', ThesisController::class);
     Route::prefix('/thesis')->controller(ThesisController::class)
         ->name('thesis.')
@@ -42,7 +43,7 @@ Route::middleware('checkAuth')->group(function () {
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
         });
 
-    // // thesisAdvisor
+    // thesisAdvisor
     // Route::resource('/thesisAdvisor', ThesisAdvisorController::class);
     Route::prefix('/thesisAdvisor')->controller(ThesisAdvisorController::class)
         ->name('thesisAdvisor.')
@@ -100,6 +101,7 @@ Route::middleware('checkAuth')->group(function () {
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
         });
 
+
     Route::prefix('/thesises')
         ->middleware(['checkAuth'])
         ->name('thesises.')
@@ -111,43 +113,34 @@ Route::middleware('checkAuth')->group(function () {
             Route::prefix('/management')
                 ->name('management.')
                 ->group(function () {
-                // Inventory Page
-                // Route::controller(InventoryController::class)->group(function () {
-                //     Route::get('/', 'index')->name('index'); // Show inventory page
-                // });
-    
-                // Thesis CRUD
-                Route::controller(ThesisssController::class)->group(function () {
-                    Route::get('/thesis/edit/{id}', 'editThesis')->name('thesis.edit');
-                    //store and udpate
-                    Route::post('/thesis/{id?}', 'storeThesis')->name('thesis.store');
-                    //  Route::put('/thesis/{id}',  'update')->name('thesis.update');
-                    Route::delete('/thesis/{id}', 'deleteThesis')->name('thesis.destroy');
+                // Management Page
+                Route::controller(ManagementController::class)->group(function () {
+                    Route::get('/', 'index')->name('index'); // Show inventory page
                 });
 
+                // Thesis CRUD
+                Route::controller(ThesisssController::class)->group(function () {
+                    Route::get('/thesises/edit/{id}', 'editThesis')->name('thesises.edit');
+                    //store and udpate
+                    Route::post('/thesises/{id?}', 'storeThesis')->name('thesises.store');
+                    Route::delete('/thesises/{id}', 'deleteThesis')->name('thesises.destroy');
+                });
 
                 // ThesisCommittee CRUD
                 Route::controller(ThesisCommitteessController::class)->group(function () {
-                    Route::get('/thesiscommittee/edit/{id}', 'editThesisCommittee')->name('thesiscommittee.edit');
+                    Route::get('/thesiscommittees/edit/{id}', 'editThesisCommittee')->name('thesiscommittees.edit');
                     //store or update
-                    Route::post('/thesiscommittee/{id?}', 'storeThesisCommittee')->name('thesiscommittee.store');
-                    //    Route::put('/thesiscommittee/{id}', 'updateThesisCommittee')->name('thesiscommittee.update');
-                    Route::delete('/thesiscommittee/{id}', 'deleteThesisCommittee')->name('thesiscommittee.delete');
+                    Route::post('/thesiscommittees/{id?}', 'storeThesisCommittee')->name('thesiscommittees.store');
+                    Route::delete('/thesiscommittees/{id}', 'deleteThesisCommittee')->name('thesiscommittees.delete');
                 });
-
 
                 // ThesisStudent CRUD
                 Route::controller(ThesisStudentssController::class)->group(function () {
-                    Route::get('/thesisstudent/edit/{id}', 'edit')->name('thesisstudent.edit');
-                    Route::post('/thesisstudent/{id?}', 'storeThesisStudent')->name('thesisstudent.store');
-                    //  Route::put('/thesisstudent/', 'updateThesisStudent')->name('thesisstudent.update');
-                    Route::delete('/thesisstudent/{id}', 'deleteThesisStudent')->name('thesisstudent.delete');
+                    Route::get('/thesisstudents/edit/{id}', 'edit')->name('thesisstudents.edit');
+                    Route::post('/thesisstudents/{id?}', 'storeThesisStudent')->name('thesisstudents.store');
+                    Route::delete('/thesisstudents/{id}', 'deleteThesisStudent')->name('thesisstudents.delete');
                 });
-
             });
-
-
-
         });
 
     // logout

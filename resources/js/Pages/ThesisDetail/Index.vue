@@ -168,7 +168,7 @@ const onDelete = (id: number) => {
             <div class='p-4 mt-4 bg-base-100 rounded-xl'>
                 <form
                     @submit.prevent="onSubmit"
-                    class="p-2 bg-white rounded-lg dark:bg-gray-900">
+                    class="p-2 rounded-lg bg-base-100 dark:bg-base-100">
                     <div class="flex items-start gap-4">
                         <div class="flex-1">
                             <label class="label">Thesis_No</label>

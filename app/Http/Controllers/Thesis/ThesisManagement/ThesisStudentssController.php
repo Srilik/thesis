@@ -9,26 +9,9 @@ use Illuminate\Http\Request;
 class ThesisStudentssController extends Controller
 {
     /**
-     * Display a listing of the thesis students.
-     */
-    public function index()
-    {
-        $students = ThesisStudents::with('thesis')->get();
-        return response()->json($students);
-    }
-
-    /**
-     * Show the form for creating a new thesis student.
-     */
-    public function create()
-    {
-        return view('thesis_students.create');
-    }
-
-    /**
      * Store a newly created thesis student in storage.
      */
-    public function store(Request $request)
+    public function storeThesisStudent(Request $request, $id = null)
     {
         $validatedData = $request->validate([
             'thesis_id' => 'required|exists:thesises,id',
@@ -37,50 +20,39 @@ class ThesisStudentssController extends Controller
             'email' => 'nullable|email',
             'remark' => 'nullable|string',
         ]);
-
-        $student = ThesisStudents::create($validatedData);
-        return response()->json($student);
-    }
-
-    /**
-     * Display the specified thesis student.
-     */
-    public function show(ThesisStudents $thesisStudent)
-    {
-        return response()->json($thesisStudent->load('thesis'));
+        if ($id) {
+            // Update the existing thesisStudent
+            $thesisStudent = ThesisStudents::findOrFail($id);
+            $thesisStudent->update($validatedData);
+            return redirect()->back()->with('success', 'ThesisStudent updated successfully.');
+        } else {
+            // Create a new thesisStudent
+            ThesisStudents::create($validatedData);
+            return redirect()->back()->with('success', 'ThesisStudent created successfully.');
+        }
     }
 
     /**
      * Show the form for editing the specified thesis student.
      */
-    public function edit(ThesisStudents $thesisStudent)
+    public function editThesisStudent($id)
     {
-        return view('thesis_students.edit', compact('thesisStudent'));
-    }
+        $thesisStudents = ThesisStudents::with('thesis_id')->findOrFail($id);
+        $thesises = $thesisStudents->thesises;
 
-    /**
-     * Update the specified thesis student in storage.
-     */
-    public function update(Request $request, ThesisStudents $thesisStudent)
-    {
-        $validatedData = $request->validate([
-            'thesis_id' => 'required|exists:thesises,id',
-            'student_id' => 'required|string',
-            'phone' => 'nullable|string',
-            'email' => 'nullable|email',
-            'remark' => 'nullable|string',
+        return response()->json([
+            'thesisStudents' => $thesisStudents,
+            'thesises' => $thesises,
         ]);
-
-        $thesisStudent->update($validatedData);
-        return response()->json($thesisStudent);
     }
 
     /**
      * Remove the specified thesis student from storage.
      */
-    public function destroy(ThesisStudents $thesisStudent)
+    public function deleteThesisStudent($id)
     {
-        $thesisStudent->delete();
-        return response()->json(['message' => 'Thesis student deleted successfully.']);
+        $thesisStudents = ThesisStudents::findOrFail($id);
+        $thesisStudents->delete();
+        return redirect()->back()->with('success', 'ThesisStudent delete successfully.');
     }
 }
