@@ -55,7 +55,7 @@ class ManagementController extends Controller
                 fn($query) =>
                 $query->where('thesis_id', request()->input('thesis_id'))
             )
-            ->paginate(5, ['*'], 'page');  // Specify 'page' for thesisCommittees
+            ->paginate(5, ['*'], 'pageThesis');  // Specify 'page' for thesisCommittees
 
 
         //Brand and Category query

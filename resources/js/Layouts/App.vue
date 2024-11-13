@@ -75,7 +75,7 @@ const breadcrumbsComputed = computed<
                     scroll-region
                 >
                     <div
-                        class="mb-10 bg-gray-100 dark:bg-gray-950 lg:mb-0 rounded-b-2xl"
+                        class="mb-10 bg-gray-100 rounded-3xl dark:bg-gray-950 lg:mb-0 rounded-b-2xl"
                     >
                         <Animate><slot /></Animate>
                     </div>

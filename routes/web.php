@@ -123,22 +123,22 @@ Route::middleware('checkAuth')->group(function () {
                     Route::get('/thesises/edit/{id}', 'editThesis')->name('thesises.edit');
                     //store and udpate
                     Route::post('/thesises/{id?}', 'storeThesis')->name('thesises.store');
-                    Route::delete('/thesises/{id}', 'deleteThesis')->name('thesises.destroy');
+                    Route::delete('/thesises/{id}', 'deleteThesis')->name('thesises.delete');
                 });
 
                 // ThesisCommittee CRUD
                 Route::controller(ThesisCommitteessController::class)->group(function () {
-                    Route::get('/thesiscommittees/edit/{id}', 'editThesisCommittee')->name('thesiscommittees.edit');
+                    Route::get('/thesisCommittees/edit/{id}', 'editThesisCommittee')->name('thesisCommittees.edit');
                     //store or update
-                    Route::post('/thesiscommittees/{id?}', 'storeThesisCommittee')->name('thesiscommittees.store');
-                    Route::delete('/thesiscommittees/{id}', 'deleteThesisCommittee')->name('thesiscommittees.delete');
+                    Route::post('/thesisCommittees/{id?}', 'storeThesisCommittee')->name('thesisCommittees.store');
+                    Route::delete('/thesisCommittees/{id}', 'deleteThesisCommittee')->name('thesisCommittees.delete');
                 });
 
                 // ThesisStudent CRUD
                 Route::controller(ThesisStudentssController::class)->group(function () {
-                    Route::get('/thesisstudents/edit/{id}', 'edit')->name('thesisstudents.edit');
-                    Route::post('/thesisstudents/{id?}', 'storeThesisStudent')->name('thesisstudents.store');
-                    Route::delete('/thesisstudents/{id}', 'deleteThesisStudent')->name('thesisstudents.delete');
+                    Route::get('/thesisStudents/edit/{id}', 'edit')->name('thesisStudents.edit');
+                    Route::post('/thesisStudents/{id?}', 'storeThesisStudent')->name('thesisStudents.store');
+                    Route::delete('/thesisStudents/{id}', 'deleteThesisStudent')->name('thesisStudents.delete');
                 });
             });
         });
