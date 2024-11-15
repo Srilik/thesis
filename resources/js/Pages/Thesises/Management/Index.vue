@@ -162,8 +162,8 @@ const onCloseThesis = () => {
 
 watch(
     () => props.thesisCommittees,
-    (newThesisCommitteess) => {
-        thesisCommittees.value = newThesisCommitteess;
+    (newThesisCommittees) => {
+        thesisCommittees.value = newThesisCommittees;
     },
 );
 const formThesisCommittee = useForm({
@@ -255,6 +255,100 @@ const onCloseThesisCommittee = () => {
     }
 };
 
+watch(
+    () => props.thesisStudents,
+    (newThesisStudents) => {
+        thesisStudents.value = newThesisStudents;
+    },
+);
+const formThesisStudent = useForm({
+    id: null,
+    thesis_id: "",
+    student_id: "",
+    phone: "",
+    email: "",
+    remark: "",
+});
+const onSaveThesisStudent = () => {
+    formThesisStudent.post(
+        route("thesises.management.thesisStudents.store", formThesisStudent.id),
+        {
+            onSuccess: async () => {
+                Swal.fire({
+                    title: "Success",
+                    icon: "success",
+                    toast: true,
+                    position: "top-end",
+                    timer: 5000,
+                    showConfirmButton: false,
+                });
+                formThesisStudent.reset();
+                formThesisStudent.isDirty = false;
+            },
+        },
+    );
+};
+const editThesisStudent = async (thesisStudentID: number) => {
+    const { data } = await fetch<{}>(
+        route("thesises.management.thesisStudents.edit", thesisStudentID),
+    );
+    formThesisStudent.id = data.id;
+    formThesisStudent.thesis_id = data.thesis_id;
+    formThesisStudent.student_id = data.student_id;
+    formThesisStudent.phone = data.phone;
+    formThesisStudent.email = data.email;
+    formThesisStudent.remark = data.remark;
+};
+const onDeleteThesisStudent = (thesisStudentID: number) => {
+    Swal.fire({
+        title: "Do you want to delete?",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Yes",
+        denyButtonText: `No`,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(
+                route(
+                    "thesises.management.thesisStudents.delete",
+                    thesisStudentID,
+                ),
+                {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: "Success",
+                            icon: "success",
+                            timer: 1000,
+                        });
+                    },
+                },
+            );
+        }
+    });
+};
+const onCloseThesisStudent = () => {
+    if (formThesisStudent.isDirty) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will lose your unsaved changes!",
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: "Yes",
+            denyButtonText: `No`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                formThesisStudent.reset();
+                formThesisStudent.clearErrors();
+                showModal.value = false;
+            }
+        });
+    } else {
+        formThesisStudent.reset();
+        formThesisStudent.clearErrors();
+        showModal.value = false;
+    }
+};
+
 const onAddStudent = () => {};
 const onAddAdvisor = () => {};
 const onAddCommittee = () => {};
@@ -329,22 +423,22 @@ const onSave = () => {};
         max-width="7xl"
         @close="onCloseModal"
     >
-        <div role="tablist" class="bg-base-100 tabs tabs-lifted">
+        <div role="tablist" class="bg-base-100 tabs tabs-lifted p-2">
             <input
                 type="radio"
                 name="my_tabs_2"
                 role="tab"
-                class="font-bold tab"
+                class="font-bold tab mr-2 cursor-none"
                 aria-label="General Thesis Informations"
             />
+
             <div
                 role="tabpanel"
-                class="flex flex-row lg:flex-row p-6 overflow-x-auto tab-content border-base-300 rounded-box"
+                class="p-6 overflow-x-auto tab-content border-base-300 rounded-box"
             >
-                <div
-                    class="flex-1 max-h-[calc(100vh-150px)] bg-base-100 p-2 overflow-auto"
-                >
-                    <div class="space-y-3">
+                <div class="flex-1 bg-base-100 p-2 overflow-auto">
+                    <!-- Input Thesis more Detail -->
+                    <div class="space-y-1">
                         <div
                             class="flex flex-col lg:flex-row items-center gap-2"
                         >
@@ -356,7 +450,9 @@ const onSave = () => {};
                                     v-model="formThesis.year"
                                     class="w-full select select-primary"
                                 >
-                                    <option value="">Student Year</option>
+                                    <option value="">
+                                        Select a Student Year
+                                    </option>
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
@@ -376,7 +472,7 @@ const onSave = () => {};
                                     v-model="formThesis.major"
                                     class="w-full select select-primary"
                                 >
-                                    <option value="">Major</option>
+                                    <option value="">Select a Major</option>
                                     <option>General Medicien</option>
                                     <option>Nurse</option>
                                     <option>Midwife</option>
@@ -391,7 +487,7 @@ const onSave = () => {};
                                 </label>
                                 <input
                                     v-model="formThesis.batch"
-                                    type="text"
+                                    type="number"
                                     class="w-full input input-primary"
                                     placeholder="Batch"
                                 />
@@ -403,7 +499,8 @@ const onSave = () => {};
                         >
                             <div class="w-full flex flex-col">
                                 <label class="label">
-                                    Topic Kh <span class="text-error">*</span>
+                                    Topic in Khmer
+                                    <span class="text-error">*</span>
                                 </label>
                                 <!-- <input type="text" class="w-full textarea textarea-primary" /> -->
                                 <textarea
@@ -414,7 +511,7 @@ const onSave = () => {};
                             </div>
                             <div class="w-full flex flex-col">
                                 <label class="label">
-                                    Topic English<span class="text-error"
+                                    Topic in English<span class="text-error"
                                         >*</span
                                     >
                                 </label>
@@ -431,7 +528,7 @@ const onSave = () => {};
                         >
                             <div class="w-full flex flex-col">
                                 <label class="label">
-                                    Objective Khmer
+                                    Objective in Khmer
                                     <span class="text-error">*</span></label
                                 >
                                 <textarea
@@ -443,7 +540,8 @@ const onSave = () => {};
 
                             <div class="w-full flex flex-col">
                                 <label class="label"
-                                    >Objective English<span class="text-error"
+                                    >Objective in English<span
+                                        class="text-error"
                                         >*</span
                                     >
                                 </label>
@@ -456,8 +554,9 @@ const onSave = () => {};
                         </div>
                     </div>
 
+                    <!-- Input Organizaition -->
                     <div
-                        class="p-2 border-2 border-solid rounded-lg flex flex-col lg:flex-col"
+                        class="p-2 mt-4 mb-4 border-2 border-solid rounded-lg flex flex-col lg:flex-col"
                     >
                         <h2 class="text-lg font-bold">Organization</h2>
 
@@ -493,6 +592,7 @@ const onSave = () => {};
                                     ></label
                                 >
                                 <input
+                                    type="number"
                                     v-model="formThesis.organization_phone"
                                     class="w-full input input-primary"
                                     placeholder="012 345 678"
@@ -504,7 +604,11 @@ const onSave = () => {};
                             class="flex flex-col lg:flex-row items-center gap-2"
                         >
                             <div class="w-full flex flex-col">
-                                <label class="label">Email<span></span></label>
+                                <label class="label"
+                                    >Email<span class="text-error"
+                                        >*</span
+                                    ></label
+                                >
                                 <input
                                     v-model="formThesis.organization_email"
                                     type="email"
@@ -528,6 +632,7 @@ const onSave = () => {};
                         </div>
                     </div>
 
+                    <!-- Table show Student -->
                     <div class="p-2 mt-1 bg-base-200 rounded-xl">
                         <h4 class="text-lg text-center">
                             Students Recently Added
@@ -600,29 +705,28 @@ const onSave = () => {};
                             </div>
                         </div>
                     </div>
-                </div>
-                <div
-                    class="flex flex-row items-center justify-end gap-2 p-2 border-t"
-                >
-                    <div class="space-x-1"></div>
-                    <div class="space-x-1">
-                        <Button
-                            class="bg-warning hover:bg-warning/90"
-                            type="button"
-                            @click="onCloseThesis"
-                        >
-                            Close
-                        </Button>
-                        <Button
-                            class="text-gray-100 bg-success hover:bg-success/90"
-                            type="button"
-                            @click.prevent="onSaveThesis"
-                        >
-                            Save
-                        </Button>
-                        <!-- <button class="btn btn-primary" type="submit">
-                            {{ formThesis.id ? "Update" : "Save" }}
-                        </button> -->
+
+                    <!-- Button Close and Save -->
+                    <div
+                        class="flex flex-row items-center justify-end gap-2 mt-2 border-t"
+                    >
+                        <div class="space-x-1"></div>
+                        <div class="space-x-1">
+                            <Button
+                                class="bg-warning hover:bg-warning/90"
+                                type="button"
+                                @click="onCloseThesis"
+                            >
+                                Close
+                            </Button>
+                            <Button
+                                class="text-gray-100 bg-success hover:bg-success/90"
+                                type="button"
+                                @click.prevent="onSaveThesis"
+                            >
+                                Save
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -632,165 +736,154 @@ const onSave = () => {};
                 name="my_tabs_2"
                 role="tab"
                 class="font-bold tab"
-                aria-label="Advisors and Lectures"
+                aria-label="Advisors and Committees"
                 defaultChecked
             />
             <div
                 role="tabpanel"
-                class="flex flex-row lg:flex-row p-6 overflow-x-auto tab-content bg-base-100 border-base-300 rounded-box"
+                class="p-6 overflow-x-auto tab-content bg-base-100 border-base-300 rounded-box"
             >
-                <div class="overflow-hidden shadow-xl bg-base-100 rounded-2xl">
-                    <div class="flex items-center justify-between gap-2"></div>
-                    <div
-                        class="flex-1 max-h-[calc(100vh-150px)] overflow-auto bg-base-100 p-2"
-                    >
-                        <div class="p-2 border-2 border-solid rounded-lg">
-                            <h2 class="text-lg font-bold">Advisors</h2>
-                            <div
-                                class="flex flex-col lg:flex-row items-center gap-2"
+                <!-- Advisor -->
+                <div class="p-2 mt-4 border-2 border-solid rounded-lg">
+                    <!-- Header -->
+                    <h2 class="text-lg font-bold">Advisor</h2>
+                    <!-- Input Advisor -->
+                    <div class="flex flex-col lg:flex-row items-center gap-2">
+                        <div class="w-full flex flex-col">
+                            <label class="label"
+                                >Advisor Name<span class="text-error"
+                                    >*</span
+                                ></label
                             >
-                                <div class="w-full flex flex-col">
-                                    <label class="label"
-                                        >Name <span class="text-error">*</span>
-                                    </label>
-                                    <input
-                                        class="w-full input input-primary"
-                                        placeholder="Advisor Name"
-                                    />
-                                </div>
-                                <div class="w-full flex flex-col">
-                                    <label class="label"
-                                        >Sex<span class="text-error"
-                                            >*</span
-                                        ></label
-                                    >
-                                    <select
-                                        class="w-full select select-primary"
-                                    >
-                                        <option value="">Female</option>
-                                        <option>Male</option>
-                                    </select>
-                                </div>
-                                <div class="w-full flex flex-col">
-                                    <label class="label"
-                                        >Phone Number<span class="text-error"
-                                            >*</span
-                                        ></label
-                                    >
-                                    <input
-                                        class="w-full input input-primary"
-                                        placeholder="012 345 678"
-                                    />
-                                </div>
-                            </div>
-
-                            <div
-                                class="flex flex-col lg:flex-row items-center gap-2"
-                            >
-                                <div class="w-full flex flex-col">
-                                    <label class="label"
-                                        >Department<span></span
-                                    ></label>
-                                    <select
-                                        class="w-full select select-primary"
-                                    >
-                                        <option value="">Nursing</option>
-                                        <option>Pharmacy</option>
-                                        <option>General Medical</option>
-                                        <option>Laboratory Sciences</option>
-                                        <option>Health Administration</option>
-                                    </select>
-                                </div>
-                                <div class="w-full flex flex-col">
-                                    <label class="label">
-                                        Email<span class="text-error">*</span>
-                                    </label>
-                                    <input
-                                        type="email"
-                                        class="w-full input input-primary"
-                                        placeholder="username@gmail.com"
-                                    />
-                                </div>
-                            </div>
+                            <input
+                                type="text"
+                                class="w-full input input-primary"
+                                placeholder="Advisor Name"
+                            />
                         </div>
-
-                        <div class="p-2 mt-1 bg-base-200 rounded-xl">
-                            <h4 class="text-lg text-center">
-                                Advisors Recently Added
-                            </h4>
-                            <div
-                                class="flex items-center justify-between gap-3 p-2 mt-2 bg-base-100 rounded-xl"
+                        <div class="w-full flex flex-col">
+                            <label class="label"
+                                >Gender<span class="text-error">*</span></label
                             >
-                                <form @submit.prevent="onAddAdvisor">
-                                    <input
-                                        type="text"
-                                        class="mr-1 input input-primary"
-                                        placeholder="Advisor Name"
-                                        required
-                                    />
-                                    <button class="btn btn-success">Add</button>
-                                </form>
-                            </div>
-                            <!-- <div
-                                class="max-h-[calc(100vh-550px)] overflow-auto border-base-200 border rounded-xl mt-2 bg-base-100"
-                            > -->
-                            <div
-                                class="mt-2 overflow-hidden border bg-base-100 rounded-xl"
+                            <select class="w-full select select-primary">
+                                <option value="">Select a Gender</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                            </select>
+                        </div>
+                        <div class="w-full flex flex-col">
+                            <label class="label"
+                                >Phone Number
+                                <span class="text-error">*</span></label
                             >
-                                <div class="overflow-x-auto whitespace-nowrap">
-                                    <table class="w-full base-table2">
-                                        <thead>
-                                            <tr>
-                                                <th>Nº</th>
-                                                <th>Advisor Name</th>
-                                                <th>Sex</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="text-center">
-                                            <tr>
-                                                <td>1</td>
-                                                <td
-                                                    class="font-bold text-blue-800"
+                            <input
+                                type="number"
+                                class="w-full input input-primary"
+                                placeholder="012 345 678"
+                            />
+                        </div>
+                    </div>
+                    <div class="flex flex-col lg:flex-row items-center gap-2">
+                        <div class="w-full flex flex-col">
+                            <label class="label"
+                                >Dapartment<span class="text-error"
+                                    >*</span
+                                ></label
+                            >
+                            <select class="w-full select select-primary">
+                                <option value="">Select a Department</option>
+                                <option>Nursing</option>
+                                <option>Pharmacy</option>
+                                <option>General Medical</option>
+                                <option>Laboratory Sciences</option>
+                                <option>Health Administration</option>
+                            </select>
+                        </div>
+                        <div class="w-full flex flex-col">
+                            <label class="label"
+                                >Email<span class="text-error">*</span></label
+                            >
+                            <input
+                                class="w-full input input-primary"
+                                type="email"
+                                placeholder="username@gmail.com"
+                            />
+                        </div>
+                    </div>
+                    <!-- Table show Advisor-->
+                    <div class="p-2 mt-2 bg-base-200 rounded-xl">
+                        <h4 class="text-lg text-center">
+                            Advisor Recently Added
+                        </h4>
+                        <div
+                            class="flex items-center justify-between gap-3 p-2 mt-2 bg-base-100 rounded-xl"
+                        >
+                            <form @submit.prevent="onAddCommittee">
+                                <input
+                                    type="text"
+                                    class="mr-1 input input-primary"
+                                    placeholder="Advisor Name"
+                                    required
+                                />
+                                <button class="btn btn-success">Add</button>
+                            </form>
+                        </div>
+                        <!-- <div
+                            class="max-h-[calc(100vh-550px)] overflow-auto border-base-200 border rounded-xl mt-2 bg-base-100"
+                        > -->
+                        <div
+                            class="mt-2 overflow-hidden border bg-base-100 rounded-xl"
+                        >
+                            <div class="overflow-x-auto whitespace-nowrap">
+                                <table class="w-full base-table2">
+                                    <thead>
+                                        <tr>
+                                            <th>Nº</th>
+                                            <th>Advisor Name</th>
+                                            <th>Sex</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        <tr>
+                                            <td>1</td>
+                                            <td class="font-bold text-blue-800">
+                                                Advisor Name
+                                            </td>
+                                            <td>Male</td>
+                                            <td>
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-success btn-square btn-sm"
                                                 >
-                                                    Advisor Name
-                                                </td>
-                                                <td>Male</td>
-                                                <td>
-                                                    <button
-                                                        type="button"
-                                                        class="btn btn-success btn-square btn-sm"
-                                                    >
-                                                        <EyeIcon
-                                                            class="w-4 h-4"
-                                                        />
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        class="ml-1 btn btn-warning btn-square btn-sm"
-                                                    >
-                                                        <PenBoxIcon
-                                                            class="w-4 h-4"
-                                                        />
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        class="ml-1 btn btn-error btn-square btn-sm"
-                                                    >
-                                                        <TrashIcon
-                                                            class="w-4 h-4"
-                                                        />
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                    <EyeIcon class="w-4 h-4" />
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    class="ml-1 btn btn-warning btn-square btn-sm"
+                                                >
+                                                    <PenBoxIcon
+                                                        class="w-4 h-4"
+                                                    />
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    class="ml-1 btn btn-error btn-square btn-sm"
+                                                >
+                                                    <TrashIcon
+                                                        class="w-4 h-4"
+                                                    />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
+                    <!-- Button Close & Save -->
                     <div
-                        class="flex items-center justify-end gap-2 p-2 border-t"
+                        class="flex items-center justify-end gap-2 mt-2 border-t"
                     >
                         <div class="space-x-1"></div>
                         <div class="space-x-1">
@@ -812,12 +905,17 @@ const onSave = () => {};
                     </div>
                 </div>
 
+                <!-- Committee -->
                 <div class="p-2 mt-4 border-2 border-solid rounded-lg">
+                    <!-- Header -->
                     <h2 class="text-lg font-bold">Committee</h2>
+                    <!-- Input Committee -->
                     <div class="flex flex-col lg:flex-row items-center gap-2">
                         <div class="w-full flex flex-col">
                             <label class="label"
-                                >Name<span class="text-error">*</span></label
+                                >Committee Name<span class="text-error"
+                                    >*</span
+                                ></label
                             >
                             <input
                                 type="text"
@@ -827,10 +925,11 @@ const onSave = () => {};
                         </div>
                         <div class="w-full flex flex-col">
                             <label class="label"
-                                >Sex<span class="text-error">*</span></label
+                                >Gender<span class="text-error">*</span></label
                             >
                             <select class="w-full select select-primary">
-                                <option value="">Male</option>
+                                <option value="">Select a Gender</option>
+                                <option>Male</option>
                                 <option>Female</option>
                             </select>
                         </div>
@@ -840,6 +939,7 @@ const onSave = () => {};
                                 <span class="text-error">*</span></label
                             >
                             <input
+                                type="number"
                                 class="w-full input input-primary"
                                 placeholder="012 345 678"
                             />
@@ -853,7 +953,8 @@ const onSave = () => {};
                                 ></label
                             >
                             <select class="w-full select select-primary">
-                                <option value="">Nursing</option>
+                                <option value="">Select a Department</option>
+                                <option>Nursing</option>
                                 <option>Pharmacy</option>
                                 <option>General Medical</option>
                                 <option>Laboratory Sciences</option>
@@ -871,7 +972,8 @@ const onSave = () => {};
                             />
                         </div>
                     </div>
-                    <div class="p-2 mt-1 bg-base-200 rounded-xl">
+                    <!-- Table show Committee-->
+                    <div class="p-2 mt-2 bg-base-200 rounded-xl">
                         <h4 class="text-lg text-center">
                             Committee Recently Added
                         </h4>
@@ -941,27 +1043,31 @@ const onSave = () => {};
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="flex items-center justify-end gap-2 p-2 border-t">
-                    <div class="space-x-1"></div>
-                    <div class="space-x-1">
-                        <Button
-                            class="bg-warning hover:bg-warning/90"
-                            type="button"
-                            @click="onCloseModalAdvisor"
-                        >
-                            Close
-                        </Button>
-                        <Button
-                            class="text-gray-100 bg-success hover:bg-success/90"
-                            type="button"
-                            @click.prevent="onSave"
-                        >
-                            Save
-                        </Button>
+                    <!-- Button Close & Save -->
+                    <div
+                        class="flex items-center justify-end gap-2 mt-2 border-t"
+                    >
+                        <div class="space-x-1"></div>
+                        <div class="space-x-1">
+                            <Button
+                                class="bg-warning hover:bg-warning/90"
+                                type="button"
+                                @click="onCloseModalAdvisor"
+                            >
+                                Close
+                            </Button>
+                            <Button
+                                class="text-gray-100 bg-success hover:bg-success/90"
+                                type="button"
+                                @click.prevent="onSave"
+                            >
+                                Save
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </ModalBreeze>
 </template>
+<style></style>
