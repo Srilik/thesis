@@ -49,6 +49,13 @@ const sidebar = useToggleSidebar();
                     :is-active="$page.component === 'Dashboard'"
                 />
                 <TheSidebarItem
+                    title="Thesis For Vatey"
+                    icon="fa-solid fa-book"
+                    :link="route('thesises.index')"
+                    :is-active="$page.component.startsWith('Thesises/')"
+                />
+
+                <TheSidebarItem
                     title="Thesis"
                     icon="fa-solid fa-book"
                     :link="route('thesis.index')"
