@@ -6,17 +6,31 @@ import { PaginateType } from "@/types/paginateType";
 import { ThesisCommitteesType } from "@/types/Thesis/thesisCommitteesType";
 import { ThesisesType } from "@/types/Thesis/thesisesType";
 import { ThesisStudentsType } from "@/types/Thesis/thesisStudentType";
-import { EyeIcon } from "@heroicons/vue/24/solid";
+import {
+    EyeIcon,
+    UserGroupIcon,
+    CloudArrowDownIcon,
+    PrinterIcon,
+    AcademicCapIcon,
+} from "@heroicons/vue/24/solid";
 import { router, useForm } from "@inertiajs/vue3";
-import { PenBoxIcon, PencilIcon, TrashIcon } from "lucide-vue-next";
+import {
+    PenBoxIcon,
+    PencilIcon,
+    TrashIcon,
+    Plus,
+    Printer,
+} from "lucide-vue-next";
 import Swal from "sweetalert2";
 import { ref, watch } from "vue";
 import useAxios from "@/Composables/useAxios";
+import CamboboxHeadless from "@/Components/CamboboxHeadless.vue";
+import { throttle, pickBy, filter } from "lodash";
 const { fetch } = useAxios();
 
 const showModal = ref(false);
 const showModalAdvisor = ref(false);
-const showModalStudentThesis = ref(false);
+const showModalStudentGroupThesis = ref(false);
 const showModalThesisReport = ref(false);
 
 const onCloseModal = () => {
@@ -25,11 +39,20 @@ const onCloseModal = () => {
 const onCloseModalAdvisor = () => {
     showModalAdvisor.value = false;
 };
+const onCloseModalStudentGroupThesis = () => {
+    showModalStudentGroupThesis.value = false;
+};
 
 interface Props {
     filters?: {
         keyword?: string;
         thesis_id?: number;
+        major?: string;
+        year?: string;
+        topic?: string;
+        lecturer_id?: string;
+        group_id?: string;
+        academic_year?: string;
     };
     thesises: PaginateType<ThesisesType>;
     thesisCommittees: PaginateType<ThesisCommitteesType>;
@@ -349,50 +372,234 @@ const onCloseThesisStudent = () => {
     }
 };
 
+// ------------------------------------- Filter section----------------------
+const filterForm = useForm({
+    keyword: props.filters?.keyword ?? "",
+    thesis_id: props.filters?.thesis_id ?? null,
+    major: props.filters?.major ?? "",
+    year: props.filters?.year ?? "",
+    topic: props.filters?.topic ?? null,
+    advisor: props.filters?.lecturer_id ?? null,
+    committee: props.filters?.lecturer_id ?? "",
+    group_id: props.filters?.group_id ?? "",
+    academic_year: props.filters?.academic_year ?? "",
+});
+
+const searchThesises = throttle(() => {
+    router.get(route("thesises.management.index"), pickBy(filterForm.data()), {
+        preserveState: true,
+        only: ["thesises"],
+        replace: true,
+    });
+}, 500);
+watch(
+    () => [
+        filterForm.keyword,
+        filterForm.thesis_id,
+        filterForm.major,
+        filterForm.year,
+        filterForm.topic,
+        filterForm.advisor,
+        filterForm.committee,
+        filterForm.group_id,
+        filterForm.academic_year,
+    ],
+    searchThesises,
+);
+
+const onClearFilter = () => {
+    filterForm.keyword = "";
+    filterForm.thesis_id = null;
+    filterForm.major = "";
+    filterForm.year = "";
+    filterForm.topic = null;
+    filterForm.advisor = null;
+    filterForm.committee = "";
+    filterForm.group_id = "";
+    filterForm.academic_year = "";
+    // filterForm.brand_id = null as number;
+};
+
 const onAddStudent = () => {};
 const onAddAdvisor = () => {};
 const onAddCommittee = () => {};
+const onAddStudentGroupThesis = () => {};
 
 const onSave = () => {};
 </script>
 <template>
-    <App>
-        <div class="p-2 space-y-2 bg-base-200/15 rounded-xl">
-            <div class="p-2 bg-base-100 rounded-xl">
-                <button
-                    type="button"
-                    class="btn btn-success"
-                    @click="showModal = true"
-                >
-                    New
-                </button>
+    <App
+        :breadcrumbs="[
+            { name: 'Graduate School', url: '' },
+            { name: 'Examination  management', url: '' },
+        ]"
+        title="Examination link management"
+    >
+        <div
+            class="w-full p-2 mt-3 mb-3 space-y-2 overflow-x-auto bg-base-200/15 rounded-xl"
+        >
+            <div
+                class="flex flex-col p-2 mb-2 rounded-lg md:flex-row md:items-center md:justify-between bg-base-100"
+            >
+                <!-- Start Section: Input and Dropdowns -->
+                <div class="flex gap-1 overflow-x-auto">
+                    <button
+                        type="button"
+                        class="btn btn-success"
+                        @click="showModal = true"
+                    >
+                        <plus class="w-4 h-4" />
+                        New
+                    </button>
+
+                    <button
+                        type="button"
+                        class="ml-1 btn btn-warning"
+                        @click="showModalAdvisor = true"
+                    >
+                        <AcademicCapIcon class="w-4 h-4" />
+                        Advisors
+                    </button>
+
+                    <button
+                        type="button"
+                        class="ml-1 btn btn-primary"
+                        @click="showModalStudentGroupThesis = true"
+                    >
+                        <UserGroupIcon class="w-4 h-4" />
+                        Student Group Thesis...
+                    </button>
+                </div>
+
+                <!-- End Section: Buttons -->
+                <div class="flex gap-3 mt-3 overflow-x-auto md:mt-0">
+                    <button
+                        type="button"
+                        class="ml-1 text-white btn btn-error"
+                        @click="showModalThesisReport = true"
+                    >
+                        <Printer class="w-4 h-4" />
+                        Thesis Rported...
+                    </button>
+                </div>
             </div>
+            <div class="p-2 space-y-2 bg-base-200/15 rounded-xl">
+                <div
+                    class="flex flex-col gap-2 p-2 m-1 mb-3 bg-base-100 rounded-xl md:flex-row md:items-center md:justify-between"
+                >
+                    <!-- Start Section: Input and Dropdowns -->
+                    <div class="flex gap-3 overflow-x-auto">
+                        <!-- Input field -->
+                        <input
+                            type="text"
+                            class="w-full h-10 input input-primary input-sm"
+                            placeholder="Student ID..."
+                            v-model="filterForm.keyword"
+                        />
+
+                        <!--Majors  dropdown -->
+                        <CamboboxHeadless
+                            v-model="filterForm.major"
+                            placeholder="Majors"
+                            class="w-full h-10 font-bold border bg-base-100 border-primary"
+                        />
+
+                        <!--Year  dropdown -->
+                        <CamboboxHeadless
+                            v-model="filterForm.year"
+                            placeholder="Year"
+                            class="w-full h-10 font-bold border bg-base-100 border-primary"
+                        />
+                        <!--Topic  dropdown -->
+                        <CamboboxHeadless
+                            v-model="filterForm.topic"
+                            placeholder="Topics"
+                            class="w-full h-10 font-bold border bg-base-100 border-primary"
+                        />
+                        <!--Advisor  dropdown -->
+                        <CamboboxHeadless
+                            v-model="filterForm.advisor"
+                            placeholder="Advisors"
+                            class="w-full h-10 font-bold border bg-base-100 border-primary"
+                        />
+                        <!--Committee  dropdown -->
+                        <CamboboxHeadless
+                            v-model="filterForm.committee"
+                            placeholder="Committee"
+                            class="w-full h-10 font-bold border bg-base-100 border-primary"
+                        />
+                        <!--Groups  dropdown -->
+                        <CamboboxHeadless
+                            v-model="filterForm.group_id"
+                            placeholder="Groups "
+                            class="w-full h-10 font-bold border bg-base-100 border-primary"
+                        />
+                    </div>
+
+                    <div class="flex gap-3 mt-3 overflow-x-auto md:mt-0">
+                        <!-- Academic Year -->
+                        <CamboboxHeadless
+                            v-model="filterForm.academic_year"
+                            placeholder="Academic Year"
+                            class="w-full h-10 font-bold border bg-base-100 border-primary"
+                        />
+                    </div>
+                    <!-- Reset button -->
+                    <button
+                        class="w-full h-10 btn btn-warning btn-sm md:w-auto"
+                        type="button"
+                        @click="onClearFilter"
+                    >
+                        Reset
+                    </button>
+                </div>
+            </div>
+
             <div class="mt-2 overflow-hidden border bg-base-100 rounded-xl">
                 <div class="overflow-x-auto whitespace-nowrap">
                     <table class="w-full base-table2">
                         <thead>
                             <tr>
                                 <th>Nº</th>
-                                <th>Topic</th>
+                                <th>Majors</th>
                                 <th>Year</th>
-                                <th>Major</th>
-                                <th>Advisors</th>
-                                <th>Students</th>
+                                <th>Topic</th>
+                                <th>Advisor(s)</th>
+                                <th>Student(s)</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody class="text-center">
                             <tr>
                                 <td>1</td>
-                                <td>Topic</td>
-                                <td>Year</td>
-                                <td>Major</td>
-                                <td>Advisors</td>
-                                <td>Students</td>
+                                <td
+                                    class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
+                                >
+                                    General Medicien
+                                </td>
+                                <td>VIII</td>
+                                <td>
+                                    ការយល់ដឹងរបស់អាណាព្យាបាលអំពីជម្ងឺផ្តាសាយលើកុមារអាយុចាប់ពី​​
+                                    ...
+                                </td>
+                                <td
+                                    class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
+                                >
+                                    Doch Munibuth,
+                                </td>
+                                <td
+                                    class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
+                                >
+                                    Sitha Solineath,<br />
+                                    Sum Sreysuon, Chou Lida
+                                </td>
                                 <td>
                                     <div
                                         class="flex items-center justify-center gap-1"
                                     >
+                                        <button class="btn btn-primary btn-sm">
+                                            <EyeIcon class="w-4 h-4" />
+                                        </button>
                                         <button
                                             type="button"
                                             class="btn btn-success btn-square btn-sm"
@@ -404,9 +611,6 @@ const onSave = () => {};
                                             class="btn btn-error btn-square btn-sm"
                                         >
                                             <TrashIcon class="w-4 h-4" />
-                                        </button>
-                                        <button class="btn btn-primary btn-sm">
-                                            Detail..
                                         </button>
                                     </div>
                                 </td>
@@ -423,12 +627,12 @@ const onSave = () => {};
         max-width="7xl"
         @close="onCloseModal"
     >
-        <div role="tablist" class="bg-base-100 tabs tabs-lifted p-2">
+        <div role="tablist" class="p-2 bg-base-100 tabs tabs-lifted">
             <input
                 type="radio"
                 name="my_tabs_2"
                 role="tab"
-                class="font-bold tab mr-2 cursor-none"
+                class="mr-2 font-bold tab cursor-none"
                 aria-label="General Thesis Informations"
             />
 
@@ -436,13 +640,13 @@ const onSave = () => {};
                 role="tabpanel"
                 class="p-6 overflow-x-auto tab-content border-base-300 rounded-box"
             >
-                <div class="flex-1 bg-base-100 p-2 overflow-auto">
+                <div class="flex-1 p-2 overflow-auto bg-base-100">
                     <!-- Input Thesis more Detail -->
                     <div class="space-y-1">
                         <div
-                            class="flex flex-col lg:flex-row items-center gap-2"
+                            class="flex flex-col items-center gap-2 lg:flex-row"
                         >
-                            <div class="w-full flex flex-col">
+                            <div class="flex flex-col w-full">
                                 <label class="label">
                                     Year <span class="text-error">*</span>
                                 </label>
@@ -464,7 +668,7 @@ const onSave = () => {};
                                 </select>
                             </div>
 
-                            <div class="w-full flex flex-col">
+                            <div class="flex flex-col w-full">
                                 <label class="label"
                                     >Major <span class="text-error">*</span>
                                 </label>
@@ -481,7 +685,7 @@ const onSave = () => {};
                                 </select>
                             </div>
 
-                            <div class="w-full flex flex-col">
+                            <div class="flex flex-col w-full">
                                 <label class="label">
                                     Batch <span class="text-error">*</span>
                                 </label>
@@ -495,9 +699,9 @@ const onSave = () => {};
                         </div>
 
                         <div
-                            class="flex flex-col lg:flex-row items-center gap-2"
+                            class="flex flex-col items-center gap-2 lg:flex-row"
                         >
-                            <div class="w-full flex flex-col">
+                            <div class="flex flex-col w-full">
                                 <label class="label">
                                     Topic in Khmer
                                     <span class="text-error">*</span>
@@ -509,7 +713,7 @@ const onSave = () => {};
                                     placeholder="Topic in Khmer"
                                 ></textarea>
                             </div>
-                            <div class="w-full flex flex-col">
+                            <div class="flex flex-col w-full">
                                 <label class="label">
                                     Topic in English<span class="text-error"
                                         >*</span
@@ -524,9 +728,9 @@ const onSave = () => {};
                         </div>
 
                         <div
-                            class="flex flex-col lg:flex-row items-center gap-2"
+                            class="flex flex-col items-center gap-2 lg:flex-row"
                         >
-                            <div class="w-full flex flex-col">
+                            <div class="flex flex-col w-full">
                                 <label class="label">
                                     Objective in Khmer
                                     <span class="text-error">*</span></label
@@ -538,7 +742,7 @@ const onSave = () => {};
                                 ></textarea>
                             </div>
 
-                            <div class="w-full flex flex-col">
+                            <div class="flex flex-col w-full">
                                 <label class="label"
                                     >Objective in English<span
                                         class="text-error"
@@ -556,14 +760,14 @@ const onSave = () => {};
 
                     <!-- Input Organizaition -->
                     <div
-                        class="p-2 mt-4 mb-4 border-2 border-solid rounded-lg flex flex-col lg:flex-col"
+                        class="flex flex-col p-2 mt-4 mb-4 border-2 border-solid rounded-lg lg:flex-col"
                     >
                         <h2 class="text-lg font-bold">Organization</h2>
 
                         <div
-                            class="flex flex-col lg:flex-row items-center gap-2"
+                            class="flex flex-col items-center gap-2 lg:flex-row"
                         >
-                            <div class="w-full flex flex-col">
+                            <div class="flex flex-col w-full">
                                 <label class="label"
                                     >Name <span class="text-error">*</span>
                                 </label>
@@ -573,7 +777,7 @@ const onSave = () => {};
                                     placeholder="Organization Name"
                                 />
                             </div>
-                            <div class="w-full flex flex-col">
+                            <div class="flex flex-col w-full">
                                 <label class="label"
                                     >Type<span class="text-error"
                                         >*</span
@@ -585,7 +789,7 @@ const onSave = () => {};
                                     placeholder="Type of Organization"
                                 />
                             </div>
-                            <div class="w-full flex flex-col">
+                            <div class="flex flex-col w-full">
                                 <label class="label"
                                     >Phone Number<span class="text-error"
                                         >*</span
@@ -601,9 +805,9 @@ const onSave = () => {};
                         </div>
 
                         <div
-                            class="flex flex-col lg:flex-row items-center gap-2"
+                            class="flex flex-col items-center gap-2 lg:flex-row"
                         >
-                            <div class="w-full flex flex-col">
+                            <div class="flex flex-col w-full">
                                 <label class="label"
                                     >Email<span class="text-error"
                                         >*</span
@@ -616,7 +820,7 @@ const onSave = () => {};
                                     placeholder="username@gmail.com"
                                 />
                             </div>
-                            <div class="w-full flex flex-col">
+                            <div class="flex flex-col w-full">
                                 <label class="label"
                                     >Address of Organization<span
                                         class="text-error"
@@ -651,14 +855,14 @@ const onSave = () => {};
                             </form>
                         </div>
                         <!-- <div
-                            class="overflow-x-auto border-base-200 border rounded-xl mt-2 bg-base-100"
+                            class="mt-2 overflow-x-auto border border-base-200 rounded-xl bg-base-100"
                         > -->
                         <div
                             class="mt-2 overflow-hidden border bg-base-100 rounded-xl"
                         >
                             <div class="overflow-x-auto whitespace-nowrap">
                                 <table
-                                    class="overflow-x-auto w-full base-table2 fle flex-col"
+                                    class="flex-col w-full overflow-x-auto base-table2 fle"
                                 >
                                     <thead>
                                         <tr>
@@ -748,8 +952,8 @@ const onSave = () => {};
                     <!-- Header -->
                     <h2 class="text-lg font-bold">Advisor</h2>
                     <!-- Input Advisor -->
-                    <div class="flex flex-col lg:flex-row items-center gap-2">
-                        <div class="w-full flex flex-col">
+                    <div class="flex flex-col items-center gap-2 lg:flex-row">
+                        <div class="flex flex-col w-full">
                             <label class="label"
                                 >Advisor Name<span class="text-error"
                                     >*</span
@@ -761,7 +965,7 @@ const onSave = () => {};
                                 placeholder="Advisor Name"
                             />
                         </div>
-                        <div class="w-full flex flex-col">
+                        <div class="flex flex-col w-full">
                             <label class="label"
                                 >Gender<span class="text-error">*</span></label
                             >
@@ -771,7 +975,7 @@ const onSave = () => {};
                                 <option>Female</option>
                             </select>
                         </div>
-                        <div class="w-full flex flex-col">
+                        <div class="flex flex-col w-full">
                             <label class="label"
                                 >Phone Number
                                 <span class="text-error">*</span></label
@@ -783,8 +987,8 @@ const onSave = () => {};
                             />
                         </div>
                     </div>
-                    <div class="flex flex-col lg:flex-row items-center gap-2">
-                        <div class="w-full flex flex-col">
+                    <div class="flex flex-col items-center gap-2 lg:flex-row">
+                        <div class="flex flex-col w-full">
                             <label class="label"
                                 >Dapartment<span class="text-error"
                                     >*</span
@@ -799,7 +1003,7 @@ const onSave = () => {};
                                 <option>Health Administration</option>
                             </select>
                         </div>
-                        <div class="w-full flex flex-col">
+                        <div class="flex flex-col w-full">
                             <label class="label"
                                 >Email<span class="text-error">*</span></label
                             >
@@ -910,8 +1114,8 @@ const onSave = () => {};
                     <!-- Header -->
                     <h2 class="text-lg font-bold">Committee</h2>
                     <!-- Input Committee -->
-                    <div class="flex flex-col lg:flex-row items-center gap-2">
-                        <div class="w-full flex flex-col">
+                    <div class="flex flex-col items-center gap-2 lg:flex-row">
+                        <div class="flex flex-col w-full">
                             <label class="label"
                                 >Committee Name<span class="text-error"
                                     >*</span
@@ -923,7 +1127,7 @@ const onSave = () => {};
                                 placeholder="Committee Name"
                             />
                         </div>
-                        <div class="w-full flex flex-col">
+                        <div class="flex flex-col w-full">
                             <label class="label"
                                 >Gender<span class="text-error">*</span></label
                             >
@@ -933,7 +1137,7 @@ const onSave = () => {};
                                 <option>Female</option>
                             </select>
                         </div>
-                        <div class="w-full flex flex-col">
+                        <div class="flex flex-col w-full">
                             <label class="label"
                                 >Phone Number
                                 <span class="text-error">*</span></label
@@ -945,8 +1149,8 @@ const onSave = () => {};
                             />
                         </div>
                     </div>
-                    <div class="flex flex-col lg:flex-row items-center gap-2">
-                        <div class="w-full flex flex-col">
+                    <div class="flex flex-col items-center gap-2 lg:flex-row">
+                        <div class="flex flex-col w-full">
                             <label class="label"
                                 >Dapartment<span class="text-error"
                                     >*</span
@@ -961,7 +1165,7 @@ const onSave = () => {};
                                 <option>Health Administration</option>
                             </select>
                         </div>
-                        <div class="w-full flex flex-col">
+                        <div class="flex flex-col w-full">
                             <label class="label"
                                 >Email<span class="text-error">*</span></label
                             >
@@ -1064,6 +1268,253 @@ const onSave = () => {};
                                 Save
                             </Button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ModalBreeze>
+
+    <ModalBreeze
+        :show="showModalAdvisor"
+        :is-no-padding="true"
+        max-width="7xl"
+        @close="onCloseModalAdvisor"
+    >
+        <div class="overflow-hidden shadow-xl bg-base-100 rounded-2xl">
+            <div class="flex items-center justify-between gap-2"></div>
+
+            <div
+                class="max-h-[calc(100vh-150px)] overflow-auto bg-base-100 p-2"
+            >
+                <h2
+                    class="mt-3 ml-3 text-2xl font-bold text-center text-blue-900 dark:bg-gray-800 dark:text-blue-300"
+                >
+                    Advisor(s) List View
+                </h2>
+                <div class="flex items-center gap-2"></div>
+
+                <div
+                    class="flex items-center justify-between gap-3 p-2 mt-2 bg-base-100 rounded-xl"
+                >
+                    <form @submit.prevent="onAddAdvisor">
+                        <button class="btn btn-success">
+                            <CloudArrowDownIcon class="w-4 h-4" />Export
+                        </button>
+                        <button class="ml-1 text-white btn btn-error">
+                            <PrinterIcon class="w-4 h-4" />Advisors Reported...
+                        </button>
+                    </form>
+                    <div class="flex gap-3 overflow-x-auto">
+                        <!-- Input field -->
+                        <input
+                            type="text"
+                            class="w-full h-10 input input-primary input-sm"
+                            placeholder="Advisors Name..."
+                        />
+
+                        <!-- Lectures dropdown -->
+                        <CamboboxHeadless
+                            placeholder="Lectures"
+                            class="w-full h-10 border bg-base-100 border-primary"
+                        />
+
+                        <!-- Topic dropdown -->
+                        <CamboboxHeadless
+                            placeholder="Topics"
+                            class="w-full h-10 border bg-base-100 border-primary"
+                        />
+                    </div>
+                </div>
+                <div class="p-2 mt-1 bg-base-200 rounded-xl">
+                    <h4 class="text-lg text-center">
+                        Advisor(s) Recently Added
+                    </h4>
+
+                    <div
+                        class="max-h-[calc(100vh-550px)] overflow-auto border-base-200 border rounded-xl mt-2 bg-base-100"
+                    >
+                        <table class="w-full base-table2">
+                            <thead>
+                                <tr>
+                                    <th>Nº</th>
+                                    <th>Advisor Name</th>
+                                    <th>sex</th>
+                                    <th>Role</th>
+                                    <th>Topics</th>
+                                    <th>Email</th>
+                                    <th>Phone Number</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm text-center">
+                                <tr>
+                                    <td>1</td>
+                                    <td
+                                        class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
+                                    >
+                                        Doch Munibuth
+                                    </td>
+                                    <td>Male</td>
+                                    <td>Department</td>
+
+                                    <td>ការយល់ដឹងរបស់អាណាព្យាបាលអំពី ...</td>
+                                    <td
+                                        class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
+                                    >
+                                        Username@gmail.com
+                                    </td>
+                                    <td>012 345 678</td>
+                                    <td>
+                                        <button
+                                            type="button"
+                                            class="btn btn-success btn-square btn-sm"
+                                        >
+                                            <EyeIcon class="w-4 h-4" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="ml-1 btn btn-warning btn-square btn-sm"
+                                        >
+                                            <PenBoxIcon class="w-4 h-4" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="ml-1 btn btn-error btn-square btn-sm"
+                                        >
+                                            <TrashIcon class="w-4 h-4" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ModalBreeze>
+
+    <ModalBreeze
+        :show="showModalStudentGroupThesis"
+        :is-no-padding="true"
+        max-width="7xl"
+        @close="onCloseModalStudentGroupThesis"
+    >
+        <div class="overflow-hidden shadow-xl bg-base-100 rounded-2xl">
+            <div class="flex items-center justify-between gap-2"></div>
+
+            <div
+                class="max-h-[calc(100vh-150px)] overflow-auto bg-base-100 p-2"
+            >
+                <h2
+                    class="mt-3 ml-3 text-2xl font-bold text-center text-blue-900 dark:bg-gray-900 dark:text-blue-300"
+                >
+                    Student Group(s) Thesis List View
+                </h2>
+                <div class="flex items-center gap-2"></div>
+
+                <div
+                    class="flex items-center justify-between gap-3 p-2 mt-2 bg-base-100 rounded-xl"
+                >
+                    <form @submit.prevent="onAddStudentGroupThesis">
+                        <button class="btn btn-success">
+                            <CloudArrowDownIcon class="w-4 h-4" />Export
+                        </button>
+                        <button class="ml-1 text-white btn btn-error">
+                            <PrinterIcon class="w-4 h-4" />Groups Thesis
+                            Reported...
+                        </button>
+                    </form>
+                    <div class="flex gap-3 overflow-x-auto">
+                        <!-- Input field -->
+                        <input
+                            type="text"
+                            class="w-full h-10 input input-primary input-md"
+                            placeholder="Group(s) Name..."
+                        />
+
+                        <!-- Student Groups Thesis dropdown -->
+                        <CamboboxHeadless
+                            placeholder="Group(s)"
+                            class="w-full h-10 border bg-base-100 border-primary"
+                        />
+
+                        <!-- Topic dropdown -->
+                        <CamboboxHeadless
+                            placeholder="Topics"
+                            class="w-full h-10 border bg-base-100 border-primary"
+                        />
+                    </div>
+                </div>
+                <div class="p-2 mt-1 bg-base-200 rounded-xl">
+                    <h4 class="text-lg text-center">
+                        Student Groups Thesis Recently Added
+                    </h4>
+
+                    <div
+                        class="max-h-[calc(100vh-550px)] overflow-auto border-base-200 border rounded-xl mt-2 bg-base-100"
+                    >
+                        <table class="w-full base-table2">
+                            <thead>
+                                <tr>
+                                    <th>Nº</th>
+                                    <th>Group Name</th>
+                                    <th>Thesis Title</th>
+                                    <th>Topics</th>
+                                    <th>Supervisor(s)</th>
+                                    <th>Student(s)</th>
+                                    <th>Deadline</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm text-center">
+                                <tr>
+                                    <td>1</td>
+                                    <td
+                                        class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
+                                    >
+                                        Group 001
+                                    </td>
+                                    <td
+                                        class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
+                                    >
+                                        Thesis(title)
+                                    </td>
+                                    <td>ការយល់ដឹងរបស់អាណាព្យាបាលអំពី ...</td>
+                                    <td
+                                        class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
+                                    >
+                                        Doch Munibuth,
+                                    </td>
+                                    <td
+                                        class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
+                                    >
+                                        Sitha Solineath,<br />
+                                        Sum Sreysuon, Chou Lida
+                                    </td>
+                                    <td class="font-bold">25/02/2024</td>
+                                    <td>
+                                        <button
+                                            type="button"
+                                            class="btn btn-success btn-square btn-sm"
+                                        >
+                                            <EyeIcon class="w-4 h-4" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="ml-1 btn btn-warning btn-square btn-sm"
+                                        >
+                                            <PenBoxIcon class="w-4 h-4" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="ml-1 btn btn-error btn-square btn-sm"
+                                        >
+                                            <TrashIcon class="w-4 h-4" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
