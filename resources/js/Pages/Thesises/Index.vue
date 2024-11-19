@@ -8,7 +8,7 @@ import SvgIcon from "@/Components/SvgIcon.vue";
     <App>
         <div class="flex flex-wrap">
             <Link
-                :href="route('thesises.management.index')"
+                :href="route('thesis.management.index')"
                 class="w-full p-2 duration-300 ease-in transform md:w-1/3 lg:w-1/5 hover:scale-105"
             >
                 <div

@@ -29,16 +29,20 @@ import CamboboxHeadless from "@/Components/CamboboxHeadless.vue";
 import { throttle, pickBy, filter } from "lodash";
 const { fetch } = useAxios();
 
-const showModal = ref(false);
+const showModalThesis = ref(false);
 const showModalAdvisor = ref(false);
+const showModalCommittee = ref(false);
 const showModalStudentGroupThesis = ref(false);
 const showModalThesisReport = ref(false);
 
-const onCloseModal = () => {
-    showModal.value = false;
+const onCloseModalThesis = () => {
+    showModalThesis.value = false;
 };
 const onCloseModalAdvisor = () => {
     showModalAdvisor.value = false;
+};
+const onCloseModalCommittee = () => {
+    showModalCommittee.value = false;
 };
 const onCloseModalStudentGroupThesis = () => {
     showModalStudentGroupThesis.value = false;
@@ -174,13 +178,13 @@ const onCloseThesis = () => {
             if (result.isConfirmed) {
                 formThesis.reset();
                 formThesis.clearErrors();
-                showModal.value = false;
+                showModalThesis.value = false;
             }
         });
     } else {
         formThesis.reset();
         formThesis.clearErrors();
-        showModal.value = false;
+        showModalThesis.value = false;
     }
 };
 
@@ -269,13 +273,13 @@ const onCloseThesisCommittee = () => {
             if (result.isConfirmed) {
                 formThesisCommittee.reset();
                 formThesisCommittee.clearErrors();
-                showModal.value = false;
+                showModalThesis.value = false;
             }
         });
     } else {
         formThesisCommittee.reset();
         formThesisCommittee.clearErrors();
-        showModal.value = false;
+        showModalThesis.value = false;
     }
 };
 
@@ -363,13 +367,13 @@ const onCloseThesisStudent = () => {
             if (result.isConfirmed) {
                 formThesisStudent.reset();
                 formThesisStudent.clearErrors();
-                showModal.value = false;
+                showModalStudentGroupThesis.value = false;
             }
         });
     } else {
         formThesisStudent.reset();
         formThesisStudent.clearErrors();
-        showModal.value = false;
+        showModalStudentGroupThesis.value = false;
     }
 };
 
@@ -445,41 +449,42 @@ const onSave = () => {};
         <div
             class="w-full p-2 mb-3 space-y-2 overflow-x-auto bg-base-200/15 rounded-xl"
         >
-            <div
-                class="flex flex-col overflow-x-auto p-2 mb-2 rounded-lg md:flex-row md:items-center md:justify-between bg-base-100"
-            >
-                <!-- Start Section: Input and Dropdowns -->
-                <div class="flex gap-2">
-                    <button
-                        type="button"
-                        class="btn btn-success"
-                        @click="showModal = true"
-                    >
-                        <plus class="w-4 h-4" />
-                        New
-                    </button>
+            <!-- <div
+                class="flex flex-col p-2 mb-2 overflow-x-auto rounded-lg md:flex-row md:items-center md:justify-between bg-base-100"
+            > -->
+            <!-- Start Section: Input and Dropdowns -->
+            <div class="flex gap-2 overflow-x-auto">
+                <button
+                    type="button"
+                    class="btn btn-success"
+                    @click="showModalThesis = true"
+                >
+                    <plus class="w-4 h-4" />
+                    New
+                </button>
 
-                    <button
-                        type="button"
-                        class="btn btn-warning"
-                        @click="showModalAdvisor = true"
-                    >
-                        <AcademicCapIcon class="w-4 h-4" />
-                        Advisors
-                    </button>
+                <button
+                    type="button"
+                    class="btn btn-warning"
+                    @click="showModalAdvisor = true"
+                >
+                    <AcademicCapIcon class="w-4 h-4" />
+                    Advisors
+                </button>
 
-                    <button
+                <!-- <button
                         type="button"
                         class="btn btn-primary"
                         @click="showModalStudentGroupThesis = true"
                     >
                         <UserGroupIcon class="w-4 h-4" />
                         Student Group Thesis...
-                    </button>
-                    <!-- End Section: Buttons -->
+                    </button> -->
+                <!-- End Section: Buttons -->
+                <div class="ml-auto md:flex-auto">
                     <button
                         type="button"
-                        class="text-white btn btn-error"
+                        class="btn btn-error"
                         @click="showModalThesisReport = true"
                     >
                         <Printer class="w-4 h-4" />
@@ -487,18 +492,13 @@ const onSave = () => {};
                     </button>
                 </div>
             </div>
-            <div class="w-full overflow-x-auto md bg-base-100 rounded-xl p-2">
+            <!-- </div> -->
+            <div class="w-full overflow-x-auto md">
                 <div
                     class="flex flex-col items-center gap-2 m-1 mb-6 md:flex-row"
                 >
-                    <!-- <div class="p-2 space-y-2 bg-base-200/15 rounded-xl">
-                <div
-                    class="w-full flex flex-row gap-2 p-1 m-1 mb-3 bg-base-100 rounded-xl md:flex-row md:items-center md:justify-between"
-                >
-                    <div class="flex gap-3 overflow-x-auto p-2"> -->
-                    <!-- Input field -->
                     <Input
-                        class="h-10 font-bold border bg-base-100 border-primary"
+                        class="w-full h-10 font-bold border border-primary input bg-base-100 input-primary"
                         placeholder="Student ID..."
                         v-model="filterForm.keyword"
                     />
@@ -544,7 +544,7 @@ const onSave = () => {};
                     <CamboboxHeadless
                         v-model="filterForm.academic_year"
                         placeholder="Academic Year"
-                        class="w-full h-10 font-bold border bg-base-100 border-primary md:w-auto"
+                        class="w-full h-10 font-bold border bg-base-100 border-primary"
                     />
 
                     <!-- Reset button -->
@@ -623,11 +623,12 @@ const onSave = () => {};
             </div>
         </div>
     </App>
+    <!-- Thesis -->
     <ModalBreeze
-        :show="showModal"
+        :show="showModalThesis"
         :is-no-padding="true"
         max-width="7xl"
-        @close="onCloseModal"
+        @close="onCloseModalThesis"
     >
         <div role="tablist" class="p-2 bg-base-100 tabs tabs-lifted">
             <input
@@ -943,7 +944,6 @@ const onSave = () => {};
                 role="tab"
                 class="font-bold tab"
                 aria-label="Advisors and Committees"
-                defaultChecked
             />
             <div
                 role="tabpanel"
@@ -1276,6 +1276,7 @@ const onSave = () => {};
         </div>
     </ModalBreeze>
 
+    <!-- Advisor -->
     <ModalBreeze
         :show="showModalAdvisor"
         :is-no-padding="true"
@@ -1289,35 +1290,45 @@ const onSave = () => {};
                 class="max-h-[calc(100vh-150px)] overflow-auto bg-base-100 p-2"
             >
                 <h2
-                    class="mt-3 ml-3 text-2xl font-bold text-center text-blue-900 dark:bg-gray-800 dark:text-blue-300"
+                    class="text-2xl font-bold text-center text-blue-900 dark:bg-gray-800 dark:text-blue-300"
                 >
                     Advisor(s) List View
                 </h2>
-                <div class="flex items-center gap-2"></div>
+                <!-- <div class="flex items-center gap-2"></div> -->
 
                 <div
-                    class="flex items-center justify-between gap-3 p-2 mt-2 bg-base-100 rounded-xl"
+                    class="flex flex-col items-center justify-between gap-3 p-2 mt-2 sm:flex-row bg-base-100 rounded-xl"
                 >
-                    <form @submit.prevent="onAddAdvisor">
-                        <button class="btn btn-success">
-                            <CloudArrowDownIcon class="w-4 h-4" />Export
-                        </button>
-                        <button class="ml-1 text-white btn btn-error">
-                            <PrinterIcon class="w-4 h-4" />Advisors Reported...
-                        </button>
+                    <form
+                        @submit.prevent="onAddAdvisor"
+                        class="w-full sm:w-auto"
+                    >
+                        <div class="flex flex-col gap-2 sm:flex-row sm:gap-3">
+                            <button class="w-full btn btn-success sm:w-auto">
+                                <CloudArrowDownIcon class="w-4 h-4" />Export
+                            </button>
+                            <button
+                                class="w-full text-white btn btn-error sm:w-auto"
+                            >
+                                <PrinterIcon class="w-4 h-4" />Advisors
+                                Reported...
+                            </button>
+                        </div>
                     </form>
-                    <div class="flex gap-3 overflow-x-auto">
+                    <div
+                        class="flex flex-col w-full gap-3 mt-2 overflow-x-auto sm:flex-row sm:w-auto sm:mt-0"
+                    >
                         <!-- Input field -->
                         <input
                             type="text"
-                            class="w-full h-10 input input-primary input-sm"
+                            class="w-full h-10 mb-2 input input-primary input-sm sm:mb-0"
                             placeholder="Advisors Name..."
                         />
 
                         <!-- Lectures dropdown -->
                         <CamboboxHeadless
                             placeholder="Lectures"
-                            class="w-full h-10 border bg-base-100 border-primary"
+                            class="w-full h-10 mb-2 border bg-base-100 border-primary sm:mb-0"
                         />
 
                         <!-- Topic dropdown -->
@@ -1327,196 +1338,78 @@ const onSave = () => {};
                         />
                     </div>
                 </div>
+
                 <div class="p-2 mt-1 bg-base-200 rounded-xl">
                     <h4 class="text-lg text-center">
                         Advisor(s) Recently Added
                     </h4>
-
                     <div
-                        class="max-h-[calc(100vh-550px)] overflow-auto border-base-200 border rounded-xl mt-2 bg-base-100"
+                        class="mt-2 overflow-hidden border bg-base-100 rounded-xl"
                     >
-                        <table class="w-full base-table2">
-                            <thead>
-                                <tr>
-                                    <th>Nº</th>
-                                    <th>Advisor Name</th>
-                                    <th>sex</th>
-                                    <th>Role</th>
-                                    <th>Topics</th>
-                                    <th>Email</th>
-                                    <th>Phone Number</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-sm text-center">
-                                <tr>
-                                    <td>1</td>
-                                    <td
-                                        class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
-                                    >
-                                        Doch Munibuth
-                                    </td>
-                                    <td>Male</td>
-                                    <td>Department</td>
-
-                                    <td>ការយល់ដឹងរបស់អាណាព្យាបាលអំពី ...</td>
-                                    <td
-                                        class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
-                                    >
-                                        Username@gmail.com
-                                    </td>
-                                    <td>012 345 678</td>
-                                    <td>
-                                        <button
-                                            type="button"
-                                            class="btn btn-success btn-square btn-sm"
-                                        >
-                                            <EyeIcon class="w-4 h-4" />
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="ml-1 btn btn-warning btn-square btn-sm"
-                                        >
-                                            <PenBoxIcon class="w-4 h-4" />
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="ml-1 btn btn-error btn-square btn-sm"
-                                        >
-                                            <TrashIcon class="w-4 h-4" />
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </ModalBreeze>
-
-    <ModalBreeze
-        :show="showModalStudentGroupThesis"
-        :is-no-padding="true"
-        max-width="7xl"
-        @close="onCloseModalStudentGroupThesis"
-    >
-        <div class="overflow-hidden shadow-xl bg-base-100 rounded-2xl">
-            <div class="flex items-center justify-between gap-2"></div>
-
-            <div
-                class="max-h-[calc(100vh-150px)] overflow-auto bg-base-100 p-2"
-            >
-                <h2
-                    class="mt-3 ml-3 text-2xl font-bold text-center text-blue-900 dark:bg-gray-900 dark:text-blue-300"
-                >
-                    Student Group(s) Thesis List View
-                </h2>
-                <div class="flex items-center gap-2"></div>
-
-                <div
-                    class="flex items-center justify-between gap-3 p-2 mt-2 bg-base-100 rounded-xl"
-                >
-                    <form @submit.prevent="onAddStudentGroupThesis">
-                        <button class="btn btn-success">
-                            <CloudArrowDownIcon class="w-4 h-4" />Export
-                        </button>
-                        <button class="ml-1 text-white btn btn-error">
-                            <PrinterIcon class="w-4 h-4" />Groups Thesis
-                            Reported...
-                        </button>
-                    </form>
-                    <div class="flex gap-3 overflow-x-auto">
-                        <!-- Input field -->
-                        <input
-                            type="text"
-                            class="w-full h-10 input input-primary input-md"
-                            placeholder="Group(s) Name..."
-                        />
-
-                        <!-- Student Groups Thesis dropdown -->
-                        <CamboboxHeadless
-                            placeholder="Group(s)"
-                            class="w-full h-10 border bg-base-100 border-primary"
-                        />
-
-                        <!-- Topic dropdown -->
-                        <CamboboxHeadless
-                            placeholder="Topics"
-                            class="w-full h-10 border bg-base-100 border-primary"
-                        />
-                    </div>
-                </div>
-                <div class="p-2 mt-1 bg-base-200 rounded-xl">
-                    <h4 class="text-lg text-center">
-                        Student Groups Thesis Recently Added
-                    </h4>
-
-                    <div
+                        <div class="overflow-x-auto whitespace-nowrap">
+                            <table
+                                class="flex-col w-full overflow-x-auto base-table2 fle"
+                            >
+                                <!-- <div
                         class="max-h-[calc(100vh-550px)] overflow-auto border-base-200 border rounded-xl mt-2 bg-base-100"
-                    >
-                        <table class="w-full base-table2">
-                            <thead>
-                                <tr>
-                                    <th>Nº</th>
-                                    <th>Group Name</th>
-                                    <th>Thesis Title</th>
-                                    <th>Topics</th>
-                                    <th>Supervisor(s)</th>
-                                    <th>Student(s)</th>
-                                    <th>Deadline</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-sm text-center">
-                                <tr>
-                                    <td>1</td>
-                                    <td
-                                        class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
-                                    >
-                                        Group 001
-                                    </td>
-                                    <td
-                                        class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
-                                    >
-                                        Thesis(title)
-                                    </td>
-                                    <td>ការយល់ដឹងរបស់អាណាព្យាបាលអំពី ...</td>
-                                    <td
-                                        class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
-                                    >
-                                        Doch Munibuth,
-                                    </td>
-                                    <td
-                                        class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
-                                    >
-                                        Sitha Solineath,<br />
-                                        Sum Sreysuon, Chou Lida
-                                    </td>
-                                    <td class="font-bold">25/02/2024</td>
-                                    <td>
-                                        <button
-                                            type="button"
-                                            class="btn btn-success btn-square btn-sm"
+                    > -->
+                                <!-- <table class="w-full base-table2"> -->
+                                <thead>
+                                    <tr>
+                                        <th>Nº</th>
+                                        <th>Advisor Name</th>
+                                        <th>sex</th>
+                                        <th>Role</th>
+                                        <th>Topics</th>
+                                        <th>Email</th>
+                                        <th>Phone Number</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-sm text-center">
+                                    <tr>
+                                        <td>1</td>
+                                        <td
+                                            class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
                                         >
-                                            <EyeIcon class="w-4 h-4" />
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="ml-1 btn btn-warning btn-square btn-sm"
+                                            Doch Munibuth
+                                        </td>
+                                        <td>Male</td>
+                                        <td>Department</td>
+
+                                        <td>
+                                            ការយល់ដឹងរបស់អាណាព្យាបាលអំពី ...
+                                        </td>
+                                        <td
+                                            class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
                                         >
-                                            <PenBoxIcon class="w-4 h-4" />
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="ml-1 btn btn-error btn-square btn-sm"
-                                        >
-                                            <TrashIcon class="w-4 h-4" />
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                            Username@gmail.com
+                                        </td>
+                                        <td>012 345 678</td>
+                                        <td>
+                                            <button
+                                                type="button"
+                                                class="btn btn-success btn-square btn-sm"
+                                            >
+                                                <EyeIcon class="w-4 h-4" />
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="ml-1 btn btn-warning btn-square btn-sm"
+                                            >
+                                                <PenBoxIcon class="w-4 h-4" />
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="ml-1 btn btn-error btn-square btn-sm"
+                                            >
+                                                <TrashIcon class="w-4 h-4" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
