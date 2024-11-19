@@ -19,8 +19,8 @@ import SvgIcon from "@/Components/SvgIcon.vue";
                         <div
                             class="grid p-3 bg-green-100 dark:bg-green-500 rounded-xl place-content-center"
                         >
-                            <!-- <SvgIcon class="w-24" name="product-list" /> -->
-                            <i class="text-4xl fa-solid fa-book"></i>
+                            <!-- <SvgIcon class="w-24" name="arrow-square-in" /> -->
+                            <i class="text-6xl fa-solid fa-book"></i>
                         </div>
                     </div>
                     <div class="flex items-center justify-center p-2">

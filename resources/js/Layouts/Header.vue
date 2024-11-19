@@ -145,7 +145,7 @@ onUnmounted(() => {
                 <input
                     v-model="input"
                     type="text"
-                    class="w-full rounded-md text-md bg-base-100 input-sm input input-primary"
+                    class="w-auto rounded-md text-md bg-base-100 input-sm input input-primary"
                     placeholder="Search Thesis Topic..."
                 />
                 <!-- Results dropdown -->

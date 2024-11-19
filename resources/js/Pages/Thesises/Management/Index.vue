@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ModalBreeze from "@/Components/ModalBreeze.vue";
 import { Button } from "@/Components/ui/button";
+import { Input } from "@/Components/ui/input";
 import App from "@/Layouts/App.vue";
 import { PaginateType } from "@/types/paginateType";
 import { ThesisCommitteesType } from "@/types/Thesis/thesisCommitteesType";
@@ -430,19 +431,25 @@ const onSave = () => {};
 <template>
     <App
         :breadcrumbs="[
-            { name: 'Graduate School', url: '' },
-            { name: 'Examination  management', url: '' },
+            {
+                name: 'Graduate School',
+                url: route('thesises.index'),
+            },
+            {
+                name: 'Examination  management',
+                url: route('thesises.management.index'),
+            },
         ]"
         title="Examination link management"
     >
         <div
-            class="w-full p-2 mt-3 mb-3 space-y-2 overflow-x-auto bg-base-200/15 rounded-xl"
+            class="w-full p-2 mb-3 space-y-2 overflow-x-auto bg-base-200/15 rounded-xl"
         >
             <div
-                class="flex flex-col p-2 mb-2 rounded-lg md:flex-row md:items-center md:justify-between bg-base-100"
+                class="flex flex-col overflow-x-auto p-2 mb-2 rounded-lg md:flex-row md:items-center md:justify-between bg-base-100"
             >
                 <!-- Start Section: Input and Dropdowns -->
-                <div class="flex gap-1 overflow-x-auto">
+                <div class="flex gap-2">
                     <button
                         type="button"
                         class="btn btn-success"
@@ -454,7 +461,7 @@ const onSave = () => {};
 
                     <button
                         type="button"
-                        class="ml-1 btn btn-warning"
+                        class="btn btn-warning"
                         @click="showModalAdvisor = true"
                     >
                         <AcademicCapIcon class="w-4 h-4" />
@@ -463,19 +470,16 @@ const onSave = () => {};
 
                     <button
                         type="button"
-                        class="ml-1 btn btn-primary"
+                        class="btn btn-primary"
                         @click="showModalStudentGroupThesis = true"
                     >
                         <UserGroupIcon class="w-4 h-4" />
                         Student Group Thesis...
                     </button>
-                </div>
-
-                <!-- End Section: Buttons -->
-                <div class="flex gap-3 mt-3 overflow-x-auto md:mt-0">
+                    <!-- End Section: Buttons -->
                     <button
                         type="button"
-                        class="ml-1 text-white btn btn-error"
+                        class="text-white btn btn-error"
                         @click="showModalThesisReport = true"
                     >
                         <Printer class="w-4 h-4" />
@@ -483,78 +487,76 @@ const onSave = () => {};
                     </button>
                 </div>
             </div>
-            <div class="p-2 space-y-2 bg-base-200/15 rounded-xl">
+            <div class="w-full overflow-x-auto md bg-base-100 rounded-xl p-2">
                 <div
-                    class="flex flex-col gap-2 p-2 m-1 mb-3 bg-base-100 rounded-xl md:flex-row md:items-center md:justify-between"
+                    class="flex flex-col items-center gap-2 m-1 mb-6 md:flex-row"
                 >
-                    <!-- Start Section: Input and Dropdowns -->
-                    <div class="flex gap-3 overflow-x-auto">
-                        <!-- Input field -->
-                        <input
-                            type="text"
-                            class="w-full h-10 input input-primary input-sm"
-                            placeholder="Student ID..."
-                            v-model="filterForm.keyword"
-                        />
+                    <!-- <div class="p-2 space-y-2 bg-base-200/15 rounded-xl">
+                <div
+                    class="w-full flex flex-row gap-2 p-1 m-1 mb-3 bg-base-100 rounded-xl md:flex-row md:items-center md:justify-between"
+                >
+                    <div class="flex gap-3 overflow-x-auto p-2"> -->
+                    <!-- Input field -->
+                    <Input
+                        class="h-10 font-bold border bg-base-100 border-primary"
+                        placeholder="Student ID..."
+                        v-model="filterForm.keyword"
+                    />
 
-                        <!--Majors  dropdown -->
-                        <CamboboxHeadless
-                            v-model="filterForm.major"
-                            placeholder="Majors"
-                            class="w-full h-10 font-bold border bg-base-100 border-primary"
-                        />
+                    <!--Majors  dropdown -->
+                    <CamboboxHeadless
+                        v-model="filterForm.major"
+                        placeholder="Majors"
+                        class="w-full h-10 font-bold border bg-base-100 border-primary"
+                    />
 
-                        <!--Year  dropdown -->
-                        <CamboboxHeadless
-                            v-model="filterForm.year"
-                            placeholder="Year"
-                            class="w-full h-10 font-bold border bg-base-100 border-primary"
-                        />
-                        <!--Topic  dropdown -->
-                        <CamboboxHeadless
-                            v-model="filterForm.topic"
-                            placeholder="Topics"
-                            class="w-full h-10 font-bold border bg-base-100 border-primary"
-                        />
-                        <!--Advisor  dropdown -->
-                        <CamboboxHeadless
-                            v-model="filterForm.advisor"
-                            placeholder="Advisors"
-                            class="w-full h-10 font-bold border bg-base-100 border-primary"
-                        />
-                        <!--Committee  dropdown -->
-                        <CamboboxHeadless
-                            v-model="filterForm.committee"
-                            placeholder="Committee"
-                            class="w-full h-10 font-bold border bg-base-100 border-primary"
-                        />
-                        <!--Groups  dropdown -->
-                        <CamboboxHeadless
-                            v-model="filterForm.group_id"
-                            placeholder="Groups "
-                            class="w-full h-10 font-bold border bg-base-100 border-primary"
-                        />
-                    </div>
+                    <!--Year  dropdown -->
+                    <CamboboxHeadless
+                        v-model="filterForm.year"
+                        placeholder="Year"
+                        class="w-full h-10 font-bold border bg-base-100 border-primary"
+                    />
+                    <!--Topic  dropdown -->
+                    <CamboboxHeadless
+                        v-model="filterForm.topic"
+                        placeholder="Topics"
+                        class="w-full h-10 font-bold border bg-base-100 border-primary"
+                    />
+                    <!--Advisor  dropdown -->
+                    <CamboboxHeadless
+                        v-model="filterForm.advisor"
+                        placeholder="Advisors"
+                        class="w-full h-10 font-bold border bg-base-100 border-primary"
+                    />
+                    <!--Committee  dropdown -->
+                    <CamboboxHeadless
+                        v-model="filterForm.committee"
+                        placeholder="Committee"
+                        class="w-full h-10 font-bold border bg-base-100 border-primary"
+                    />
+                    <!--Groups  dropdown -->
+                    <CamboboxHeadless
+                        v-model="filterForm.group_id"
+                        placeholder="Groups "
+                        class="w-full h-10 font-bold border bg-base-100 border-primary"
+                    />
+                    <!-- Academic Year -->
+                    <CamboboxHeadless
+                        v-model="filterForm.academic_year"
+                        placeholder="Academic Year"
+                        class="w-full h-10 font-bold border bg-base-100 border-primary md:w-auto"
+                    />
 
-                    <div class="flex gap-3 mt-3 overflow-x-auto md:mt-0">
-                        <!-- Academic Year -->
-                        <CamboboxHeadless
-                            v-model="filterForm.academic_year"
-                            placeholder="Academic Year"
-                            class="w-full h-10 font-bold border bg-base-100 border-primary"
-                        />
-                    </div>
                     <!-- Reset button -->
                     <button
-                        class="w-full h-10 btn btn-warning btn-sm md:w-auto"
                         type="button"
                         @click="onClearFilter"
+                        class="w-full h-10 btn btn-warning btn-sm md:w-auto"
                     >
                         Reset
                     </button>
                 </div>
             </div>
-
             <div class="mt-2 overflow-hidden border bg-base-100 rounded-xl">
                 <div class="overflow-x-auto whitespace-nowrap">
                     <table class="w-full base-table2">
