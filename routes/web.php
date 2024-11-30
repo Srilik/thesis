@@ -18,6 +18,23 @@ use App\Http\Controllers\Thesis\ThesisManagement\ThesisCommitteessController;
 use App\Http\Controllers\Thesis\ThesisManagement\ThesisssController;
 use App\Http\Controllers\Thesis\ThesisManagement\ThesisStudentssController;
 
+use App\Http\Controllers\Attendance\AuthController;
+Route::get('/loginAttendance', [AuthController::class, 'showLoginForm'])
+    ->middleware(RedirectToDashbordIfLoggedIn::class)
+    ->name('login');
+Route::post('/loginAttendance', [AuthController::class, 'verifyLogin'])->name('verifyLogin');
+
+use App\Http\Controllers\Attendance\StudentController;
+Route::middleware(['auth', 'role:student'])->group(function () {
+    Route::get('/student-dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+});
+
+use App\Http\Controllers\Attendance\AdminController;
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::resource('attendances', AdminController::class);
+});
+
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
