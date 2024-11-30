@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 
 const form = useForm({
@@ -10,16 +9,18 @@ const form = useForm({
 </script>
 
 <template>
-    <div class="flex items-center justify-center h-screen bg-gray-200">
+    <div
+        class="flex items-center justify-center h-screen bg-gray-300 dark:bg-gray-800"
+    >
         <form
             @submit.prevent="form.post(route('login'))"
-            class="p-4 space-y-3 bg-white shadow-md rounded-xl w-96"
+            class="p-4 space-y-3 bg-base-100 shadow-md rounded-xl w-96"
         >
             <div>
-                <label class="label">Email</label>
+                <label class="text-black dark:text-white label">Email</label>
                 <input
                     v-model="form.email"
-                    class="w-full input input-primary"
+                    class="bg-base-100 w-full input input-primary"
                     type="email"
                 />
                 <div class="text-red-600" v-if="form.errors.email">
@@ -27,10 +28,10 @@ const form = useForm({
                 </div>
             </div>
             <div>
-                <label class="label">Password</label>
+                <label class="label text-black dark:text-white">Password</label>
                 <input
                     v-model="form.password"
-                    class="w-full input input-primary"
+                    class="bg-base-100 w-full input input-primary"
                     type="password"
                 />
                 <div class="text-red-600" v-if="form.errors.email">
@@ -38,10 +39,12 @@ const form = useForm({
                 </div>
             </div>
             <div>
-                <label class="flex justify-start gap-2 label">
+                <label
+                    class="text-black dark:text-white flex justify-start gap-2 label"
+                >
                     <input
                         v-model="form.remember"
-                        class="checkbox checkbox-primary"
+                        class="bg-base-100 checkbox checkbox-primary"
                         type="checkbox"
                     />
                     Remeber me

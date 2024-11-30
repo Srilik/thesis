@@ -7,6 +7,7 @@ import { PaginateType } from "@/types/paginateType";
 import { ThesisCommitteesType } from "@/types/Thesis/thesisCommitteesType";
 import { ThesisesType } from "@/types/Thesis/thesisesType";
 import { ThesisStudentsType } from "@/types/Thesis/thesisStudentType";
+import PaginationTw2 from "@/Components/PaginationTw2.vue";
 import {
     EyeIcon,
     UserGroupIcon,
@@ -23,10 +24,14 @@ import {
     Printer,
 } from "lucide-vue-next";
 import Swal from "sweetalert2";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import useAxios from "@/Composables/useAxios";
 import CamboboxHeadless from "@/Components/CamboboxHeadless.vue";
 import { throttle, pickBy, filter } from "lodash";
+// import MajorSubject from "@/Pages/Schedule/Dashboard/Partials/QuickActions/MajorSubject.vue";
+// import TheQuickMajorSubjectForm from "@/Pages/Schedule/Dashboard/Partials/QuickAction/TheQuickMajorSubjectForm.vue";
+import { LecturerType } from "@/types/LecturerType";
+// import { StudentType } from "@/types/student";
 const { fetch } = useAxios();
 
 const showModalThesis = ref(false);
@@ -74,6 +79,36 @@ const thesisStudents = ref<PaginateType<ThesisStudentsType>>(
     props.thesisStudents,
 );
 
+const searchAdvisor = ref("");
+const searchThesis = ref("");
+
+const filteredThesis = computed(() => {
+    return thesises.value.data.filter((thesis) => {
+        return (
+            thesis.topic
+                .toLowerCase()
+                .includes(searchThesis.value.toLowerCase()) ||
+            thesis.lecturer_id
+                .toLowerCase()
+                .includes(searchAdvisor.value.toLowerCase())
+        );
+    });
+});
+const filteredThesisCommittee = computed(() => {
+    return thesisCommittees.value.data.filter((thesisCommittee) => {
+        return thesisCommittee.lecturer_id
+            .toLowerCase()
+            .includes(searchAdvisor.value.toLowerCase());
+    });
+});
+const filteredThesisStudent = computed(() => {
+    return thesisStudents.value.data.filter((thesisStudent) => {
+        return thesisStudent.student_id
+            .toLowerCase()
+            .includes(searchAdvisor.value.toLowerCase());
+    });
+});
+
 watch(
     () => props.thesises,
     (newThesises) => {
@@ -119,27 +154,34 @@ const onSaveThesis = () => {
     );
 };
 const editThesis = async (thesisID: number) => {
-    const { data } = await fetch<{}>(
-        route("thesises.management.thesises.edit", thesisID),
-    );
+    try {
+        const { data } = await fetch<{
+            thesis: ThesisesType;
+            committee: ThesisCommitteesType[];
+            student: ThesisStudentsType[];
+            lecturer: LecturerType;
+        }>(route("thesises.management.thesises.edit", thesisID));
+        formThesis.id = data.id;
+        formThesis.group_id = data.group_id;
+        formThesis.academic_year = data.academic_year;
+        formThesis.major = data.major;
+        formThesis.year = data.year;
+        formThesis.batch = data.batch;
+        formThesis.topic = data.topic;
+        formThesis.topic_kh = data.topic_kh;
+        formThesis.objective = data.objective;
+        formThesis.objective_kh = data.objective_kh;
+        formThesis.description = data.description;
+        formThesis.organization = data.organization;
+        formThesis.organization_type = data.organization_type;
+        formThesis.organization_address = data.organization_address;
+        formThesis.organization_phone = data.organization_phone;
+        formThesis.organization_email = data.organization_email;
 
-    formThesis.id = data.id;
-    formThesis.group_id = data.group_id;
-    formThesis.academic_year = data.academic_year;
-    formThesis.major = data.major;
-    formThesis.year = data.year;
-    formThesis.batch = data.batch;
-    formThesis.topic = data.topic;
-    formThesis.topic_kh = data.topic_kh;
-    formThesis.objective = data.objective;
-    formThesis.objective_kh = data.objective_kh;
-    formThesis.description = data.description;
-    formThesis.organization = data.organization;
-    formThesis.organization_type = data.organization_type;
-    formThesis.organization_address = data.organization_address;
-    formThesis.organization_phone = data.organization_phone;
-    formThesis.organization_email = data.organization_email;
-    formThesis.lecturer_id = data.lecturer_id;
+        formThesis.lecturer_id = data.lecturer.name;
+    } catch (error) {
+        console.error("Edit Error: ", error);
+    }
 };
 const onDeleteThesis = (thesisID: number) => {
     Swal.fire({
@@ -224,14 +266,26 @@ const onSaveThesisCommittee = () => {
     );
 };
 const editThesisCommittee = async (thesisCommitteeID: number) => {
-    const { data } = await fetch<{}>(
-        route("thesises.management.thesisCommittees.edit", thesisCommitteeID),
-    );
-    formThesisCommittee.id = data.id;
-    formThesisCommittee.thesis_id = data.thesis_id;
-    formThesisCommittee.lecturer_id = data.lecturer_id;
-    formThesisCommittee.role = data.role;
-    formThesisCommittee.title = data.title;
+    try {
+        const { data } = await fetch<{
+            thesisCommittee: ThesisCommitteesType;
+            thesis: ThesisesType;
+            student: ThesisStudentsType;
+            lecturer: LecturerType;
+        }>(
+            route(
+                "thesises.management.thesisCommittees.edit",
+                thesisCommitteeID,
+            ),
+        );
+        formThesisCommittee.id = data.id;
+        formThesisCommittee.thesis_id = data.thesis_id;
+        formThesisCommittee.lecturer_id = data.lecturer.name;
+        formThesisCommittee.role = data.lecturer.role;
+        formThesisCommittee.title = data.lecturer.title;
+    } catch (error) {
+        console.error("Edit Error: ", error);
+    }
 };
 const onDeleteThesisCommittee = (thesisCommitteeID: number) => {
     Swal.fire({
@@ -449,10 +503,6 @@ const onSave = () => {};
         <div
             class="w-full p-2 mb-3 space-y-2 overflow-x-auto bg-base-200/15 rounded-xl"
         >
-            <!-- <div
-                class="flex flex-col p-2 mb-2 overflow-x-auto rounded-lg md:flex-row md:items-center md:justify-between bg-base-100"
-            > -->
-            <!-- Start Section: Input and Dropdowns -->
             <div class="flex gap-2 overflow-x-auto">
                 <button
                     type="button"
@@ -471,41 +521,38 @@ const onSave = () => {};
                     <AcademicCapIcon class="w-4 h-4" />
                     Advisors
                 </button>
-
-                <!-- <button
-                        type="button"
-                        class="btn btn-primary"
-                        @click="showModalStudentGroupThesis = true"
-                    >
-                        <UserGroupIcon class="w-4 h-4" />
-                        Student Group Thesis...
-                    </button> -->
-                <!-- End Section: Buttons -->
-                <div class="ml-auto md:flex-auto">
+                <div class="ml-auto">
                     <button
                         type="button"
                         class="btn btn-error"
                         @click="showModalThesisReport = true"
                     >
                         <Printer class="w-4 h-4" />
-                        Thesis Rported...
+                        Report
                     </button>
                 </div>
             </div>
-            <!-- </div> -->
             <div class="w-full overflow-x-auto md">
                 <div
                     class="flex flex-col items-center gap-2 m-1 mb-6 md:flex-row"
                 >
                     <Input
+                        v-model="filterForm.keyword"
                         class="w-full h-10 font-bold border border-primary input bg-base-100 input-primary"
                         placeholder="Student ID..."
-                        v-model="filterForm.keyword"
                     />
 
                     <!--Majors  dropdown -->
                     <CamboboxHeadless
                         v-model="filterForm.major"
+                        :options="
+                            thesises.data.map((item) => {
+                                return {
+                                    value: item.major,
+                                    label: item.major,
+                                };
+                            })
+                        "
                         placeholder="Majors"
                         class="w-full h-10 font-bold border bg-base-100 border-primary"
                     />
@@ -513,36 +560,84 @@ const onSave = () => {};
                     <!--Year  dropdown -->
                     <CamboboxHeadless
                         v-model="filterForm.year"
+                        :options="
+                            thesises.data.map((item) => {
+                                return {
+                                    value: item.year,
+                                    label: item.year,
+                                };
+                            })
+                        "
                         placeholder="Year"
                         class="w-full h-10 font-bold border bg-base-100 border-primary"
                     />
                     <!--Topic  dropdown -->
                     <CamboboxHeadless
                         v-model="filterForm.topic"
+                        :options="
+                            thesises.data.map((item) => {
+                                return {
+                                    value: item.topic,
+                                    label: item.topic,
+                                };
+                            })
+                        "
                         placeholder="Topics"
                         class="w-full h-10 font-bold border bg-base-100 border-primary"
                     />
                     <!--Advisor  dropdown -->
                     <CamboboxHeadless
                         v-model="filterForm.advisor"
+                        :options="
+                            thesisCommittees.data.map((item) => {
+                                return {
+                                    value: item.id,
+                                    label: item.lecturer_id,
+                                };
+                            })
+                        "
                         placeholder="Advisors"
                         class="w-full h-10 font-bold border bg-base-100 border-primary"
                     />
                     <!--Committee  dropdown -->
                     <CamboboxHeadless
                         v-model="filterForm.committee"
+                        :options="
+                            thesisCommittees.data.map((item) => {
+                                return {
+                                    value: item.id,
+                                    label: item.lecturer_id,
+                                };
+                            })
+                        "
                         placeholder="Committee"
                         class="w-full h-10 font-bold border bg-base-100 border-primary"
                     />
                     <!--Groups  dropdown -->
                     <CamboboxHeadless
                         v-model="filterForm.group_id"
+                        :options="
+                            thesises.data.map((item) => {
+                                return {
+                                    value: item.group_id,
+                                    label: item.group_id,
+                                };
+                            })
+                        "
                         placeholder="Groups "
                         class="w-full h-10 font-bold border bg-base-100 border-primary"
                     />
                     <!-- Academic Year -->
                     <CamboboxHeadless
                         v-model="filterForm.academic_year"
+                        :options="
+                            thesises.data.map((item) => {
+                                return {
+                                    value: item.academic_year,
+                                    label: item.academic_year,
+                                };
+                            })
+                        "
                         placeholder="Academic Year"
                         class="w-full h-10 font-bold border bg-base-100 border-primary"
                     />
@@ -550,8 +645,8 @@ const onSave = () => {};
                     <!-- Reset button -->
                     <button
                         type="button"
-                        @click="onClearFilter"
                         class="w-full h-10 btn btn-warning btn-sm md:w-auto"
+                        @click="onClearFilter"
                     >
                         Reset
                     </button>
@@ -572,45 +667,54 @@ const onSave = () => {};
                             </tr>
                         </thead>
                         <tbody class="text-center">
-                            <tr>
-                                <td>1</td>
+                            <tr
+                                v-for="(thesis, index) in thesises.data"
+                                :key="thesis.id"
+                            >
+                                <td>{{ index + 1 }}</td>
                                 <td
                                     class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
                                 >
-                                    General Medicien
+                                    {{ thesis.major }}
                                 </td>
-                                <td>VIII</td>
+                                <td>{{ thesis.year }}</td>
                                 <td>
-                                    ការយល់ដឹងរបស់អាណាព្យាបាលអំពីជម្ងឺផ្តាសាយលើកុមារអាយុចាប់ពី​​
-                                    ...
+                                    {{ thesis.topic }}
                                 </td>
                                 <td
                                     class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
                                 >
-                                    Doch Munibuth,
+                                    {{ thesis.lecture[0].name }}<br />
+                                    {{ thesis.lecture[0].id }}
                                 </td>
                                 <td
                                     class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
                                 >
-                                    Sitha Solineath,<br />
-                                    Sum Sreysuon, Chou Lida
+                                    {{ thesis.student.name_of_student }}<br />
+                                    {{ thesis.student.id }}
                                 </td>
                                 <td>
                                     <div
                                         class="flex items-center justify-center gap-1"
                                     >
-                                        <button class="btn btn-primary btn-sm">
+                                        <button
+                                            type="button"
+                                            class="btn btn-primary btn-sm"
+                                            @click="editThesis(thesis.id)"
+                                        >
                                             <EyeIcon class="w-4 h-4" />
                                         </button>
                                         <button
                                             type="button"
                                             class="btn btn-success btn-square btn-sm"
+                                            @click="editThesis(thesis.id)"
                                         >
                                             <PencilIcon class="w-4 h-4" />
                                         </button>
                                         <button
                                             type="button"
                                             class="btn btn-error btn-square btn-sm"
+                                            @click="onDeleteThesis(thesis.id)"
                                         >
                                             <TrashIcon class="w-4 h-4" />
                                         </button>
@@ -621,8 +725,12 @@ const onSave = () => {};
                     </table>
                 </div>
             </div>
+            <div class="mt-5">
+                <PaginationTw2 :only="['thesises']" :paginate-data="thesises" />
+            </div>
         </div>
     </App>
+
     <!-- Thesis -->
     <ModalBreeze
         :show="showModalThesis"
@@ -630,18 +738,18 @@ const onSave = () => {};
         max-width="7xl"
         @close="onCloseModalThesis"
     >
-        <div role="tablist" class="p-2 bg-base-100 tabs tabs-lifted">
+        <div role="tablist" class="p-2 bg-gray-700 tabs tabs-lifted">
             <input
                 type="radio"
                 name="my_tabs_2"
                 role="tab"
-                class="mr-2 font-bold tab cursor-none"
+                class="font-bold tab"
                 aria-label="General Thesis Informations"
+                defaultChecked
             />
-
             <div
                 role="tabpanel"
-                class="p-6 overflow-x-auto tab-content border-base-300 rounded-box"
+                class="p-6 overflow-x-auto tab-content border-base-300 bg-base-100 rounded-box"
             >
                 <div class="flex-1 p-2 overflow-auto bg-base-100">
                     <!-- Input Thesis more Detail -->
@@ -672,21 +780,48 @@ const onSave = () => {};
                             </div>
 
                             <div class="flex flex-col w-full">
-                                <label class="label"
-                                    >Major <span class="text-error">*</span>
-                                </label>
-                                <select
-                                    v-model="formThesis.major"
-                                    class="w-full select select-primary"
-                                >
-                                    <option value="">Select a Major</option>
-                                    <option>General Medicien</option>
-                                    <option>Nurse</option>
-                                    <option>Midwife</option>
-                                    <option>Pharmarcy</option>
-                                    <option>Dentist</option>
-                                </select>
+                                <div class="w-full relative">
+                                    <div class="flex items-center">
+                                        <label>Category</label>
+                                        <span
+                                            v-if="formThesis.errors.major"
+                                            class="text-error"
+                                            >*</span
+                                        >
+                                    </div>
+
+                                    <CamboboxHeadless
+                                        v-model="formThesis.major"
+                                        :options="
+                                            thesises.data.map((item) => {
+                                                return {
+                                                    value: item.major,
+                                                    label: item.major,
+                                                };
+                                            })
+                                        "
+                                        placeholder="Select Category"
+                                        class="bg-base-100 border-primary"
+                                    />
+                                </div>
                             </div>
+
+                            <!-- <div class="flex flex-col w-full">
+                <label class="label"
+                  >Major <span class="text-error">*</span>
+                </label>
+                <select
+                  v-model="formThesis.major"
+                  class="w-full select select-primary"
+                >
+                  <option value="">Select a Major</option>
+                  <option>General Medicien</option>
+                  <option>Nurse</option>
+                  <option>Midwife</option>
+                  <option>Pharmarcy</option>
+                  <option>Dentist</option>
+                </select>
+              </div> -->
 
                             <div class="flex flex-col w-full">
                                 <label class="label">
@@ -709,7 +844,6 @@ const onSave = () => {};
                                     Topic in Khmer
                                     <span class="text-error">*</span>
                                 </label>
-                                <!-- <input type="text" class="w-full textarea textarea-primary" /> -->
                                 <textarea
                                     v-model="formThesis.topic_kh"
                                     class="w-full textarea textarea-primary"
@@ -799,8 +933,8 @@ const onSave = () => {};
                                     ></label
                                 >
                                 <input
-                                    type="number"
                                     v-model="formThesis.organization_phone"
+                                    type="number"
                                     class="w-full input input-primary"
                                     placeholder="012 345 678"
                                 />
@@ -857,9 +991,6 @@ const onSave = () => {};
                                 <button class="btn btn-success">Add</button>
                             </form>
                         </div>
-                        <!-- <div
-                            class="mt-2 overflow-x-auto border border-base-200 rounded-xl bg-base-100"
-                        > -->
                         <div
                             class="mt-2 overflow-hidden border bg-base-100 rounded-xl"
                         >
@@ -1294,14 +1425,12 @@ const onSave = () => {};
                 >
                     Advisor(s) List View
                 </h2>
-                <!-- <div class="flex items-center gap-2"></div> -->
-
                 <div
                     class="flex flex-col items-center justify-between gap-3 p-2 mt-2 sm:flex-row bg-base-100 rounded-xl"
                 >
                     <form
-                        @submit.prevent="onAddAdvisor"
                         class="w-full sm:w-auto"
+                        @submit.prevent="onSaveThesisCommittee"
                     >
                         <div class="flex flex-col gap-2 sm:flex-row sm:gap-3">
                             <button class="w-full btn btn-success sm:w-auto">
@@ -1315,27 +1444,61 @@ const onSave = () => {};
                             </button>
                         </div>
                     </form>
+
+                    <!-- Filter  -->
                     <div
-                        class="flex flex-col w-full gap-3 mt-2 overflow-x-auto sm:flex-row sm:w-auto sm:mt-0"
+                        class="p-1 flex flex-col w-full gap-3 mt-2 overflow-x-auto sm:flex-row sm:w-auto sm:mt-0"
                     >
                         <!-- Input field -->
                         <input
+                            v-model="filteredThesisCommittee"
                             type="text"
-                            class="w-full h-10 mb-2 input input-primary input-sm sm:mb-0"
+                            class="input input-primary"
                             placeholder="Advisors Name..."
                         />
 
                         <!-- Lectures dropdown -->
                         <CamboboxHeadless
                             placeholder="Lectures"
-                            class="w-full h-10 mb-2 border bg-base-100 border-primary sm:mb-0"
+                            :options="
+                                thesisCommittees.data.map((item) => {
+                                    return {
+                                        value: item.id,
+                                        label: item.lecturer_id,
+                                    };
+                                })
+                            "
+                            class="border bg-base-100 border-primary"
                         />
 
                         <!-- Topic dropdown -->
                         <CamboboxHeadless
                             placeholder="Topics"
-                            class="w-full h-10 border bg-base-100 border-primary"
+                            :options="
+                                thesises.data.map((item) => {
+                                    return {
+                                        value: item.topic,
+                                        label: item.topic,
+                                    };
+                                })
+                            "
+                            class="border bg-base-100 border-primary"
                         />
+                        <!-- Reset button -->
+                        <button
+                            type="button"
+                            class="btn btn-warning"
+                            @click="onClearFilter"
+                        >
+                            Reset
+                        </button>
+                        <button
+                            class="btn btn-warning"
+                            type="button"
+                            @click="onCloseModalAdvisor"
+                        >
+                            Close
+                        </button>
                     </div>
                 </div>
 
@@ -1350,15 +1513,11 @@ const onSave = () => {};
                             <table
                                 class="flex-col w-full overflow-x-auto base-table2 fle"
                             >
-                                <!-- <div
-                        class="max-h-[calc(100vh-550px)] overflow-auto border-base-200 border rounded-xl mt-2 bg-base-100"
-                    > -->
-                                <!-- <table class="w-full base-table2"> -->
                                 <thead>
                                     <tr>
                                         <th>Nº</th>
                                         <th>Advisor Name</th>
-                                        <th>sex</th>
+                                        <th>Gender</th>
                                         <th>Role</th>
                                         <th>Topics</th>
                                         <th>Email</th>
@@ -1367,41 +1526,55 @@ const onSave = () => {};
                                     </tr>
                                 </thead>
                                 <tbody class="text-sm text-center">
-                                    <tr>
-                                        <td>1</td>
+                                    <tr
+                                        v-for="(
+                                            item, index
+                                        ) in thesisCommittees.data"
+                                        :key="item.id"
+                                    >
+                                        <td>{{ index + 1 }}</td>
                                         <td
                                             class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
                                         >
-                                            Doch Munibuth
+                                            {{ item.lecturer.name }}
                                         </td>
-                                        <td>Male</td>
-                                        <td>Department</td>
+                                        <td>{{ item.lecturer.gender }}</td>
+                                        <td>{{ item.role }}</td>
+                                        <td>{{ item.thesis.topic }}</td>
 
-                                        <td>
-                                            ការយល់ដឹងរបស់អាណាព្យាបាលអំពី ...
-                                        </td>
+                                        <td>{{ item.lecturer.email }}</td>
                                         <td
                                             class="font-bold text-blue-900 dark:bg-gray-800 dark:text-blue-300"
                                         >
-                                            Username@gmail.com
+                                            {{ item.lecturer.mobile }}
                                         </td>
-                                        <td>012 345 678</td>
                                         <td>
                                             <button
                                                 type="button"
                                                 class="btn btn-success btn-square btn-sm"
+                                                @click="
+                                                    editThesisCommittee(item.id)
+                                                "
                                             >
                                                 <EyeIcon class="w-4 h-4" />
                                             </button>
                                             <button
                                                 type="button"
                                                 class="ml-1 btn btn-warning btn-square btn-sm"
+                                                @click="
+                                                    editThesisCommittee(item.id)
+                                                "
                                             >
                                                 <PenBoxIcon class="w-4 h-4" />
                                             </button>
                                             <button
                                                 type="button"
                                                 class="ml-1 btn btn-error btn-square btn-sm"
+                                                @click="
+                                                    onDeleteThesisCommittee(
+                                                        item.id,
+                                                    )
+                                                "
                                             >
                                                 <TrashIcon class="w-4 h-4" />
                                             </button>

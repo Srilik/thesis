@@ -2,13 +2,16 @@
 import App from "@/Layouts/App.vue";
 
 import { Link } from "@inertiajs/vue3";
+// import useAuth from "@/Composables/useAuth";
 import SvgIcon from "@/Components/SvgIcon.vue";
+
+// const { hasAnyPermission } = useAuth();
 </script>
 <template>
     <App>
         <div class="flex flex-wrap">
             <Link
-                :href="route('thesis.management.index')"
+                :href="route('thesises.management.index')"
                 class="w-full p-2 duration-300 ease-in transform md:w-1/3 lg:w-1/5 hover:scale-105"
             >
                 <div
@@ -19,7 +22,7 @@ import SvgIcon from "@/Components/SvgIcon.vue";
                         <div
                             class="grid p-3 bg-green-100 dark:bg-green-500 rounded-xl place-content-center"
                         >
-                            <!-- <SvgIcon class="w-24" name="arrow-square-in" /> -->
+                            <!-- <SvgIcon class="w-24" name="book-shelf" /> -->
                             <i class="text-6xl fa-solid fa-book"></i>
                         </div>
                     </div>

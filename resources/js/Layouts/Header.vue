@@ -107,11 +107,12 @@ onUnmounted(() => {
     <!-- {{ user }} -->
     <!-- {{ page }} -->
     <header
-        class="flex items-center justify-between px-6 py-2 bg-white border-b-4 rounded-t-2xl border-primary dark:border-darkPrimary dark:bg-slate-900/75 dark:text-gray-100"
+        class="flex flex-wrap items-center justify-between px-4 py-2 bg-white border-b-4 rounded-t-2xl border-primary dark:border-darkPrimary dark:bg-slate-900/75 dark:text-gray-100"
     >
-        <div class="flex items-center">
+        <!-- Left Section -->
+        <div class="flex items-center flex-wrap lg:mb-0">
             <button
-                class="mr-2 text-gray-500 focus:outline-none lg:hidden"
+                class="text-gray-500 focus:outline-none lg:hidden"
                 @click="sidebar.toggle"
             >
                 <ChevronLeftSquare
@@ -122,7 +123,7 @@ onUnmounted(() => {
             </button>
 
             <div class="relative mx-4 lg:mx-0">
-                <div class="max-w-3xl text-sm breadcrumbs">
+                <div class="max-w-3xl breadcrumbs">
                     <ul>
                         <li>
                             <Link href="#">Home</Link>
@@ -137,11 +138,11 @@ onUnmounted(() => {
                 </div>
             </div>
         </div>
-        <div id="center-header"></div>
-        <div class="flex items-center">
+
+        <!-- Right Section -->
+        <div class="flex items-center flex-row">
             <!-- Search input and dropdown container -->
             <div class="relative w-full max-w-xs mr-5">
-                <!-- Search input -->
                 <input
                     v-model="input"
                     type="text"
@@ -167,7 +168,6 @@ onUnmounted(() => {
                         <p>{{ fruit }}</p>
                     </div>
                 </div>
-                <!-- No results found -->
                 <div
                     class="absolute z-50 w-full p-2 bg-red-500 rounded-md bg-base-100"
                     v-if="input && !filteredList().length"
@@ -199,20 +199,15 @@ onUnmounted(() => {
                     class="relative z-10 block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none"
                     @click="dropdownOpen = !dropdownOpen"
                 >
-                    <!-- <img
-                        :src="userAuth.profile_image"
-                        class="object-cover w-full h-full"
-                        alt="Your avatar"
-                    /> -->
-                    <ApplicationLogo class="object-cover w-full h-full" />
+                    <ApplicationLogo
+                        class="dark:text-white object-cover w-full h-full"
+                    />
                 </button>
-
                 <div
                     v-show="dropdownOpen"
                     class="fixed inset-0 z-10 w-full h-full"
                     @click="dropdownOpen = false"
                 ></div>
-
                 <transition
                     enter-active-class="transition duration-150 ease-out transform"
                     enter-from-class="scale-95 opacity-0"
@@ -231,14 +226,6 @@ onUnmounted(() => {
                         >
                             Profile
                         </Link>
-                        <!-- <Link
-                            href="#"
-                            method="post"
-                            as="button"
-                            class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-primary hover:text-white dark:text-gray-100"
-                        >
-                            Log out
-                        </Link> -->
                         <button
                             @click.prevent="logout"
                             class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-primary hover:text-white dark:text-gray-100"

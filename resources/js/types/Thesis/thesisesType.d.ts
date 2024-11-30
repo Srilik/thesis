@@ -1,6 +1,10 @@
 export interface ThesisesType {
-    id: number;
+    id: number | null;
     group_id: number;
+    student: {
+        id: string;
+        name_of_student: string;
+    };
     academic_year: string;
     major: string;
     year: number;
@@ -16,4 +20,8 @@ export interface ThesisesType {
     organization_phone: string;
     organization_email: string;
     lecturer_id: string;
+    lecture: {
+        id: number;
+        name: string;
+    };
 }
