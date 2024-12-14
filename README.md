@@ -29,10 +29,10 @@ composer install
 npm install
 ```
 ```bash
-php artisan key:generate
+copy .env.example .env
 ```
 ```bash
-copy .env.example .env
+php artisan key:generate
 ```
 ```bash
 php artisan migrate
