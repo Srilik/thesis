@@ -38,11 +38,6 @@ php artisan key:generate
 php artisan migrate
 ```
 ```bash
-git checkout vatey OR
-git checkout sreynuon OR
-git checkout hea
-```
-```bash
 npm run dev
 ```
 
