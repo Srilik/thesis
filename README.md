@@ -14,7 +14,7 @@ git clone https://github.com/Srilik/thesis.git
 cd /thesis
 ```
 ```bash
-git checkout srilik
+git checkout srilik (your branch: sreynuon, hea, vatey)
 ```
 ```bash
 code .
