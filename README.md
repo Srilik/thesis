@@ -14,6 +14,9 @@ git clone https://github.com/Srilik/thesis.git
 cd /thesis
 ```
 ```bash
+git checkout srilik
+```
+```bash
 code .
 ```
 
