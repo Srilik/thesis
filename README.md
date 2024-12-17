@@ -9,6 +9,7 @@ git clone https://github.com/Srilik/thesis.git
 
 - cd into the directory
 - Initialize the directory as a git repository
+- Can Be Use Xampp or Wampp or WSL To Run This Project
 
 ```bash
 cd /thesis
