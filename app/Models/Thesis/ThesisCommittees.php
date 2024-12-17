@@ -23,7 +23,7 @@ class ThesisCommittees extends Model
      */
     public function thesises()
     {
-        return $this->belongsTo(Thesises::class, 'thesis_id');
+        return $this->belongsTo(Thesises::class, 'id');
     }
 
 }

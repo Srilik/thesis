@@ -6,7 +6,8 @@ use App\Models\Thesis\Thesises;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
-
+use App\Models\ExamAffair\Lecturer;
+use App\Models\Student\Student;
 class ThesisssController extends Controller
 {
     /**
@@ -32,6 +33,8 @@ class ThesisssController extends Controller
             'organization_email' => 'nullable|email',
             'lecturer_id' => 'nullable|string',
         ]);
+        // $validatedData['lecturer_id'] = Lecturer::where('name', $request->lecturer_id)->first()->lecturer_id;
+        // $validatedData['student_id'] = Student::where('name_of_student', $request->group_id)->first()->student_id;
         // dd($validatedData);
         try {
             if ($id) {

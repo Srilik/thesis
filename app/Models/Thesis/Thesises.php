@@ -36,6 +36,6 @@ class Thesises extends Model
     }
     public function thesisStudents()
     {
-        return $this->hasMany(ThesisStudents::class, 'thesis_id');
+        return $this->hasMany(ThesisStudent::class, 'thesis_id');
     }
 }

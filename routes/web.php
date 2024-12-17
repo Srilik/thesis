@@ -155,7 +155,11 @@ Route::middleware('checkAuth')->group(function () {
                 // Management Page
                 Route::controller(ManagementController::class)->group(function () {
                     Route::get('/', 'index')->name('index'); // Show inventory page
+                    Route::get('/thesisSearch', 'index')->name('thesisSearch');
                 });
+
+                Route::get('/management/student/{id}', [ManagementController::class, 'getStudent'])
+                    ->name('management.student');
 
                 // Thesis CRUD
                 Route::controller(ThesisssController::class)->group(function () {

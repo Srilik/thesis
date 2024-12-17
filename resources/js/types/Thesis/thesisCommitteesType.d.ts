@@ -1,5 +1,5 @@
 export interface ThesisCommitteesType {
-    id: number | null;
+    id: number;
     thesis_id: number;
     lecturer_id: string;
     role: string;

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Thesis\ThesisManagement;
 use App\Http\Controllers\Controller;
 use App\Models\Thesis\ThesisCommittees;
 use App\Models\Thesis\Thesises;
-use App\Models\Thesis\ThesisStudents;
+use App\Models\Thesis\ThesisStudent;
 use Inertia\Inertia;
 
 class ManagementController extends Controller
@@ -36,7 +36,7 @@ class ManagementController extends Controller
             ->paginate(5, ['*'], 'page');  // Specify 'page' for thesisCommittees
 
         // Fetch thesisStudent with thesis.
-        $thesisStudents = ThesisStudents::with(['thesises'])
+        $thesisStudents = ThesisStudent::with(['thesises'])
             ->select(
                 'thesis_id',
                 'student_id',

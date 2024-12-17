@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Thesis\ThesisManagement;
 use App\Http\Controllers\Controller;
 
-use App\Models\Thesis\ThesisStudents;
+use App\Models\Thesis\ThesisStudent;
 use Illuminate\Http\Request;
 
 class ThesisStudentssController extends Controller
@@ -22,12 +22,12 @@ class ThesisStudentssController extends Controller
         ]);
         if ($id) {
             // Update the existing thesisStudent
-            $thesisStudent = ThesisStudents::findOrFail($id);
+            $thesisStudent = ThesisStudent::findOrFail($id);
             $thesisStudent->update($validatedData);
             return redirect()->back()->with('success', 'ThesisStudent updated successfully.');
         } else {
             // Create a new thesisStudent
-            ThesisStudents::create($validatedData);
+            ThesisStudent::create($validatedData);
             return redirect()->back()->with('success', 'ThesisStudent created successfully.');
         }
     }
@@ -37,7 +37,7 @@ class ThesisStudentssController extends Controller
      */
     public function editThesisStudent($id)
     {
-        $thesisStudents = ThesisStudents::with('thesis_id')->findOrFail($id);
+        $thesisStudents = ThesisStudent::with('thesis_id')->findOrFail($id);
         $thesises = $thesisStudents->thesises;
 
         return response()->json([
@@ -51,7 +51,7 @@ class ThesisStudentssController extends Controller
      */
     public function deleteThesisStudent($id)
     {
-        $thesisStudents = ThesisStudents::findOrFail($id);
+        $thesisStudents = ThesisStudent::findOrFail($id);
         $thesisStudents->delete();
         return redirect()->back()->with('success', 'ThesisStudent delete successfully.');
     }
