@@ -41,6 +41,18 @@ php artisan migrate
 npm run dev
 ```
 
+## When You Do Correct All Run In Command For Push To Your Branch
+
+```bash
+git add .
+```
+```bash
+git commit -m "initial commit"
+```
+```bash
+git push -u
+```
+
 
 ## Basic Git Commands
 
