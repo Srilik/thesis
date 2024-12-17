@@ -22,6 +22,7 @@ class UserController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+            'role' => 'required|in:admin,user',
             'remember' => 'nullable|boolean'
         ]);
 
@@ -30,21 +31,36 @@ class UserController extends Controller
             $encryptedPassword = $user->password;
             $checkPassword = Hash::check($request->password, $encryptedPassword);
             if ($checkPassword) {
-                // login here
-                Auth::login($user, $request->remember);
-                $request->session()->regenerate();
+                if ($user->role === $request->role) {
 
-                return redirect()->to('/dashboard');
+                    // if($request->role == 'admin') {
+                    //     Auth::login($user);
+                    //     // return redirect()->route('admin.dashboard');
+                    //     } elseif($request->role == 'user') {
+                    //     Auth::login($user);
+                    //     // return redirect()->route('student.dashboard');
+                    //     }
+                    // }
+                    // login here
+                    Auth::login($user, $request->remember);
+                    $request->session()->regenerate();
+
+                    return redirect()->to('/dashboard');
+                } else {
+                    throw ValidationException::withMessages([
+                        'role' => 'You do not have the required permissions to log in!'
+                    ]);
+                }
             }
-
-
-            throw  ValidationException::withMessages([
-                'email' => 'Invalid email or password.'
-            ]);
+            // throw ValidationException::withMessages([
+            //     'email' => 'Invalid email or password.'
+            // ]);
         }
 
-        throw  ValidationException::withMessages([
-            'email' => 'Invalid email or password.'
+        throw ValidationException::withMessages([
+            'email' => 'Invalid email or password.',
+            'role' => 'You do not have the required permissions to log in!',
+
         ]);
 
 

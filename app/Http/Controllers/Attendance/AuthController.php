@@ -35,42 +35,42 @@ class AuthController extends Controller
             'username' => 'The provided credentials do not match our records.',
         ]);
     }
-            // get login request
-            public function verifyLogin(Request $request)
-            {
-                $request->validate([
-                    'email' => 'required|email',
-                    'password' => 'required',
-                    'remember' => 'nullable|boolean'
-                ]);
+    // get login request
+    public function verifyLogin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'remember' => 'nullable|boolean'
+        ]);
 
-                $user = User_Attendance::where('email', $request->email)->first();
-                if ($user) {
-                    $encryptedPassword = $user->password;
-                    $checkPassword = Hash::check($request->password, $encryptedPassword);
-                    if ($checkPassword) {
-                        // login here
-                        Auth::login($user, $request->remember);
-                        $request->session()->regenerate();
+        $user = User_Attendance::where('email', $request->email)->first();
+        if ($user) {
+            $encryptedPassword = $user->password;
+            $checkPassword = Hash::check($request->password, $encryptedPassword);
+            if ($checkPassword) {
+                // login here
+                Auth::login($user, $request->remember);
+                $request->session()->regenerate();
 
-                        return redirect()->to('admin.dashboard');
-                    }
-
-
-                    throw  ValidationException::withMessages([
-                        'email' => 'Invalid email or password.'
-                    ]);
-                }
-
-                throw  ValidationException::withMessages([
-                    'email' => 'Invalid email or password.'
-                ]);
+                return redirect()->to('admin.dashboard');
             }
-        // logout request
-        public function logout(Request $request)
-        {
-            Auth::logout();
-            $request->session()->invalidate();
-            return redirect()->route('showLoginForm');
+
+
+            throw ValidationException::withMessages([
+                'email' => 'Invalid email or password.'
+            ]);
         }
+
+        throw ValidationException::withMessages([
+            'email' => 'Invalid email or password.'
+        ]);
+    }
+    // logout request
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        return redirect()->route('showLoginForm');
+    }
 }

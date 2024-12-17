@@ -1,10 +1,10 @@
-{{-- <form method="POST" action="{{ route('verifyLogin') }}">
+{{--  <form method="POST" action="{{ route('login') }}">
     @csrf
     <input type="text" name="username" placeholder="Username" required>
     <input type="password" name="password" placeholder="Password" required>
     <input type="text" name="role" placeholder="Role" required>
     <button type="submit">Login</button>
-</form> --}}
+</form>  --}}
 
 @extends('layouts.guest')
 
@@ -23,9 +23,9 @@
 
             <!-- Email Address -->
             <div>
-                <x-input-label for="email" :value="__('Email')" />
+                <input-label for="email" :value="__('Email')" />
 
-                <x-text-input
+                <text-input
                     id="email"
                     type="email"
                     name="email"
@@ -36,14 +36,14 @@
                     autocomplete="username"
                 />
 
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                <input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
             <!-- Password -->
             <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
+                <input-label for="password" :value="__('Password')" />
 
-                <x-text-input
+                <text-input
                     id="password"
                     type="password"
                     name="password"
@@ -52,7 +52,7 @@
                     autocomplete="current-password"
                 />
 
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                <input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
 
             <!-- Remember Me -->
@@ -79,9 +79,9 @@
                     </a>
                 @endif
 
-                <x-primary-button class="ml-4">
+                <primary-button class="ml-4">
                     {{ __('Log in') }}
-                </x-primary-button>
+                </primary-button>
             </div>
         </form>
     </div>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useForm } from "@inertiajs/vue3";
-
 const form = useForm({
     email: "",
     password: "",
+    role: "",
     remember: false,
 });
 </script>
@@ -38,6 +38,37 @@ const form = useForm({
                     {{ form.errors.password }}
                 </div>
             </div>
+            <div>
+                <div class="flex items-center space-x-5">
+                    <label class="label text-black dark:text-white">
+                        Role:</label
+                    >
+                    <label class="items-center">
+                        <input type="radio" value="user" v-model="form.role" />
+                        <span class="ml-2 text-black dark:text-white">
+                            User</span
+                        >
+                    </label>
+                    <label class="items-center">
+                        <input type="radio" value="admin" v-model="form.role" />
+                        <span class="ml-2 text-black dark:text-white">
+                            Admin</span
+                        >
+                    </label>
+                    <!-- <select
+                        v-model="form.role"
+                        class="bg-base-100 w-full select select-primary"
+                    >
+                        <option value="">Select a Role</option>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select> -->
+                </div>
+                <div class="text-red-600 mt-2" v-if="form.errors.role">
+                    {{ form.errors.role }}
+                </div>
+            </div>
+
             <div>
                 <label
                     class="text-black dark:text-white flex justify-start gap-2 label"

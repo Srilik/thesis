@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Foundation\Application;
+use Inertia\Inertia;
+
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Thesis\ThesisManagement\ManagementController;
@@ -19,21 +22,40 @@ use App\Http\Controllers\Thesis\ThesisManagement\ThesisssController;
 use App\Http\Controllers\Thesis\ThesisManagement\ThesisStudentssController;
 
 use App\Http\Controllers\Attendance\AuthController;
-Route::get('/loginAttendance', [AuthController::class, 'showLoginForm'])
-    ->middleware(RedirectToDashbordIfLoggedIn::class)
-    ->name('login');
-Route::post('/loginAttendance', [AuthController::class, 'verifyLogin'])->name('verifyLogin');
-
 use App\Http\Controllers\Attendance\StudentController;
-Route::middleware(['auth', 'role:student'])->group(function () {
-    Route::get('/student-dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
-});
 
-use App\Http\Controllers\Attendance\AdminController;
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::resource('attendances', AdminController::class);
-});
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
+
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
+
+require __DIR__ . '/auth.php';
+
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -174,3 +196,21 @@ Route::get('/login', [UserController::class, 'login'])
 
 // get login data from user input
 Route::post('/login', [UserController::class, 'verifyLogin'])->name('login.verify');
+
+
+
+
+// Route::get('/loginAttendance', [AuthController::class, 'showLoginForm'])
+//     ->middleware(RedirectToDashbordIfLoggedIn::class)
+//     ->name('login');
+// Route::post('/loginAttendance', [AuthController::class, 'verifyLogin'])->name('verifyLogin');
+
+// Route::middleware(['auth', 'role:student'])->group(function () {
+//     Route::get('/student-dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+// });
+
+// use App\Http\Controllers\Attendance\AdminController;
+// Route::middleware(['auth', 'role:admin'])->group(function () {
+//     Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+//     Route::resource('attendances', AdminController::class);
+// });
