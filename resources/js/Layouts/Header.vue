@@ -69,7 +69,7 @@ const logout = () => {
 };
 
 let input = ref<string>("");
-const fruits: string[] = ["apple", "banana", "orange", "grape", "mango"];
+const fruits: string[] = ["thesis management system", "lab management system", "coffee shop", "book online shop", "pos system"];
 let selectedIndex = ref<number>(-1);
 // Function to filter the fruits based on the search input
 function filteredList() {
@@ -110,7 +110,7 @@ onUnmounted(() => {
         class="flex flex-wrap items-center justify-between px-4 py-2 bg-white border-b-4 rounded-t-2xl border-primary dark:border-darkPrimary dark:bg-slate-900/75 dark:text-gray-100"
     >
         <!-- Left Section -->
-        <div class="flex items-center flex-wrap lg:mb-0">
+        <div class="flex flex-wrap items-center lg:mb-0">
             <button
                 class="text-gray-500 focus:outline-none lg:hidden"
                 @click="sidebar.toggle"
@@ -140,7 +140,7 @@ onUnmounted(() => {
         </div>
 
         <!-- Right Section -->
-        <div class="flex items-center flex-row">
+        <div class="flex flex-row items-center">
             <!-- Search input and dropdown container -->
             <div class="relative w-full max-w-xs mr-5">
                 <input
@@ -200,7 +200,7 @@ onUnmounted(() => {
                     @click="dropdownOpen = !dropdownOpen"
                 >
                     <ApplicationLogo
-                        class="dark:text-white object-cover w-full h-full"
+                        class="object-cover w-full h-full dark:text-white"
                     />
                 </button>
                 <div
@@ -221,7 +221,7 @@ onUnmounted(() => {
                         class="absolute right-0 z-30 w-48 py-2 mt-2 bg-white rounded-md shadow-xl dark:bg-slate-900/75"
                     >
                         <Link
-                            href="#"
+                            :href="route('profile.edit')"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-primary hover:text-white dark:text-gray-300"
                         >
                             Profile
