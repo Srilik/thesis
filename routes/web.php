@@ -24,6 +24,8 @@ use App\Http\Controllers\Thesis\ThesisManagement\ThesisStudentssController;
 use App\Http\Controllers\Attendance\AuthController;
 use App\Http\Controllers\Attendance\StudentController;
 
+use App\Http\Controllers\GroupThesisController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,6 +62,8 @@ require __DIR__ . '/auth.php';
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
+
+// Route::resource('group-theses', GroupThesisController::class);
 
 Route::middleware('checkAuth')->group(function () {
 
@@ -186,9 +190,18 @@ Route::middleware('checkAuth')->group(function () {
             });
         });
 
+
+    Route::prefix('/groupThesis')->controller(GroupThesisController::class)
+        ->name('groupThesis.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/', 'store');
+            Route::put('/{id}', 'update');
+            Route::delete('/{id}', 'destroy');
+        });
+
     // logout
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
-
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
@@ -200,8 +213,6 @@ Route::get('/login', [UserController::class, 'login'])
 
 // get login data from user input
 Route::post('/login', [UserController::class, 'verifyLogin'])->name('login.verify');
-
-
 
 
 // Route::get('/loginAttendance', [AuthController::class, 'showLoginForm'])

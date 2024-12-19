@@ -802,26 +802,18 @@ const onClearFilter = () => {
                                         >*</span
                                     >
                                 </label>
-                                <!-- <input
-                                    v-model="formThesis.group_id"
-                                    type="number"
-                                    class="input input-primary w-full"
-                                    placeholder="Group ID"
-                                /> -->
                                 <!--Group ID dropdown -->
                                 <CamboboxHeadless
-                                    v-model="filterForm.group_id"
+                                    v-model="formThesis.group_id"
                                     :options="
                                         thesises.data.map((item) => {
                                             return {
-                                                value: item.student
-                                                    .student_groups,
-                                                label: item.student
-                                                    .student_groups,
+                                                value: item.group_id,
+                                                label: item.group_id,
                                             };
                                         })
                                     "
-                                    placeholder="Advisors"
+                                    placeholder="Group ID"
                                     class="h-12 w-full border border-primary bg-base-100 font-bold"
                                 />
                             </div>
@@ -857,16 +849,11 @@ const onClearFilter = () => {
                                         >*</span
                                     >
                                 </label>
-                                <!-- <input
-                                    v-model="formThesis.lecturer_id"
-                                    class="input input-primary w-full"
-                                    placeholder="Lecturer ID"
-                                /> -->
                                 <!--Lecturer dropdown -->
                                 <CamboboxHeadless
                                     v-model="formThesis.lecturer_id"
                                     :options="
-                                        lecturers.map((item) => {
+                                        (lecturers || []).map((item) => {
                                             return {
                                                 value: item.id,
                                                 label: item.name,

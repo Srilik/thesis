@@ -48,8 +48,9 @@ const sidebar = useToggleSidebar();
                     :link="route('dashboard')"
                     :is-active="$page.component === 'Dashboard'"
                 />
+
                 <TheSidebarItem
-                    title="Thesis For Vatey"
+                    title="Thesis For Health"
                     icon="fa-solid fa-book"
                     :link="route('thesises.index')"
                     :is-active="$page.component.startsWith('Thesises/')"
@@ -78,6 +79,12 @@ const sidebar = useToggleSidebar();
                     icon="fa-solid fa-file-alt"
                     :link="route('thesisDetail.index')"
                     :is-active="$page.component.startsWith('ThesisDetail/')"
+                />
+                <TheSidebarItem
+                    title="Thesis Group"
+                    icon="fa-solid fa-book"
+                    :link="route('groupThesis.index')"
+                    :is-active="$page.component.startsWith('ThesisGroup/')"
                 />
                 <TheSidebarItem
                     title="Teacher"
