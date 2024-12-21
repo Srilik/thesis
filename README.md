@@ -45,6 +45,12 @@ npm run dev
 ## When You Do Correct All Run In Command For Push To Your Branch
 
 ```bash
+git fetch
+```
+```bash
+git pull
+```
+```bash
 git add .
 ```
 ```bash
